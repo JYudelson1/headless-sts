@@ -174,45 +174,40 @@ impl Map {
         map
     }
 
-    fn add_one_path(&mut self, starting_room: RoomNode, ascension: u8) -> Option<RoomNode> {
+    fn add_one_path(&mut self, starting_room: RoomNode, ascension: u8) -> RoomNode {
         let possible = starting_room.get_paths();
-        if self.paths[starting_room.floor].iter().all(|on| *on) {
-            return None;
-        }
-        loop {
-            let index = rand::thread_rng().gen_range(0..possible.len());
-            let path_is_on_index = possible[index].1;
-            let path_is_on = self.paths[starting_room.floor][path_is_on_index];
-            if !path_is_on {
-                // Set the strating room type
-                // If the floor is 8, a treasure room
-                // If 13, a rest site
-                // Else, randomize
-                let x = possible[index].0;
-                self.rooms[starting_room.floor][x] = if x == 8 {
-                    Some(RoomType::Treasure)
-                } else if x == 14 {
-                    Some(RoomType::Rest)
-                } else {
-                    Some(RoomType::random(ascension))
-                };
+        let index = rand::thread_rng().gen_range(0..possible.len());
+        let x = possible[index].0;
+        let path_is_on_index = possible[index].1;
+        let path_is_on = self.paths[starting_room.floor][path_is_on_index];
+        if !path_is_on {
+            // Set the strating room type
+            // If the floor is 8, a treasure room
+            // If 13, a rest site
+            // Else, randomize
 
-                // Make the path
-                self.paths[starting_room.floor][path_is_on_index] = true;
-                return Some(RoomNode {
-                    floor: starting_room.floor + 1,
-                    x,
-                });
-            }
+            self.rooms[starting_room.floor][x] = if x == 8 {
+                Some(RoomType::Treasure)
+            } else if x == 14 {
+                Some(RoomType::Rest)
+            } else {
+                Some(RoomType::random(ascension))
+            };
+
+            // Make the path
+            self.paths[starting_room.floor][path_is_on_index] = true;
+            
         }
+        return RoomNode {
+            floor: starting_room.floor + 1,
+            x,
+        };
+        
     }
 
     fn add_one_full_path(&mut self, mut starting_room: RoomNode, ascension: u8) {
         for _ in 0..14 {
-            starting_room = match self.add_one_path(starting_room, ascension) {
-                Some(room) => room,
-                None => return,
-            };
+            starting_room = self.add_one_path(starting_room, ascension);
         }
     }
 
