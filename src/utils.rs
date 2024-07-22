@@ -53,3 +53,10 @@ pub enum Act {
     Act2,
     Act3,
 }
+
+pub enum Character {
+    Ironclad,
+    Silent,
+    Defect,
+    Watcher,
+}

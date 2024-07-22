@@ -2,8 +2,9 @@ use crate::{
     combat::CardRewardRng,
     map::Map,
     potions::PotionBag,
+    relics::Relics,
     screens::VisibleStates,
-    utils::{Act, Number},
+    utils::{Act, Character, Number},
 };
 
 pub struct State {
@@ -18,10 +19,12 @@ pub struct State {
     pub current_health: u16,
     pub gold: u16,
     pub current_floor: u8,
+    pub character: Character,
+    pub relics: Relics,
 }
 
 impl State {
-    pub fn new(ascension: u8) -> Self {
+    pub fn new(character: Character, ascension: u8) -> Self {
         Self {
             act: Act::Act1,
             visible_screen: todo!(),
@@ -34,6 +37,8 @@ impl State {
             current_health: if ascension >= 6 { 72 } else { 80 },
             gold: 99,
             current_floor: 0,
+            character,
+            relics: Relics::new(character)
         }
     }
 }
