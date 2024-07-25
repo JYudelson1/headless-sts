@@ -1,5 +1,3 @@
-use std::backtrace;
-
 use crate::{
     actions::Action,
     cardrewardrng::CardRewardRng,
@@ -21,7 +19,7 @@ pub struct State {
     pub ascension: u8,
     pub max_health: Number,
     pub current_health: u16,
-    pub gold: Number,
+    pub gold: u32,
     pub current_floor: u8,
     pub character: Character,
     pub relics: Relics,
@@ -40,7 +38,7 @@ impl State {
             //TODO: non-ironclad
             max_health: Number(80),
             current_health: if ascension >= 6 { 72 } else { 80 },
-            gold: Number(99),
+            gold: 99,
             current_floor: 0,
             character,
             relics: Relics::new(character),
@@ -92,14 +90,14 @@ impl State {
                     let relic = self.relics.random_common();
                     self.relics.add(relic)
                 }
-                crate::screens::SecondBlessing::Gold100 => self.gold += Number(100),
+                crate::screens::SecondBlessing::Gold100 => self.gold += 100,
                 crate::screens::SecondBlessing::Random3Potions => todo!(),
             },
             NeowsBlessing::Third(bless) => {
                 match bless.upside {
                     crate::screens::ThirdUpside::Remove2 => todo!(),
                     crate::screens::ThirdUpside::Transform2 => todo!(),
-                    crate::screens::ThirdUpside::Gold250 => todo!(),
+                    crate::screens::ThirdUpside::Gold250 => self.gold += 250,
                     crate::screens::ThirdUpside::ChooseRareClassCard => todo!(),
                     crate::screens::ThirdUpside::ChooseRareColorless => todo!(),
                     crate::screens::ThirdUpside::BigMaxHP => todo!(),

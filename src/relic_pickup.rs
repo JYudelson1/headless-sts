@@ -10,7 +10,7 @@ pub fn collect_relic(state: &mut State, relic: Relic) {
             state.increase_max_hp(7);
             state.current_health = state.max_health.0 as u16;
         }
-        Relic::OldCoin => state.gold += Number(300),
+        Relic::OldCoin => state.gold += 300,
         Relic::WarPaint => {
             // TODO
         }
