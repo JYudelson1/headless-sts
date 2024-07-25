@@ -27,7 +27,13 @@ impl State {
     pub fn maybe_end_combat(&mut self) {
         if let VisibleStates::Combat(combat) = &self.visible_screen {
             if combat.check_if_over() {
+                // Game effects
                 self.end_of_combat_effects();
+                // Undo temporary card effects
+                for card in &mut self.main_deck {
+                    card.reset_end_combat();
+                }
+                // Move to rewards screen
                 self.combat_finished()
             }
         } else {
