@@ -1,4 +1,4 @@
-use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics::Relic, state::State};
+use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics::Relic, state::State, utils::number_between};
 
 use super::VisibleStates;
 
@@ -18,8 +18,28 @@ pub struct CardReward {
 
 impl State {
     pub fn make_rewards_screen(&mut self) -> RewardsScreen {
-        let combat = self.get_combat();
+        let combat_type = self.get_combat().combat_type;
         let mut rewards = vec![];
+
+        let gold = match combat_type {
+            // TODO: Ascensions change this I think
+            CombatType::Normal => number_between(10, 20),
+            CombatType::Elite => number_between(25, 35),
+            CombatType::Boss => number_between(95, 105),
+        };
+        rewards.push(Reward::Gold(gold));
+
+        if combat_type == CombatType::Elite {
+            rewards.push(Reward::Relic(self.relics.random_elite()));
+        }
+
+        // TODO: Potion Rng Logic
+
+        rewards.push(Reward::CardReward(combat_type));
+
+        if self.relics.contains(Relic::PrayerWheel) && combat_type == CombatType::Normal {
+            rewards.push(Reward::CardReward(combat_type));
+        }
 
         RewardsScreen(rewards)
     }

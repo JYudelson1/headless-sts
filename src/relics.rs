@@ -133,6 +133,18 @@ impl Relics {
         Self::_random_remove_from_pool(&mut self.boss_pool)
     }
 
+    pub fn random_elite(&mut self) -> Relic {
+        let x = rand::random::<f32>();
+
+        if x < 0.5 {
+            self.random_common()
+        } else if x < 0.83 {
+            self.random_uncommon()
+        } else {
+            self.random_rare()
+        }
+    }
+
     fn _random_remove_from_pool(pool: &mut Vec<Relic>) -> Relic {
         if pool.is_empty() {
             return Relic::Circlet;
@@ -269,7 +281,7 @@ pub enum Relic {
     OldCoin,           // IMPLEMENTED
     PeacePipe,         // PARTIALLY IMPLEMENTED
     Pocketwatch(u8),   // NOT IMPLEMENTED
-    PrayerWheel,       // NOT IMPLEMENTED
+    PrayerWheel,       // IMPLEMENTED
     Shovel,            // NOT IMPLEMENTED
     StoneCalendar,     // NOT IMPLEMENTED
     ThreadAndNeedle,   // NOT IMPLEMENTED
