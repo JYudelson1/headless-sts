@@ -4,7 +4,13 @@ use core::num;
 
 use rand::Rng;
 
-use crate::utils::number_between;
+use crate::{
+    relics::Relic,
+    state::State,
+    utils::{number_between, Character, Number},
+};
+
+use super::VisibleStates;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum FirstBlessing {
@@ -139,4 +145,65 @@ pub fn get_neow_blessings() -> [NeowsBlessing; 4]{
     let third = NeowsBlessing::Third(ThirdBlessing::random());
 
     [first, second, third, NeowsBlessing::RelicSwap]
+}
+
+impl State {
+    pub fn _apply_neow_blessing(&mut self, blessing: NeowsBlessing) {
+        match blessing {
+            NeowsBlessing::First(bless) => match bless {
+                crate::screens::FirstBlessing::Remove => {
+                    self.visible_screen = VisibleStates::RemoveCardScreen;
+                }
+                crate::screens::FirstBlessing::Transform => todo!(),
+                crate::screens::FirstBlessing::Upgrade => {
+                    self.visible_screen = VisibleStates::UpgradeCardScreen;
+                }
+                crate::screens::FirstBlessing::ChooseClassCard => todo!(),
+                crate::screens::FirstBlessing::ChooseUncommonColorless => todo!(),
+                crate::screens::FirstBlessing::RandomRare => todo!(),
+            },
+            NeowsBlessing::Second(bless) => match bless {
+                crate::screens::SecondBlessing::MaxHP => {
+                    let amt = match self.character {
+                        Character::Ironclad => 8,
+                        Character::Silent => 6,
+                        Character::Defect => 7,
+                        Character::Watcher => 7,
+                    };
+                    self.max_health += Number(amt);
+                }
+                crate::screens::SecondBlessing::NeowsLament => {
+                    self.relics.add(Relic::NeowsLament(3))
+                }
+                crate::screens::SecondBlessing::RandomCommonRelic => {
+                    let relic = self.relics.random_common();
+                    self.relics.add(relic)
+                }
+                crate::screens::SecondBlessing::Gold100 => self.gold += 100,
+                crate::screens::SecondBlessing::Random3Potions => todo!(),
+            },
+            NeowsBlessing::Third(bless) => {
+                match bless.upside {
+                    crate::screens::ThirdUpside::Remove2 => todo!(),
+                    crate::screens::ThirdUpside::Transform2 => todo!(),
+                    crate::screens::ThirdUpside::Gold250 => self.gold += 250,
+                    crate::screens::ThirdUpside::ChooseRareClassCard => todo!(),
+                    crate::screens::ThirdUpside::ChooseRareColorless => todo!(),
+                    crate::screens::ThirdUpside::BigMaxHP => todo!(),
+                }
+
+                match bless.downside {
+                    crate::screens::ThirdDownside::LoseMaxHealth => todo!(),
+                    crate::screens::ThirdDownside::RandomCurse => todo!(),
+                    crate::screens::ThirdDownside::TakeDamage => todo!(),
+                    crate::screens::ThirdDownside::LoseAllGold => self.gold = 0,
+                }
+            }
+            NeowsBlessing::RelicSwap => {
+                let relic = self.relics.random_boss();
+                self.relics.remove(0);
+                self.relics.add(relic);
+            }
+        }
+    }
 }

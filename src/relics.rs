@@ -361,7 +361,7 @@ pub enum Relic {
     NlothsGift,             // NOT IMPLEMENTED
     NlothsHungryFace(bool), // NOT IMPLEMENTED
     Necronomicon,           // NOT IMPLEMENTED
-    NeowsLament,            // NOT IMPLEMENTED
+    NeowsLament(u8),        // NOT IMPLEMENTED
     NilrysCodex(u8),        // NOT IMPLEMENTED
     OddMushroom,            // NOT IMPLEMENTED
     RedMask,                // IMPLEMENTED

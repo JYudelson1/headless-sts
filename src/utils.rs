@@ -57,6 +57,7 @@ impl Sub for Number {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
 pub enum Act {
     Act1,
     Act2,

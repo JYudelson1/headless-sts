@@ -2,7 +2,7 @@ use rand::Rng;
 
 use crate::utils::{number_between, Act};
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum RoomType {
     Monster,
     Event,
@@ -84,7 +84,7 @@ impl Boss {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct RoomNode {
     pub floor: usize,
     pub x: usize,
@@ -171,7 +171,15 @@ impl Map {
         };
 
         map.make_paths(ascension);
-        while map.fix_rooms(ascension) {}
+        for _ in 0..15 {
+            if !map.fix_rooms(ascension) {
+                break;
+            }
+        }
+        if map.fix_rooms(ascension) {
+            println!("Original map doesn't work, retrying...");
+            return Self::new(act, ascension);
+        }
 
         map
     }
@@ -183,12 +191,12 @@ impl Map {
         let path_is_on_index = possible[index].1;
         let path_is_on = self.paths[starting_room.floor][path_is_on_index];
         if !path_is_on {
-            // Set the strating room type
+            // Set the starting room type
             // If the floor is 8, a treasure room
             // If 13, a rest site
             // Else, randomize
 
-            self.rooms[starting_room.floor][x] = if x == 8 {
+            self.rooms[starting_room.floor + 1][x] = if x == 8 {
                 Some(RoomType::Treasure)
             } else if x == 14 {
                 Some(RoomType::Rest)
@@ -216,7 +224,7 @@ impl Map {
     fn random_starting_room(&self) -> RoomNode {
         RoomNode {
             floor: 0,
-            x: number_between(0, 7),
+            x: number_between(0, 6),
         }
     }
 
@@ -249,31 +257,27 @@ impl Map {
         // Rule 1: No elites or rests before floor 5
         for floor in 0..5 {
             for room in 0..7 {
-                let mut r = match self.rooms[floor][room] {
+                let r = match &mut self.rooms[floor][room] {
                     Some(room) => room,
                     _ => continue,
                 };
                 while matches!(r, RoomType::Rest) || matches!(r, RoomType::Elite) {
-                    r = RoomType::random(ascension);
+                    *r = RoomType::random(ascension);
                     changed = true;
                 }
-                self.rooms[floor][room] = Some(r);
             }
         }
         // Rule 2: Rests on floor 13
-        let mut rule2problems = vec![];
         for room in 0..7 {
-            if self.rooms[13][room] == Some(RoomType::Rest) {
-                rule2problems.push(RoomNode { floor: 13, x: room })
+            if let Some(r) = &mut self.rooms[13][room] {
+                while matches!(r, RoomType::Rest) {
+                    *r = RoomType::random(ascension);
+                    changed = true;
+                }
             }
         }
-        if !rule2problems.is_empty() {
-            changed = true
-        }
-        self.fix_problematic_rooms(rule2problems, ascension);
 
         // Rule 3: Elite, Merchant, and Rests cannot be consecutive
-        let mut rule3problems = vec![];
         for floor in 0..14 {
             for x in 0..7 {
                 match self.rooms[floor][x] {
@@ -286,8 +290,9 @@ impl Map {
                         }
                         let next = RoomNode::new(floor, x).get_next(self.paths);
                         for next_room in next {
-                            if self.get_room(next_room) == Some(room) {
-                                rule3problems.push(next_room);
+                            while self.get_room(next_room) == Some(room) {
+                                self.rooms[next_room.floor][next_room.x] =Some(RoomType::random(ascension));
+                                changed = true;
                             }
                         }
                     }
@@ -295,10 +300,6 @@ impl Map {
                 }
             }
         }
-        if !rule3problems.is_empty() {
-            changed = true
-        }
-        self.fix_problematic_rooms(rule3problems, ascension);
 
         // Rule 4: Every room with options must have all unique options
         let mut rule4problems = vec![];

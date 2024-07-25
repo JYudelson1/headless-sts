@@ -5,6 +5,7 @@ impl State {
         for card in &mut self.main_deck {
             if card.id == card_id {
                 card.card_mut().upgrade();
+                return;
             }
         }
         panic!("No card with that ID exists!")
