@@ -1,3 +1,5 @@
+use uuid::Uuid;
+
 use crate::{cards::CardIndex, enemies::EnemyIndex, map::RoomNode};
 
 #[derive(PartialEq, Eq, Clone)]
@@ -10,6 +12,8 @@ pub enum Action {
     TraverseMap(u8),
     MakeNeowChoice(usize),
     MakeRestChoice(RestChoice),
+    Upgrade(Uuid),
+    Remove(Uuid),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

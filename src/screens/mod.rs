@@ -23,7 +23,9 @@ pub enum VisibleStates {
     Map(Map),
     Combat(Combat),
     Treasure(Chest),
-    Rest
+    Rest,
+    RemoveCardScreen,
+    UpgradeCardScreen
 }
 
 impl VisibleStates {
@@ -108,6 +110,20 @@ impl State {
             VisibleStates::Rest => {
                 actions.append(&mut self.get_rest_actions());
             }
+            VisibleStates::RemoveCardScreen => {
+                for card in &self.main_deck {
+                    if card.card().can_be_removed() {
+                        actions.push(Action::Remove(card.id));
+                    }
+                }
+            },
+            VisibleStates::UpgradeCardScreen => {
+                for card in &self.main_deck {
+                    if card.card().can_be_upgraded() {
+                        actions.push(Action::Upgrade(card.id));
+                    }
+                }
+            },
         }
 
         actions

@@ -28,6 +28,9 @@ pub trait Card {
     fn retains(&self) -> bool {
         false
     }
+    fn can_be_removed(&self) -> bool {
+        true
+    }
 
     fn play_upgraded(&mut self) -> Vec<CardActions>;
     fn play_unupgraded(&mut self) -> Vec<CardActions>;

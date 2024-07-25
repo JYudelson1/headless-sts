@@ -82,7 +82,9 @@ impl State {
                     self._apply_neow_blessing(blessing);
                 }
             }
-            Action::MakeRestChoice(choice) => self.apply_rest_choice(choice)
+            Action::MakeRestChoice(choice) => self.apply_rest_choice(choice),
+            Action::Upgrade(id) => self.upgrade_card_in_deck(id),
+            Action::Remove(id) => self.remove_card_in_deck(id),
         }
 
         // TODO: Figure out what state to change to after applying action
