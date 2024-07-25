@@ -31,7 +31,7 @@ impl State {
 
         match reward {
             Reward::Gold(amt) => self.gold += amt,
-            Reward::Relic(relic) => self.relics.add(relic),
+            Reward::Relic(relic) => self.collect_relic(relic),
             Reward::Potion(potion) => self.potions.add(potion),
             Reward::CardReward(combat_type) => {
                 let rewards = self.get_card_rewards(combat_type);
