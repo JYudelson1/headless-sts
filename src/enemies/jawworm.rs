@@ -103,7 +103,7 @@ impl JawWorm {
             effects: Effects::new(),
             max_hp: hp,
             current_hp: hp,
-            current_block: 0,
+            current_block: Number(0),
             inner: Box::new(jawworm),
             enemy_type: EnemyType::JawWorm,
         }

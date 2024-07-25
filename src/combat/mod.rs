@@ -1,5 +1,6 @@
 mod card_actions;
 mod combat_fns;
+mod enemy_actions;
 mod relic_effects;
 
 use crate::{

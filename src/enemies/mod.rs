@@ -13,7 +13,7 @@ pub struct ConcreteEnemy {
     pub effects: Effects,
     pub max_hp: u16,
     pub current_hp: u16,
-    pub current_block: u16,
+    pub current_block: Number,
     inner: Box<dyn Enemy>,
     pub enemy_type: EnemyType,
 }
@@ -24,6 +24,7 @@ pub struct EnemyIndex(pub usize);
 #[derive(Copy, Clone)]
 pub enum EnemyIntent {
     Damage(Number),
+    MultiAttack((Number, u16)),
     Block(Number),
     Buff(Buff),
     Stun,
