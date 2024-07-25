@@ -44,10 +44,10 @@ impl CardRewardRng {
         }
         common -= self.0;
 
-        let card = if rng <= common {
+        let card = if rng < common {
             self.increase();
             CardName::random_common()
-        } else if rng <= common + uncommon {
+        } else if rng < common + uncommon {
             CardName::random_uncommon()
         } else {
             self.reset();

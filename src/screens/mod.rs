@@ -1,10 +1,20 @@
 mod neow;
+mod rest;
 mod rewards;
+mod treasure;
 
 pub use neow::*;
 pub use rewards::{CardReward, RewardsScreen};
+use treasure::Chest;
 
-use crate::{actions::{Action, CardRewardChoice, RewardChoice}, combat::Combat, map::Map};
+use crate::{
+    actions::{Action, CardRewardChoice, RewardChoice},
+    cardrewardrng::CombatType,
+    combat::{get_enemies, Combat},
+    map::{Map, RoomType},
+    state::State,
+    utils::Key,
+};
 
 pub enum VisibleStates {
     Reward(RewardsScreen),
@@ -12,16 +22,48 @@ pub enum VisibleStates {
     Neow([NeowsBlessing; 4]),
     Map(Map),
     Combat(Combat),
+    Treasure(Chest)
 }
 
 impl VisibleStates {
     pub fn new() -> Self {
         Self::Neow(get_neow_blessings())
     }
+}
+
+impl State {
+    fn to_map(&mut self) {
+        self.visible_screen = VisibleStates::Map(self.map.clone());
+    }
+
+    fn to_combat(&mut self, combat_type: CombatType) {
+        let enemies = get_enemies(&self.act, self.current_floor, combat_type);
+        let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics);
+        self.visible_screen = VisibleStates::Combat(combat);
+    }
+
+    fn to_treasure(&mut self) {
+        let has_sapphire_key = self.keys.has_key(&Key::Sapphire);
+        let chest = Chest::new_random(has_sapphire_key, &mut self.relics);
+
+        self.visible_screen = VisibleStates::Treasure(chest);
+    }
+
+    pub fn _go_to_new_room(&mut self, room: RoomType) {
+        match room {
+            RoomType::Monster => self.to_combat(CombatType::Normal),
+            RoomType::Event => todo!(),
+            RoomType::Elite => self.to_combat(CombatType::Elite),
+            RoomType::Rest => todo!(),
+            RoomType::Merchant => todo!(),
+            RoomType::Treasure => self.to_treasure(),
+            RoomType::Boss => todo!(),
+        }
+    }
 
     pub fn get_actions(&self) -> Vec<Action> {
         let mut actions = vec![];
-        match self {
+        match &self.visible_screen {
             VisibleStates::Reward(rewards) => {
                 actions.push(Action::CollectReward(RewardChoice::Skip));
                 for i in 0..rewards.0.len() {
@@ -44,8 +86,9 @@ impl VisibleStates {
                 for node in map.next_rooms() {
                     actions.push(Action::TraverseMap(node));
                 }
-            },
+            }
             VisibleStates::Combat(_) => todo!(),
+            VisibleStates::Treasure(_) => todo!(),
         }
 
         actions

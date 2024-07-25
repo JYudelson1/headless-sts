@@ -1,4 +1,7 @@
-use std::ops::{Add, AddAssign, Sub};
+use std::{
+    collections::HashSet,
+    ops::{Add, AddAssign, Sub},
+};
 
 #[derive(Clone, Copy)]
 pub struct Number(pub i16);
@@ -60,4 +63,31 @@ pub enum Character {
     Silent,
     Defect,
     Watcher,
+}
+
+#[derive(Clone, Copy, Hash, PartialEq, Eq)]
+pub enum Key {
+    Ruby,
+    Emerald,
+    Sapphire,
+}
+
+pub struct Keys(pub HashSet<Key>);
+
+impl Keys {
+    pub fn has_all(&self) -> bool {
+        self.0.len() == 3
+    }
+
+    pub fn add_key(&mut self, key: Key) {
+        self.0.insert(key);
+    }
+
+    pub fn has_key(&self, key: &Key) -> bool {
+        self.0.contains(key)
+    }
+
+    pub fn new() -> Self {
+        Self(HashSet::new())
+    }
 }

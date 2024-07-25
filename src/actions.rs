@@ -9,6 +9,10 @@ pub enum Action {
     EndTurn,
     TraverseMap(RoomNode),
     MakeNeowChoice(usize),
+    Lift,
+    Toke,
+    Rest,
+    Smith,
 }
 
 #[derive(Debug, PartialEq, Eq)]

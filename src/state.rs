@@ -6,7 +6,7 @@ use crate::{
     potions::PotionBag,
     relics::{Relic, Relics},
     screens::{NeowsBlessing, VisibleStates},
-    utils::{Act, Character, Number},
+    utils::{Act, Character, Keys, Number},
 };
 
 pub struct State {
@@ -24,6 +24,7 @@ pub struct State {
     pub character: Character,
     pub relics: Relics,
     pub main_deck: Vec<MasterCard>,
+    pub keys: Keys,
 }
 
 impl State {
@@ -42,12 +43,13 @@ impl State {
             current_floor: 0,
             character,
             relics: Relics::new(character),
-            main_deck: make_starter_deck(character)
+            main_deck: make_starter_deck(character),
+            keys: Keys::new()
         }
     }
 
     pub fn apply_action(&mut self, action: Action) {
-        assert!(self.visible_screen.get_actions().contains(&action));
+        assert!(self.get_actions().contains(&action));
 
         match action {
             Action::PlayUntargetedCard(_) => todo!(),
@@ -62,6 +64,10 @@ impl State {
                     self._apply_neow_blessing(blessing);
                 }
             }
+            Action::Lift => todo!(),
+            Action::Toke => todo!(),
+            Action::Rest => todo!(),
+            Action::Smith => todo!(),
         }
     }
 

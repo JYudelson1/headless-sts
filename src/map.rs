@@ -10,6 +10,7 @@ pub enum RoomType {
     Rest,
     Merchant,
     Treasure,
+    Boss,
 }
 
 impl RoomType {
@@ -17,13 +18,13 @@ impl RoomType {
         let x = rand::random::<f32>();
 
         // TODO: Changed during ascensions 1+
-        if x <= 0.45 {
+        if x < 0.45 {
             Self::Monster
-        } else if x <= 0.67 {
+        } else if x < 0.67 {
             Self::Event
-        } else if x <= 0.83 {
+        } else if x < 0.83 {
             Self::Elite
-        } else if x <= 0.95 {
+        } else if x < 0.95 {
             Self::Rest
         } else {
             Self::Merchant
@@ -125,6 +126,7 @@ impl RoomNode {
     }
 }
 
+#[derive(Clone)]
 pub struct Map {
     paths: [[bool; 19]; 14],
     rooms: [[Option<RoomType>; 7]; 15],
@@ -277,12 +279,10 @@ impl Map {
                 match self.rooms[floor][x] {
                     Some(room) => {
                         match room {
-                            RoomType::Monster => continue,
-                            RoomType::Event => continue,
                             RoomType::Elite => (),
                             RoomType::Rest => (),
                             RoomType::Merchant => (),
-                            RoomType::Treasure => continue,
+                            _ => continue,
                         }
                         let next = RoomNode::new(floor, x).get_next(self.paths);
                         for next_room in next {

@@ -14,11 +14,11 @@ impl Enemy for JawWorm {
     fn next_intent(&mut self, ascension: u8) {
         let new_intent = loop {
             let x = rand::random::<f32>();
-            if x <= 0.45 {
+            if x < 0.45 {
                 if !matches!(self.intent_history[0], Some(JawWormAttacks::Bellow(_, _))) {
                     break JawWormAttacks::bellow(ascension);
                 }
-            } else if x <= 0.75 {
+            } else if x < 0.75 {
                 if !matches!(
                     self.intent_history,
                     [Some(JawWormAttacks::Thrash), Some(JawWormAttacks::Thrash)]
