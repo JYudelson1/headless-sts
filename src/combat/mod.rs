@@ -24,12 +24,12 @@ pub struct Combat {
     self_effects: Effects,
     enemies: Vec<ConcreteEnemy>,
     turn: u16,
-    current_energy: u8,
+    pub current_energy: u8,
     max_energy: u8,
     self_block: Number,
     pub combat_type: CombatType,
     deck: Vec<MasterCard>,
-    hand: Vec<MasterCard>,
+    pub hand: Vec<MasterCard>,
     discard: Vec<MasterCard>,
     exhaust: Vec<MasterCard>,
 }
@@ -107,6 +107,10 @@ impl Combat {
 
     pub fn add_relic(&mut self, relic: Relic) {
         self.self_effects.relevant_relics.insert(relic);
+    }
+
+    pub fn num_enemies(&self) -> usize {
+        self.enemies.len()
     }
 }
 

@@ -10,7 +10,9 @@ use treasure::Chest;
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CombatType,
+    cards::CardIndex,
     combat::{get_enemies, Combat},
+    enemies::EnemyIndex,
     map::{Map, RoomType},
     state::State,
     utils::Key,
@@ -105,7 +107,26 @@ impl State {
                     actions.push(Action::TraverseMap(node.x as u8));
                 }
             }
-            VisibleStates::Combat(_) => todo!(),
+            VisibleStates::Combat(combat) => {
+                // TODO: Add potions
+                
+                // Add every playable card in hand
+                // Cards are playable if they say so, and you have enough energy
+                // TODO: Relics
+                // TODO: Medkit, Blue Candle
+                for (i, card) in combat.hand.iter().enumerate() {
+                    if !card.card().is_playable() { continue }
+                    if card.card().get_cost() > combat.current_energy { continue }
+                    // Targeted cards are added for each possible target
+                    if card.card().targets() {
+                        for e in 0..combat.num_enemies() {
+                            actions.push(Action::PlayTargetedCard((CardIndex(i), EnemyIndex(e))));
+                        }
+                    } else {
+                        actions.push(Action::PlayUntargetedCard(CardIndex(i)));
+                    }
+                }
+            }
             VisibleStates::Treasure(_) => todo!(),
             VisibleStates::Rest => {
                 actions.append(&mut self.get_rest_actions());
