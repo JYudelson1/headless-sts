@@ -19,7 +19,7 @@ impl Card for Void {
         vec![]
     }
 
-    fn upgrade(&mut self) {}
+    fn set_upgraded(&mut self, _: bool) {}
 
     fn can_be_upgraded(&self) -> bool {
         false

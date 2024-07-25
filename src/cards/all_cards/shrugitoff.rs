@@ -18,10 +18,6 @@ impl Card for ShrugItOff {
         false
     }
 
-    fn upgrade(&mut self) {
-        self.0 = true;
-    }
-
     fn can_be_upgraded(&self) -> bool {
         !self.0
     }
@@ -36,5 +32,9 @@ impl Card for ShrugItOff {
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![CardActions::Block(Number(8)), CardActions::Draw(1)]
+    }
+
+    fn set_upgraded(&mut self, to_set: bool) {
+        self.0 = to_set;
     }
 }

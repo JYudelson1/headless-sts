@@ -77,7 +77,7 @@ impl Combat {
         }
         // Take the top card from deck and move to hand
         let top_card = self.deck.remove(0);
-        let name = top_card.card.name();
+        let name = top_card.card().name();
         self.hand.push(top_card);
 
         // On Draw Effects

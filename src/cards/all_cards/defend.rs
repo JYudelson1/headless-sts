@@ -18,8 +18,8 @@ impl Card for Defend {
         false
     }
 
-    fn upgrade(&mut self) {
-        self.0 = true;
+    fn set_upgraded(&mut self, to_set: bool) {
+        self.0 = to_set;
     }
 
     fn can_be_upgraded(&self) -> bool {
