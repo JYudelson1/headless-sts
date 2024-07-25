@@ -10,5 +10,5 @@ pub use card_actions::CardActions;
 pub use card_trait::MasterCard;
 pub use starter_decks::make_starter_deck;
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(PartialEq, Eq, Clone, Debug)]
 pub struct CardIndex(pub usize);

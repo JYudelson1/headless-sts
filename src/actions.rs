@@ -2,7 +2,7 @@ use uuid::Uuid;
 
 use crate::{cards::CardIndex, enemies::EnemyIndex, map::RoomNode};
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(PartialEq, Eq, Clone, Debug)]
 pub enum Action {
     PlayUntargetedCard(CardIndex),
     PlayTargetedCard((CardIndex, EnemyIndex)),

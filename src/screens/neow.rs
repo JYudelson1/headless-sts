@@ -18,7 +18,7 @@ pub enum FirstBlessing {
 
 impl FirstBlessing {
     pub fn random() -> Self {
-        let x = number_between(0, 6);
+        let x = number_between(0, 5);
         let variants = [
             Self::Remove,
             Self::Transform,
@@ -42,7 +42,7 @@ pub enum SecondBlessing {
 
 impl SecondBlessing {
     pub fn random() -> Self {
-        let x = number_between(0, 5);
+        let x = number_between(0, 4);
         let variants = [
             Self::MaxHP,
             Self::NeowsLament,
@@ -66,7 +66,7 @@ pub enum ThirdUpside {
 
 impl ThirdUpside {
     pub fn random() -> Self {
-        let x = number_between(0, 6);
+        let x = number_between(0, 5);
         let variants = [
             Self::Remove2,
             Self::Transform2,
@@ -89,7 +89,7 @@ pub enum ThirdDownside {
 
 impl ThirdDownside {
     pub fn random() -> Self {
-        let x = number_between(0, 4);
+        let x = number_between(0, 3);
         let variants = [
             Self::LoseMaxHealth,
             Self::RandomCurse,

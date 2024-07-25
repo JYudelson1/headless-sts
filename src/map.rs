@@ -80,7 +80,7 @@ impl Boss {
             ],
         };
 
-        bosses[number_between(0, 3)]
+        bosses[number_between(0, 2)]
     }
 }
 
@@ -178,7 +178,7 @@ impl Map {
 
     fn add_one_path(&mut self, starting_room: RoomNode, ascension: u8) -> RoomNode {
         let possible = starting_room.get_paths();
-        let index = number_between(0, possible.len());
+        let index = number_between(0, possible.len() - 1);
         let x = possible[index].0;
         let path_is_on_index = possible[index].1;
         let path_is_on = self.paths[starting_room.floor][path_is_on_index];

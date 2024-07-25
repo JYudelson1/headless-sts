@@ -22,6 +22,7 @@ fn main() {
         let mut actions = state.get_actions();
         actions.shuffle(&mut rand::thread_rng());
         let random_action = &actions[0];
+        println!("Action: {random_action:?}");
         state.apply_action(random_action.clone());
     }
 }
