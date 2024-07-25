@@ -1,9 +1,9 @@
-use crate::utils::Character;
+use crate::{cards::{all_cards::make_card, CardName}, utils::Character};
 
 use super::MasterCard;
 
 fn starter_ironclad() -> Vec<MasterCard> {
-    todo!()
+    vec![make_card(CardName::Strike), make_card(CardName::Strike), make_card(CardName::Strike), make_card(CardName::Strike), make_card(CardName::Strike), make_card(CardName::Defend), make_card(CardName::Defend), make_card(CardName::Defend), make_card(CardName::Defend), make_card(CardName::Bash)]
 }
 fn starter_silent() -> Vec<MasterCard> {
     todo!()
