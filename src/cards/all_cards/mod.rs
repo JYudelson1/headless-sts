@@ -14,13 +14,13 @@ mod shrugitoff;
 mod strike;
 mod void;
 
-pub fn make_card(name: CardName) -> MasterCard {
+pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
     let card: Rc<dyn Card> = match name {
-        CardName::Strike => Rc::new(Strike),
-        CardName::Defend => Rc::new(Defend),
-        CardName::Bash => Rc::new(Bash),
+        CardName::Strike => Rc::new(Strike(upgraded)),
+        CardName::Defend => Rc::new(Defend(upgraded)),
+        CardName::Bash => Rc::new(Bash(upgraded)),
         CardName::Void => Rc::new(Void),
-        CardName::ShrugItOff => Rc::new(ShrugItOff)
+        CardName::ShrugItOff => Rc::new(ShrugItOff(upgraded))
     };
     MasterCard {
         card,

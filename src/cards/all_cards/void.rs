@@ -8,7 +8,7 @@ impl Card for Void {
     }
 
     fn get_type(&self) -> CardType {
-        CardType::Curse
+        CardType::Status
     }
 
     fn is_playable(&self) -> bool {
@@ -16,6 +16,24 @@ impl Card for Void {
     }
 
     fn play(&mut self) -> Vec<CardActions> {
+        vec![]
+    }
+
+    fn upgrade(&mut self) {}
+
+    fn can_be_upgraded(&self) -> bool {
+        false
+    }
+
+    fn is_upgraded(&self) -> bool {
+        false
+    }
+
+    fn play_upgraded(&mut self) -> Vec<CardActions> {
+        vec![]
+    }
+
+    fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![]
     }
 }

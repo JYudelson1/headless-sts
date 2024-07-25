@@ -8,7 +8,7 @@ use crate::{
     utils::Number,
 };
 
-pub struct Bash;
+pub struct Bash(pub bool);
 
 impl Card for Bash {
     fn name(&self) -> CardName {
@@ -23,7 +23,26 @@ impl Card for Bash {
         true
     }
 
-    fn play(&mut self) -> Vec<CardActions> {
+    fn upgrade(&mut self) {
+        self.0 = true;
+    }
+
+    fn can_be_upgraded(&self) -> bool {
+        !self.0
+    }
+
+    fn is_upgraded(&self) -> bool {
+        self.0
+    }
+
+    fn play_upgraded(&mut self) -> Vec<CardActions> {
+        vec![
+            CardActions::Damage((Number(10), Targets::One)),
+            CardActions::ApplyVulnerable((Number(3), Targets::One)),
+        ]
+    }
+
+    fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Damage((Number(8), Targets::One)),
             CardActions::ApplyVulnerable((Number(2), Targets::One)),
