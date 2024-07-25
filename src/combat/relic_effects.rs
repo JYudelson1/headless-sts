@@ -12,7 +12,7 @@ impl State {
     pub fn start_turn_1_effects(&mut self) {
         if let VisibleStates::Combat(combat) = &mut self.visible_screen {
             // Note that we iterate throuh the relics so the order is dependant on relic order
-            // E.G. If symbiiotic virus was obtained before nuclear battery, you should
+            // E.G. If symbiotic virus was obtained before nuclear battery, you should
             // channel 1 dark and then 1 plasma. If they were obtained in the opposite order,
             // you should channel them in the opposite order
             for relic in &mut self.relics.list {
@@ -21,6 +21,17 @@ impl State {
             // Blood vial requires healing, which accesses state (to check for magic flower)
             if self.relics.contains(Relic::BloodVial) {
                 self.heal(2);
+            }
+        } else {
+            panic!("You should be in combat now!")
+        }
+    }
+
+    pub fn start_every_turn_effects(&mut self) {
+        if let VisibleStates::Combat(combat) = &mut self.visible_screen {
+            // Note that we iterate throuh the relics so the order is dependant on relic order
+            for relic in &mut self.relics.list {
+                combat._start_of_turn_relic(relic);
             }
         } else {
             panic!("You should be in combat now!")
@@ -58,6 +69,7 @@ impl Combat {
             Relic::AncientTeaSet(rested) => {
                 if *rested {
                     self.current_energy += 2;
+                    *rested = false;
                 }
             }
             Relic::BronzeScales => self.self_effects.apply_buff(Buff::Thorns(Number(3))),
@@ -65,6 +77,18 @@ impl Combat {
             Relic::SmoothStone => self.self_effects.apply_buff(Buff::Dexterity(Number(1))),
             Relic::NinjaScroll => todo!(),    // Add 3 shivs to hand
             Relic::RunicCapacitor => todo!(), // Add 3 orb slots
+            Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Strength(Number(*amt as i16))),
+            _ => (),
+        }
+    }
+
+    fn _start_of_turn_relic(&mut self, relic: &mut Relic) {
+        match relic {
+            Relic::ArtOfWar(is_on) => {
+                if *is_on && self.turn != 1 {
+                    self.current_energy += 1;
+                }
+            }
             _ => (),
         }
     }

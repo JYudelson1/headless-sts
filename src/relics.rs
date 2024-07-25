@@ -138,6 +138,37 @@ impl Relics {
         let index = rand::thread_rng().gen_range(0..pool.len());
         pool.remove(index)
     }
+
+    pub fn has_valid_girya(&self) -> bool {
+        for relic in &self.list {
+            if let Relic::Girya(amt) = relic {
+                if *amt < 3 {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        false
+    }
+
+    pub fn increase_girya(&mut self) {
+        for relic in &mut self.list {
+            if let Relic::Girya(amt) = relic {
+                *amt += 1;
+                return;
+            }
+        }
+    }
+
+    pub fn turn_on_tea_set(&mut self) {
+        for relic in &mut self.list {
+            if let Relic::AncientTeaSet(inner) = relic {
+                *inner = true;
+                return;
+            }
+        }
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
@@ -149,8 +180,8 @@ pub enum Relic {
     PureWater,              // PARTIALLY IMPLEMENTED
     Akabeko,                // NOT IMPLEMENTED
     Anchor,                 // IMPLEMENTED
-    AncientTeaSet(bool),    // PARTIALLY IMPLEMENTED
-    ArtOfWar(bool),         // NOT IMPLEMENTED
+    AncientTeaSet(bool),    // IMPLEMENTED
+    ArtOfWar(bool),         // PARTIALLY IMPLEMENTED
     BagOfMarbles,           // IMPLEMENTED
     BagOfPrep,              // IMPLEMENTED
     BloodVial,              // IMPLEMENTED
@@ -228,13 +259,13 @@ pub enum Relic {
     FossilizedHelix,   // NOT IMPLEMENTED
     GamblersChip,      // NOT IMPLEMENTED
     Ginger,            // IMPLEMENTED
-    Girya(u8),         // NOT IMPLEMENTED
+    Girya(u8),         // IMPLEMENTED
     IceCream,          // NOT IMPLEMENTED
     IncenseBurner(u8), // NOT IMPLEMENTED
     LizardTail(bool),  // NOT IMPLEMENTED
     Mango,             // IMPLEMENTED
     OldCoin,           // IMPLEMENTED
-    PeacePipe,         // NOT IMPLEMENTED
+    PeacePipe,         // PARTIALLY IMPLEMENTED
     Pocketwatch(u8),   // NOT IMPLEMENTED
     PrayerWheel,       // NOT IMPLEMENTED
     Shovel,            // NOT IMPLEMENTED
@@ -279,11 +310,11 @@ pub enum Relic {
     BlackStar,              // NOT IMPLEMENTED
     BrokenCrown,            // PARTIALLY IMPLEMENTED
     CallingBell,            // NOT IMPLEMENTED
-    CoffeeDripper,          // PARTIALLY IMPLEMENTED
+    CoffeeDripper,          // IMPLEMENTED
     CursedKey,              // PARTIALLY IMPLEMENTED
     Ectoplasm,              // PARTIALLY IMPLEMENTED
     EmptyCage,              // NOT IMPLEMENTED
-    FusionHammer,           // PARTIALLY IMPLEMENTED
+    FusionHammer,           // IMPLEMENTED
     PandorasBox,            // NOT IMPLEMENTED
     PhilosophersStone,      // PARTIALLY IMPLEMENTED
     RunicDome,              // PARTIALLY IMPLEMENTED

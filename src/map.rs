@@ -348,11 +348,12 @@ impl Map {
         }
     }
 
-    fn get_room(&self, room: RoomNode) -> Option<RoomType> {
+    pub fn get_room(&self, room: RoomNode) -> Option<RoomType> {
         self.rooms[room.floor][room.x]
     }
 
     pub fn next_rooms(&self) -> Vec<RoomNode> {
+        // TODO: Account for winged boots
         if let Some(current) = self.current {
             current.get_next(self.paths)
         } else {
@@ -363,6 +364,13 @@ impl Map {
                 }
             }
             starters
+        }
+    }
+
+    pub fn next_floor_num(&self) -> usize {
+        match self.current {
+            Some(current) => current.floor + 1,
+            None => 0,
         }
     }
 }

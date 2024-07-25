@@ -2,7 +2,7 @@ use crate::{
     actions::Action,
     cardrewardrng::CardRewardRng,
     cards::{make_starter_deck, MasterCard},
-    map::Map,
+    map::{Map, RoomNode},
     potions::PotionBag,
     relics::{Relic, Relics},
     screens::{NeowsBlessing, VisibleStates},
@@ -57,18 +57,29 @@ impl State {
             Action::CollectReward(_) => todo!(),
             Action::MakeCardChoice(_) => todo!(),
             Action::EndTurn => todo!(),
-            Action::TraverseMap(node) => todo!(),
+            Action::TraverseMap(node_x) => {
+                let node = RoomNode {
+                    x: node_x as usize,
+                    floor: self.map.next_floor_num()
+                };
+                let room_type = self.map.get_room(node).expect("Options should all be real rooms");
+
+                // Update map location
+                self.map.go_to_room(node);
+
+                // Change the screen
+                self._go_to_new_room(room_type);
+            },
             Action::MakeNeowChoice(index) => {
                 if let VisibleStates::Neow(blessings) = self.visible_screen {
                     let blessing = blessings[index];
                     self._apply_neow_blessing(blessing);
                 }
             }
-            Action::Lift => todo!(),
-            Action::Toke => todo!(),
-            Action::Rest => todo!(),
-            Action::Smith => todo!(),
+            Action::MakeRestChoice(choice) => self.apply_rest_choice(choice)
         }
+
+        // TODO: Figure out what state to change to after applying action
     }
 
     fn _apply_neow_blessing(&mut self, blessing: NeowsBlessing) {

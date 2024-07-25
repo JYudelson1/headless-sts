@@ -101,6 +101,8 @@ impl State {
                 self.start_turn_1_effects();
             }
             // Other start turn relic effects
+
+            // TODO: Start of turn power effects
         } else {
             panic!("You should be in combat now!")
         }

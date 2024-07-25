@@ -1,3 +1,5 @@
+use actions::Action;
+
 mod actions;
 mod cardrewardrng;
 mod cards;
@@ -14,4 +16,6 @@ mod utils;
 
 fn main() {
     let mut state = state::State::new(utils::Character::Ironclad, 0);
+    let action: Action = unimplemented!();
+    state.apply_action(action);
 }

@@ -22,7 +22,8 @@ pub enum VisibleStates {
     Neow([NeowsBlessing; 4]),
     Map(Map),
     Combat(Combat),
-    Treasure(Chest)
+    Treasure(Chest),
+    Rest
 }
 
 impl VisibleStates {
@@ -37,6 +38,9 @@ impl State {
     }
 
     fn to_combat(&mut self, combat_type: CombatType) {
+        // Reset Relics for combat
+        self.relics.reset_start_of_combat();
+        // Get the enemies
         let enemies = get_enemies(&self.act, self.current_floor, combat_type);
         let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics);
         self.visible_screen = VisibleStates::Combat(combat);
@@ -49,16 +53,24 @@ impl State {
         self.visible_screen = VisibleStates::Treasure(chest);
     }
 
+    fn to_rest(&mut self) {
+        self.visible_screen = VisibleStates::Rest;
+
+        // Ancient tea set proc:
+        self.relics.turn_on_tea_set();
+    }
+
     pub fn _go_to_new_room(&mut self, room: RoomType) {
         match room {
             RoomType::Monster => self.to_combat(CombatType::Normal),
             RoomType::Event => todo!(),
             RoomType::Elite => self.to_combat(CombatType::Elite),
-            RoomType::Rest => todo!(),
+            RoomType::Rest => self.to_rest(),
             RoomType::Merchant => todo!(),
             RoomType::Treasure => self.to_treasure(),
             RoomType::Boss => todo!(),
         }
+        // TODO: Activate maw bank
     }
 
     pub fn get_actions(&self) -> Vec<Action> {
@@ -84,11 +96,14 @@ impl State {
             }
             VisibleStates::Map(map) => {
                 for node in map.next_rooms() {
-                    actions.push(Action::TraverseMap(node));
+                    actions.push(Action::TraverseMap(node.x as u8));
                 }
             }
             VisibleStates::Combat(_) => todo!(),
             VisibleStates::Treasure(_) => todo!(),
+            VisibleStates::Rest => {
+                actions.append(&mut self.get_rest_actions());
+            }
         }
 
         actions

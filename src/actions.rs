@@ -7,12 +7,20 @@ pub enum Action {
     CollectReward(RewardChoice),
     MakeCardChoice(CardRewardChoice),
     EndTurn,
-    TraverseMap(RoomNode),
+    TraverseMap(u8),
     MakeNeowChoice(usize),
-    Lift,
-    Toke,
-    Rest,
+    MakeRestChoice(RestChoice),
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub enum RestChoice {
+    Skip,
     Smith,
+    Rest,
+    Toke,
+    TakeRubyKey,
+    Lift,
+    Dig,
 }
 
 #[derive(Debug, PartialEq, Eq)]
