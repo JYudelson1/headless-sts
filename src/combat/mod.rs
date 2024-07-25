@@ -115,18 +115,26 @@ impl Combat {
 }
 
 impl State {
-    pub fn start_turn_effects(&mut self) {
-        if let VisibleStates::Combat(combat) = &mut self.visible_screen {
-            combat.turn += 1;
-            if combat.turn == 1 {
-                self.start_turn_1_effects();
-            }
-            // Other start turn relic effects
+    pub fn start_combat_turn(&mut self) {
+        let combat = self.get_combat();
+        combat.turn += 1;
+        let turn = combat.turn;
 
-            // TODO: Start of turn power effects
-        } else {
-            panic!("You should be in combat now!")
+        // Start of combat relics
+        if turn == 1 {
+            self.start_turn_1_effects();
         }
+        // Other start turn relic effects
+        self.start_every_turn_effects();
+
+        // TODO: Start of turn power effects
+
+        // Set energy equal to max
+        let combat = self.get_combat();
+        combat.current_energy = combat.max_energy;
+
+        // Draw 5 cards
+        combat.draw(5);
     }
 
     pub fn get_combat(&mut self) -> &mut Combat {

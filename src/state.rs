@@ -95,11 +95,25 @@ impl State {
                 if let VisibleStates::Neow(blessings) = self.visible_screen {
                     let blessing = blessings[index];
                     self._apply_neow_blessing(blessing);
+
+                    if matches!(self.visible_screen, VisibleStates::Neow(_)) {
+                        self.to_map();
+                    }
                 }
             }
             Action::MakeRestChoice(choice) => self.apply_rest_choice(choice),
-            Action::Upgrade(id) => self.upgrade_card_in_deck(id),
-            Action::Remove(id) => self.remove_card_in_deck(id),
+            Action::Upgrade(id) => {
+                self.upgrade_card_in_deck(id);
+                if matches!(self.visible_screen, VisibleStates::UpgradeCardScreen) {
+                    self.to_map();
+                }
+            },
+            Action::Remove(id) => {
+                self.remove_card_in_deck(id);
+                if matches!(self.visible_screen, VisibleStates::RemoveCardScreen) {
+                    self.to_map();
+                }
+            },
         }
 
         // TODO: Figure out what state to change to after applying action

@@ -48,6 +48,8 @@ impl State {
         let enemies = get_enemies(&self.act, self.current_floor, combat_type);
         let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics, &self.main_deck);
         self.visible_screen = VisibleStates::Combat(combat);
+
+        self.start_combat_turn();
     }
 
     fn to_treasure(&mut self) {

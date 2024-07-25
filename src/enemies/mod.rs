@@ -7,7 +7,7 @@ use crate::{
 };
 mod enemy_trait;
 
-mod jawworm;
+pub mod jawworm;
 
 pub struct ConcreteEnemy {
     pub effects: Effects,
