@@ -36,4 +36,8 @@ impl Card for Void {
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![]
     }
+
+    fn get_cost(&self) -> u8 {
+        0
+    }
 }

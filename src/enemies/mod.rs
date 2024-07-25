@@ -24,7 +24,7 @@ impl ConcreteEnemy {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct EnemyIndex(pub usize);
 
 #[derive(Copy, Clone)]

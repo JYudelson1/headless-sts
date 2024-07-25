@@ -1,4 +1,4 @@
-use std::{cell::{Ref, RefCell}, rc::Rc};
+use std::{cell::{Ref, RefCell, RefMut}, rc::Rc};
 
 use super::{card::CardType, card_actions::CardActions, CardName};
 
@@ -6,6 +6,7 @@ pub trait Card {
     fn name(&self) -> CardName;
     fn get_type(&self) -> CardType;
     fn reset(&mut self) {}
+    fn get_cost(&self) -> u8; 
 
     fn set_upgraded(&mut self, to_set: bool);
     fn upgrade(&mut self) {self.set_upgraded(true)}
@@ -55,5 +56,9 @@ impl MasterCard {
 
     pub fn card(&self) -> Ref<dyn Card> {
         self.card.as_ref().borrow()
+    }
+
+    pub fn card_mut(&mut self) -> RefMut<dyn Card> {
+        self.card.as_ref().borrow_mut()
     }
 }

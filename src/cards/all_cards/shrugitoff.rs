@@ -37,4 +37,8 @@ impl Card for ShrugItOff {
     fn set_upgraded(&mut self, to_set: bool) {
         self.0 = to_set;
     }
+
+    fn get_cost(&self) -> u8 {
+        1
+    }
 }

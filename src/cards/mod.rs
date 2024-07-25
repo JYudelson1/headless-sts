@@ -10,4 +10,4 @@ pub use card_trait::MasterCard;
 pub use starter_decks::make_starter_deck;
 
 #[derive(PartialEq, Eq)]
-pub struct CardIndex(pub u8);
+pub struct CardIndex(pub usize);

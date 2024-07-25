@@ -44,4 +44,8 @@ impl Card for Strike {
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![CardActions::Damage((Number(6), Targets::One))]
     }
+
+    fn get_cost(&self) -> u8 {
+        1
+    }
 }

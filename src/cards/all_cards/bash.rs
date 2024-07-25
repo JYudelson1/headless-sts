@@ -48,4 +48,8 @@ impl Card for Bash {
             CardActions::ApplyVulnerable((Number(2), Targets::One)),
         ]
     }
+    
+    fn get_cost(&self) -> u8 {
+        2
+    }
 }

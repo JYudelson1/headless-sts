@@ -37,4 +37,8 @@ impl Card for Defend {
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![CardActions::Block(Number(5))]
     }
+
+    fn get_cost(&self) -> u8 {
+        1
+    }
 }

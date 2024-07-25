@@ -52,8 +52,12 @@ impl State {
         assert!(self.get_actions().contains(&action));
 
         match action {
-            Action::PlayUntargetedCard(index) => todo!(),
-            Action::PlayTargetedCard(_) => todo!(),
+            Action::PlayUntargetedCard(index) => {
+                self.play_card(index, None);
+            },
+            Action::PlayTargetedCard((index, enemy)) => {
+                self.play_card(index, Some(enemy));
+            },
             Action::CollectReward(_) => todo!(),
             Action::MakeCardChoice(_) => todo!(),
             Action::EndTurn => todo!(),
