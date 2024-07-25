@@ -1,10 +1,4 @@
-use crate::{
-    effects::Effects,
-    relics::{Relic, Relics},
-    screens::VisibleStates,
-    state::State,
-    utils::Number,
-};
+use crate::{effects::Effects, relics::Relic, screens::VisibleStates, state::State, utils::Number};
 
 impl State {
     pub fn heal(&mut self, mut amt: u16) {

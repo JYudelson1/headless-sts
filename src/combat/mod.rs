@@ -5,7 +5,7 @@ mod relic_effects;
 use crate::{
     cardrewardrng::CombatType,
     effects::Effects,
-    enemies::{Enemy, EnemyType},
+    enemies::{ConcreteEnemy, EnemyType},
     relics::Relic,
     screens::VisibleStates,
     state::State,
@@ -14,7 +14,7 @@ use crate::{
 
 pub struct Combat {
     self_effects: Effects,
-    enemies: Vec<Box<dyn Enemy>>,
+    enemies: Vec<ConcreteEnemy>,
     turn: u16,
     current_energy: u8,
     max_energy: u8,

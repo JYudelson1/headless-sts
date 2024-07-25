@@ -1,5 +1,4 @@
-pub use enemy_trait::{Enemy, EnemyConstructor};
-use jawworm::JawWormConstructor;
+pub use enemy_trait::Enemy;
 use rand::Rng;
 
 use crate::{
@@ -9,6 +8,15 @@ use crate::{
 mod enemy_trait;
 
 mod jawworm;
+
+pub struct ConcreteEnemy {
+    pub effects: Effects,
+    pub max_hp: u16,
+    pub current_hp: u16,
+    pub current_block: u16,
+    inner: Box<dyn Enemy>,
+    pub enemy_type: EnemyType,
+}
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct EnemyIndex(pub usize);

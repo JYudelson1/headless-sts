@@ -44,13 +44,13 @@ impl Combat {
             Relic::BagOfMarbles => {
                 let debuff = Debuff::Vulnerable(Number(1));
                 for enemy in &mut self.enemies {
-                    enemy.get_effects().apply_debuff(debuff);
+                    enemy.effects.apply_debuff(debuff);
                 }
             }
             Relic::RedMask => {
                 let debuff = Debuff::Weak(Number(1));
                 for enemy in &mut self.enemies {
-                    enemy.get_effects().apply_debuff(debuff);
+                    enemy.effects.apply_debuff(debuff);
                 }
             }
             Relic::DataDisk => self.self_effects.apply_buff(Buff::Focus(Number(1))),

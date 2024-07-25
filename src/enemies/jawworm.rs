@@ -3,15 +3,11 @@ use crate::{
     utils::Number,
 };
 
-use super::{enemy_trait::{Enemy, EnemyConstructor}, get_starting_health, EnemyIntent};
+use super::{enemy_trait::Enemy, get_starting_health, ConcreteEnemy, EnemyIntent, EnemyType};
 
 pub struct JawWorm {
     intent: EnemyIntent,
-    effects: Effects,
-    max_hp: u16,
-    current_hp: u16,
     intent_history: [Option<JawWormAttacks>; 2],
-    current_block: u16,
 }
 
 impl Enemy for JawWorm {
@@ -42,28 +38,8 @@ impl Enemy for JawWorm {
         self.intent = new_intent.to_intent();
     }
 
-    fn get_enemy_type(&self) -> super::EnemyType {
-        super::EnemyType::JawWorm
-    }
-
-    fn get_effects(&mut self) -> &mut Effects {
-        &mut self.effects
-    }
-
     fn get_current_intent(&self) -> super::EnemyIntent {
         self.intent
-    }
-
-    fn get_max_hp(&self) -> u16 {
-        self.max_hp
-    }
-
-    fn get_current_hp(&self) -> u16 {
-        self.current_hp
-    }
-
-    fn get_current_block(&self) -> u16 {
-        todo!()
     }
 }
 
@@ -108,10 +84,8 @@ impl JawWormAttacks {
     }
 }
 
-pub struct JawWormConstructor;
-
-impl EnemyConstructor<JawWorm> for JawWormConstructor {
-    fn new(ascension: u8) -> JawWorm {
+impl JawWorm {
+    pub fn new(ascension: u8) -> ConcreteEnemy {
         let hp = if ascension >= 7 {
             get_starting_health(42, 46)
         } else {
@@ -120,13 +94,18 @@ impl EnemyConstructor<JawWorm> for JawWormConstructor {
 
         let first_attack = JawWormAttacks::chomp(ascension);
 
-        JawWorm {
+        let jawworm = JawWorm {
             intent: first_attack.to_intent(),
+            intent_history: [Some(first_attack), None],
+        };
+
+        ConcreteEnemy {
             effects: Effects::new(),
             max_hp: hp,
             current_hp: hp,
-            intent_history: [Some(first_attack), None],
             current_block: 0,
+            inner: Box::new(jawworm),
+            enemy_type: EnemyType::JawWorm,
         }
     }
 }
