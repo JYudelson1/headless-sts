@@ -9,6 +9,7 @@ pub use setup_combat::get_enemies;
 
 use crate::{
     cardrewardrng::CombatType,
+    cards::MasterCard,
     effects::Effects,
     enemies::{ConcreteEnemy, EnemyType},
     relics::{Relic, Relics},
@@ -16,6 +17,8 @@ use crate::{
     state::State,
     utils::Number,
 };
+
+use rand::seq::SliceRandom;
 
 pub struct Combat {
     self_effects: Effects,
@@ -25,6 +28,10 @@ pub struct Combat {
     max_energy: u8,
     self_block: Number,
     pub combat_type: CombatType,
+    deck: Vec<MasterCard>,
+    hand: Vec<MasterCard>,
+    discard: Vec<MasterCard>,
+    exhaust: Vec<MasterCard>,
 }
 
 impl Combat {
@@ -33,6 +40,7 @@ impl Combat {
         combat_type: CombatType,
         ascension: u8,
         relics: &Relics,
+        deck: &Vec<MasterCard>,
     ) -> Self {
         let mut max_energy = 3;
 
@@ -74,6 +82,10 @@ impl Combat {
             .iter()
             .map(|enemy_type| enemy_type.new(ascension))
             .collect();
+
+        let mut deck = deck.clone();
+        deck.shuffle(&mut rand::thread_rng());
+
         Self {
             self_effects: Effects::new(),
             enemies,
@@ -82,6 +94,10 @@ impl Combat {
             max_energy,
             current_energy: max_energy,
             combat_type,
+            hand: vec![],
+            discard: vec![],
+            exhaust: vec![],
+            deck
         }
     }
 

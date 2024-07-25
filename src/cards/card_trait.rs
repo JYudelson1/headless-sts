@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use super::{card::CardType, card_actions::CardActions, CardName};
 
 pub trait Card {
@@ -6,6 +8,9 @@ pub trait Card {
     fn get_type(&self) -> CardType;
     fn reset(&mut self) {}
 
+    fn is_playable(&self) -> bool {
+        true
+    }
     fn targets(&self) -> bool {
         false
     }
@@ -21,7 +26,8 @@ pub trait Card {
     fn play(&mut self) -> Vec<CardActions>;
 }
 
+#[derive(Clone)]
 pub struct MasterCard {
-    pub card: Box<dyn Card>,
+    pub card: Rc<dyn Card>,
     pub id: uuid::Uuid,
 }

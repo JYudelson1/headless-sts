@@ -15,7 +15,7 @@ impl State {
                     }
                     combat.self_block += amt;
                 },
-                CardActions::Draw(amt) => todo!(),
+                CardActions::Draw(amt) => combat.draw(amt),
             }
             // After every action is fully resolved, check if the combat is finished
             self.maybe_end_combat();

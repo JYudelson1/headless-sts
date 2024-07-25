@@ -42,7 +42,7 @@ impl State {
         self.relics.reset_start_of_combat();
         // Get the enemies
         let enemies = get_enemies(&self.act, self.current_floor, combat_type);
-        let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics);
+        let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics, &self.main_deck);
         self.visible_screen = VisibleStates::Combat(combat);
     }
 

@@ -8,6 +8,8 @@ use crate::{
     utils::Number,
 };
 
+#[derive(Clone)]
+
 pub struct Strike;
 
 impl Card for Strike {

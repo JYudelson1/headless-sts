@@ -1,4 +1,10 @@
-use crate::{effects::Effects, relics::Relic, screens::VisibleStates, state::State, utils::Number};
+use crate::{
+    cards::CardName, effects::Effects, relics::Relic, screens::VisibleStates, state::State,
+    utils::Number,
+};
+
+use super::Combat;
+use rand::seq::SliceRandom;
 
 impl State {
     pub fn heal(&mut self, mut amt: u16) {
@@ -47,4 +53,46 @@ pub fn calculate_damage(
     }
 
     Number(damage.floor() as i16)
+}
+
+impl Combat {
+    pub fn reshuffle(&mut self) {
+        self.deck.append(&mut self.discard);
+        self.discard = vec![];
+        self.deck.shuffle(&mut rand::thread_rng());
+    }
+
+    fn draw_1(&mut self) {
+        // Cannot draw if all cards are in hand
+        if self.deck.is_empty() && self.discard.is_empty() {
+            return;
+        }
+        // Cannot draw if hand is full
+        if self.hand.len() >= 10 {
+            return;
+        }
+        // If draw pile is empty, reshuffle
+        if self.deck.is_empty() {
+            self.reshuffle()
+        }
+        // Take the top card from deck and move to hand
+        let top_card = self.deck.remove(0);
+        let name = top_card.card.name();
+        self.hand.push(top_card);
+
+        // On Draw Effects
+        // TODO: Deus Ex
+        // Void
+        if name == CardName::Void {
+            if self.current_energy > 0 {
+                self.current_energy -= 1;
+            }
+        }
+    }
+
+    pub fn draw(&mut self, amt: u8) {
+        for _ in 0..amt {
+            self.draw_1();
+        }
+    }
 }

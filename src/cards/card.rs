@@ -1,7 +1,10 @@
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub enum CardName {
     Strike,
     Defend,
     Bash,
+    Void,
+    ShrugItOff,
 }
 
 impl CardName {
