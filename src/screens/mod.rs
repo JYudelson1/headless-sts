@@ -35,7 +35,7 @@ impl VisibleStates {
 }
 
 impl State {
-    fn to_map(&mut self) {
+    pub fn to_map(&mut self) {
         self.visible_screen = VisibleStates::Map(self.map.clone());
     }
 

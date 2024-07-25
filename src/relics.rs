@@ -121,6 +121,7 @@ impl Relics {
     }
 
     pub fn random_rare(&mut self) -> Relic {
+        //TODO: If you have 2 out these 3 relics: Shovel ,PeacePipe, and Girya, the third one will not spawn
         Self::_random_remove_from_pool(&mut self.rare_pool)
     }
 
@@ -236,7 +237,7 @@ pub enum Relic {
     OrnamentalFan(u8), // NOT IMPLEMENTED
     Pantograph,        // NOT IMPLEMENTED
     Pear,              // IMPLEMENTED
-    QuestionCard,      // NOT IMPLEMENTED
+    QuestionCard,      // IMPLEMENTED
     Shuriken(u8),      // NOT IMPLEMENTED
     SingingBowl,       // NOT IMPLEMENTED
     StrikeDummy,       // NOT IMPLEMENTED
@@ -309,7 +310,7 @@ pub enum Relic {
     Melange,                // NOT IMPLEMENTED
     Astrolabe,              // NOT IMPLEMENTED
     BlackStar,              // NOT IMPLEMENTED
-    BrokenCrown,            // PARTIALLY IMPLEMENTED
+    BrokenCrown,            // IMPLEMENTED
     CallingBell,            // NOT IMPLEMENTED
     CoffeeDripper,          // IMPLEMENTED
     CursedKey,              // PARTIALLY IMPLEMENTED

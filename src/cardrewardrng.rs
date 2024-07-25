@@ -1,4 +1,4 @@
-use crate::{cards::CardName, screens::CardReward, utils::Act};
+use crate::{cards::CardName, relics::Relic, screens::CardReward, state::State, utils::Act};
 
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum CombatType {
@@ -23,7 +23,7 @@ impl CardRewardRng {
         *self = Self::new();
     }
 
-    fn get_one_reward(&mut self, combat_type: &CombatType, act: &Act) -> CardReward {
+    fn get_one_reward(&mut self, combat_type: CombatType, act: &Act) -> CardReward {
         if matches!(combat_type, CombatType::Boss) {
             self.reset();
             return CardReward {
@@ -70,7 +70,7 @@ impl CardRewardRng {
     pub fn get_rewards(
         &mut self,
         num_cards: usize,
-        combat_type: &CombatType,
+        combat_type: CombatType,
         act: &Act,
     ) -> Vec<CardReward> {
         let mut cards = vec![];
@@ -80,5 +80,18 @@ impl CardRewardRng {
         }
 
         cards
+    }
+}
+
+impl State {
+    pub fn get_card_rewards(&mut self, combat_type: CombatType) -> Vec<CardReward> {
+        let mut num_cards = 3;
+        if self.relics.contains(Relic::BrokenCrown) {
+            num_cards -= 2;
+        }
+        if self.relics.contains(Relic::QuestionCard) {
+            num_cards += 1;
+        }
+        self.card_rng.get_rewards(num_cards, combat_type, &self.act)
     }
 }

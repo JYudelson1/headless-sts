@@ -5,6 +5,8 @@ use crate::{
     utils::Key,
 };
 
+use super::VisibleStates;
+
 impl State {
     pub fn get_rest_actions(&self) -> Vec<Action> {
         let mut actions = vec![RestChoice::Skip];
@@ -37,9 +39,21 @@ impl State {
     pub fn apply_rest_choice(&mut self, choice: RestChoice) {
         match choice {
             RestChoice::Skip => (),
-            RestChoice::Smith => todo!(),
-            RestChoice::Rest => todo!(),
-            RestChoice::Toke => todo!(),
+            RestChoice::Smith => {
+                self.visible_screen = VisibleStates::UpgradeCardScreen
+            },
+            RestChoice::Rest => {
+                let mut amt_to_heal = self.max_health.0 as f32 * 0.3;
+                if self.relics.contains(Relic::RegalPillow) {
+                    amt_to_heal += 15.0;
+                }
+                self.heal(amt_to_heal.floor() as u16);
+                // TODO: Dreamcatcher
+                self.to_map();
+            },
+            RestChoice::Toke => {
+                self.visible_screen = VisibleStates::RemoveCardScreen
+            },
             RestChoice::TakeRubyKey => self.keys.add_key(Key::Ruby),
             RestChoice::Lift => self.relics.increase_girya(),
             RestChoice::Dig => todo!(),

@@ -1,5 +1,5 @@
 use crate::{
-    actions::Action,
+    actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CardRewardRng,
     cards::{make_starter_deck, MasterCard},
     map::{Map, RoomNode},
@@ -60,8 +60,23 @@ impl State {
             Action::PlayTargetedCard((index, enemy)) => {
                 self.play_card(index, Some(enemy));
             },
-            Action::CollectReward(_) => todo!(),
-            Action::MakeCardChoice(_) => todo!(),
+            Action::CollectReward(choice) => {
+                match choice {
+                    RewardChoice::Skip => self.to_map(),
+                    RewardChoice::RewardIndex(index) => {
+                        self.take_reward(index);
+                    },
+                }
+            },
+            Action::MakeCardChoice(choice) => {
+                match choice {
+                    // TODO: This should send to map in the case of a whale bonus
+                    // Or a dreamcatcher card reward
+                    // Maybe they should be seperate actions??
+                    CardRewardChoice::Skip => (),
+                    CardRewardChoice::CardRewardIndex(_) => todo!(),
+                }
+            },
             Action::EndTurn => todo!(),
             Action::TraverseMap(node_x) => {
                 let node = RoomNode {
