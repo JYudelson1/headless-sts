@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::utils::Character;
+use crate::utils::{number_between, Character};
 
 pub struct Relics {
     pub list: Vec<Relic>,
@@ -137,7 +137,7 @@ impl Relics {
         if pool.is_empty() {
             return Relic::Circlet;
         }
-        let index = rand::thread_rng().gen_range(0..pool.len());
+        let index = number_between(0, pool.len());
         pool.remove(index)
     }
 

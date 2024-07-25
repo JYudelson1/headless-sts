@@ -1,6 +1,12 @@
 use std::{
     collections::HashSet,
-    ops::{Add, AddAssign, Sub},
+    fmt::Debug,
+    ops::{Add, AddAssign, Range, Sub},
+};
+
+use rand::{
+    distributions::uniform::{SampleRange, SampleUniform},
+    Rng,
 };
 
 #[derive(Clone, Copy)]
@@ -90,4 +96,17 @@ impl Keys {
     pub fn new() -> Self {
         Self(HashSet::new())
     }
+}
+
+pub fn number_between<T>(min: T, max: T) -> T
+where
+    T: TryInto<i128> + TryFrom<i128> + Debug,
+    <T as TryFrom<i128>>::Error: Debug,
+    <T as TryInto<i128>>::Error: Debug,
+{
+    let range = Range {
+        start: TryInto::<i128>::try_into(min).unwrap(),
+        end: TryInto::<i128>::try_into(max).unwrap() + 1,
+    };
+    TryInto::<T>::try_into(rand::thread_rng().gen_range(range)).unwrap()
 }

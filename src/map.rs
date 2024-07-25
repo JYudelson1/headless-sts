@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::utils::Act;
+use crate::utils::{number_between, Act};
 
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum RoomType {
@@ -80,7 +80,7 @@ impl Boss {
             ],
         };
 
-        bosses[rand::thread_rng().gen_range(0..3)]
+        bosses[number_between(0, 3)]
     }
 }
 
@@ -178,7 +178,7 @@ impl Map {
 
     fn add_one_path(&mut self, starting_room: RoomNode, ascension: u8) -> RoomNode {
         let possible = starting_room.get_paths();
-        let index = rand::thread_rng().gen_range(0..possible.len());
+        let index = number_between(0, possible.len());
         let x = possible[index].0;
         let path_is_on_index = possible[index].1;
         let path_is_on = self.paths[starting_room.floor][path_is_on_index];
@@ -216,7 +216,7 @@ impl Map {
     fn random_starting_room(&self) -> RoomNode {
         RoomNode {
             floor: 0,
-            x: rand::thread_rng().gen_range(0..7),
+            x: number_between(0, 7),
         }
     }
 

@@ -1,6 +1,10 @@
 // TODO: Figure out whether to have different blessings if you die early
 
+use core::num;
+
 use rand::Rng;
+
+use crate::utils::number_between;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum FirstBlessing {
@@ -14,7 +18,7 @@ pub enum FirstBlessing {
 
 impl FirstBlessing {
     pub fn random() -> Self {
-        let x = rand::thread_rng().gen_range(0..6);
+        let x = number_between(0, 6);
         let variants = [
             Self::Remove,
             Self::Transform,
@@ -38,7 +42,7 @@ pub enum SecondBlessing {
 
 impl SecondBlessing {
     pub fn random() -> Self {
-        let x = rand::thread_rng().gen_range(0..5);
+        let x = number_between(0, 5);
         let variants = [
             Self::MaxHP,
             Self::NeowsLament,
@@ -62,7 +66,7 @@ pub enum ThirdUpside {
 
 impl ThirdUpside {
     pub fn random() -> Self {
-        let x = rand::thread_rng().gen_range(0..6);
+        let x = number_between(0, 6);
         let variants = [
             Self::Remove2,
             Self::Transform2,
@@ -85,7 +89,7 @@ pub enum ThirdDownside {
 
 impl ThirdDownside {
     pub fn random() -> Self {
-        let x = rand::thread_rng().gen_range(0..4);
+        let x = number_between(0, 4);
         let variants = [
             Self::LoseMaxHealth,
             Self::RandomCurse,
@@ -129,7 +133,7 @@ pub enum NeowsBlessing {
     RelicSwap,
 }
 
-pub fn get_neow_blessings() -> [NeowsBlessing; 4] {
+pub fn get_neow_blessings() -> [NeowsBlessing; 4]{
     let first = NeowsBlessing::First(FirstBlessing::random());
     let second = NeowsBlessing::Second(SecondBlessing::random());
     let third = NeowsBlessing::Third(ThirdBlessing::random());

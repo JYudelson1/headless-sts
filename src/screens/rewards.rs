@@ -19,7 +19,9 @@ pub struct CardReward {
 impl State {
     pub fn make_rewards_screen(&mut self) -> RewardsScreen {
         let combat = self.get_combat();
-        todo!()
+        let mut rewards = vec![];
+
+        RewardsScreen(rewards)
     }
 
     pub fn take_reward(&mut self, index: usize) {

@@ -1,9 +1,9 @@
 use crate::{
     effects::{Buff, Effects},
-    utils::Number,
+    utils::{number_between, Number},
 };
 
-use super::{enemy_trait::Enemy, get_starting_health, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
 pub struct JawWorm {
     intent: EnemyIntent,
@@ -87,9 +87,9 @@ impl JawWormAttacks {
 impl JawWorm {
     pub fn new(ascension: u8) -> ConcreteEnemy {
         let hp = if ascension >= 7 {
-            get_starting_health(42, 46)
+            number_between(42, 46)
         } else {
-            get_starting_health(40, 44)
+            number_between(40, 44)
         };
 
         let first_attack = JawWormAttacks::chomp(ascension);

@@ -43,7 +43,3 @@ pub enum EnemyType {
     JawWorm,
     Louse,
 }
-
-fn get_starting_health(min: u16, max: u16) -> u16 {
-    rand::thread_rng().gen_range(min..max + 1)
-}

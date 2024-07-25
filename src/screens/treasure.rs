@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::relics::{Relic, Relics};
+use crate::{relics::{Relic, Relics}, utils::number_between};
 
 pub struct Chest {
     gold: u32,
@@ -62,9 +62,9 @@ impl ChestType {
 
     fn _gold_amt(&self) -> u32 {
         match self {
-            ChestType::Small => _rand_gold(23, 27),
-            ChestType::Medium => _rand_gold(45, 55),
-            ChestType::Large => _rand_gold(68, 82),
+            ChestType::Small => number_between(23, 27),
+            ChestType::Medium => number_between(45, 55),
+            ChestType::Large => number_between(68, 82),
         }
     }
 
@@ -91,10 +91,6 @@ impl ChestType {
             ChestRelicRarity::Rare
         }
     }
-}
-
-fn _rand_gold(min: u32, max: u32) -> u32 {
-    rand::thread_rng().gen_range(min..max + 1)
 }
 
 pub enum ChestRelicType {
