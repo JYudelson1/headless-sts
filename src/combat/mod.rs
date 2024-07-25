@@ -3,6 +3,7 @@ mod combat_fns;
 mod enemy_actions;
 mod relic_effects;
 mod setup_combat;
+mod end_of_combat;
 
 pub use setup_combat::get_enemies;
 
@@ -23,7 +24,7 @@ pub struct Combat {
     current_energy: u8,
     max_energy: u8,
     self_block: Number,
-    combat_type: CombatType,
+    pub combat_type: CombatType,
 }
 
 impl Combat {

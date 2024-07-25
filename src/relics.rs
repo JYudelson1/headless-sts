@@ -12,6 +12,7 @@ pub struct Relics {
 }
 
 impl Relics {
+    // TODO: Some relics do not spawn at certain floors (e.g. shovel)
     pub fn new(character: Character) -> Self {
         let starter = match character {
             Character::Ironclad => Relic::BurningBlood,
@@ -174,7 +175,7 @@ impl Relics {
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Relic {
     Circlet,                // IMPLEMENTED
-    BurningBlood,           // NOT IMPLEMENTED
+    BurningBlood,           // IMPLEMENTED
     RingOfSnake,            // PARTIALLY IMPLEMENTED
     CrackedCore,            // PARTIALLY IMPLEMENTED
     PureWater,              // PARTIALLY IMPLEMENTED
@@ -273,7 +274,7 @@ pub enum Relic {
     ThreadAndNeedle,   // NOT IMPLEMENTED
     Torii,             // NOT IMPLEMENTED
     TungstenRod,       // NOT IMPLEMENTED
-    Turnip,            // NOT IMPLEMENTED
+    Turnip,            // IMPLEMENTED
     UnceasingTop,      // NOT IMPLEMENTED
     WingBoots,         // NOT IMPLEMENTED
     ChampionsBelt,     // NOT IMPLEMENTED
@@ -326,7 +327,7 @@ pub enum Relic {
     TinyHouse,              // NOT IMPLEMENTED
     VelvetChoker,           // PARTIALLY IMPLEMENTED
     MarkOfPain,             // PARTIALLY IMPLEMENTED
-    BlackBlood,             // NOT IMPLEMENTED
+    BlackBlood,             // IMPLEMENTED
     RunicCube,              // NOT IMPLEMENTED
     RingOfTheSerpent,       // NOT IMPLEMENTED
     WristBlade,             // NOT IMPLEMENTED

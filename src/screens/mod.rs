@@ -60,6 +60,10 @@ impl State {
         self.relics.turn_on_tea_set();
     }
 
+    pub fn combat_finished(&mut self) {
+        self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
+    }
+
     pub fn _go_to_new_room(&mut self, room: RoomType) {
         match room {
             RoomType::Monster => self.to_combat(CombatType::Normal),

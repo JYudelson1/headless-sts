@@ -11,6 +11,7 @@ pub struct Effects {
     weak: Option<Number>,
     focus: Option<Number>,
     thorns: Option<Number>,
+    frail: Option<Number>,
     // TODO: Other effects
     // TODO: Other buffs??
     // A lot of relics have only-in-combat effects
@@ -26,6 +27,10 @@ impl Effects {
 
     pub fn is_weak(&self) -> bool {
         self.weak.is_some()
+    }
+
+    pub fn is_frail(&self) -> bool {
+        self.frail.is_some()
     }
 
     pub fn get_strength(&self) -> Number {
@@ -72,6 +77,12 @@ impl Effects {
                 }
             },
             Debuff::Vulnerable(amt) => self.vulnerable = amt.add_option(self.vulnerable),
+            Debuff::Frail(amt) => {
+                // Turnip: cannot gain frail
+                if !self.relevant_relics.contains(&Relic::Turnip) {
+                    self.frail = amt.add_option(self.frail);
+                }
+            },
         }
     }
 
@@ -81,6 +92,7 @@ impl Effects {
             poison: None,
             vulnerable: None,
             weak: None,
+            frail: None,
             focus: None,
             thorns: None,
             dexterity: None,
@@ -101,4 +113,5 @@ pub enum Buff {
 pub enum Debuff {
     Weak(Number),
     Vulnerable(Number),
+    Frail(Number),
 }

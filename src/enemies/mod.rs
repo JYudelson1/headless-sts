@@ -18,6 +18,12 @@ pub struct ConcreteEnemy {
     pub enemy_type: EnemyType,
 }
 
+impl ConcreteEnemy {
+    pub fn is_dead(&self) -> bool {
+        self.current_hp == 0
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 pub struct EnemyIndex(pub usize);
 

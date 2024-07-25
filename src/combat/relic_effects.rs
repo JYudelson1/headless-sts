@@ -45,6 +45,7 @@ impl Combat {
             Relic::PaperPhrog => self.add_relic(Relic::PaperPhrog),
             Relic::PaperKrane => self.add_relic(Relic::PaperKrane),
             Relic::Ginger => self.add_relic(Relic::Ginger),
+            Relic::Turnip => self.add_relic(Relic::Turnip),
             Relic::CrackedCore => todo!(),    // Channel 1 lightning
             Relic::SymbioticVirus => todo!(), // Channel 1 dark
             Relic::NuclearBattery => todo!(), // Channel 1 plasma
