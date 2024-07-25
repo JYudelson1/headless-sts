@@ -40,5 +40,14 @@ impl State {
         } else {
             self.get_combat().discard.push(card);
         }
+
+        // TODO: Relic effects
+        // TODO: Art of war
+        // TODO: Shuriken
+        // TODO: Kunai
+        // TODO: Ink Bottle
+        // TODO: Pocketwatch
+        // TODO: Pen Nib
+        // TODO: Others???
     }
 }
