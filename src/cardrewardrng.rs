@@ -1,5 +1,6 @@
-use crate::{cardnames::CardName, screens::CardReward, utils::Act};
+use crate::{cards::CardName, screens::CardReward, utils::Act};
 
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum CombatType {
     Normal,
     Elite,

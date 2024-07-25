@@ -1,4 +1,5 @@
-use enemy_trait::Enemy;
+pub use enemy_trait::{Enemy, EnemyConstructor};
+use jawworm::JawWormConstructor;
 use rand::Rng;
 
 use crate::{
@@ -9,14 +10,7 @@ mod enemy_trait;
 
 mod jawworm;
 
-struct VisibleEnemy {
-    enemy_type: EnemyType,
-    effects: Effects,
-    intent: VisibleIntent,
-    max_hp: u16,
-    current_hp: u16,
-}
-
+#[derive(Debug, PartialEq, Eq)]
 pub struct EnemyIndex(pub usize);
 
 #[derive(Copy, Clone)]
@@ -28,37 +22,6 @@ pub enum EnemyIntent {
     Sleep,
     AttackAndBlock(Number, Number),
     BuffAndBlock(Buff, Number),
-}
-
-impl EnemyIntent {
-    pub fn to_visible_intent(&self) -> VisibleIntent {
-        match self {
-            EnemyIntent::Damage(amt) => VisibleIntent::Damage(amt.0.try_into().unwrap()),
-            EnemyIntent::Block(_) => VisibleIntent::Block,
-            EnemyIntent::Buff(_) => VisibleIntent::BuffSelf,
-            EnemyIntent::Stun => VisibleIntent::Stun,
-            EnemyIntent::Sleep => VisibleIntent::Sleep,
-            EnemyIntent::AttackAndBlock(attack, _) => {
-                VisibleIntent::AttackAndBlock(attack.0.try_into().unwrap())
-            }
-            EnemyIntent::BuffAndBlock(_, _) => VisibleIntent::BlockAndBuff,
-        }
-    }
-}
-
-pub enum VisibleIntent {
-    Damage(u16),
-    Block,
-    BuffSelf,
-    Stun,
-    Sleep,
-    SmallDebuff,
-    LargeDebuff,
-    AttackAndDebuff(u16),
-    AttackAndBlock(u16),
-    BlockAndBuff,
-    RunAway,
-    Unknown,
 }
 
 pub enum EnemyType {

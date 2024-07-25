@@ -1,20 +1,23 @@
-use crate::{card::CardIndex, enemies::EnemyIndex};
+use crate::{cards::CardIndex, enemies::EnemyIndex, map::RoomNode};
 
+#[derive(PartialEq, Eq)]
 pub enum Action {
     PlayUntargetedCard(CardIndex),
     PlayTargetedCard((CardIndex, EnemyIndex)),
     CollectReward(RewardChoice),
     MakeCardChoice(CardRewardChoice),
     EndTurn,
-    TraverseMap, // TODO: ???
+    TraverseMap(RoomNode),
     MakeNeowChoice(usize),
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum RewardChoice {
     Skip,
     RewardIndex(usize),
 }
 
+#[derive(Debug, PartialEq, Eq)]
 pub enum CardRewardChoice {
     Skip,
     CardRewardIndex(usize),

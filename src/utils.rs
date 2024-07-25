@@ -54,6 +54,7 @@ pub enum Act {
     Act3,
 }
 
+#[derive(Clone, Copy)]
 pub enum Character {
     Ironclad,
     Silent,

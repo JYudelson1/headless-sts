@@ -1,4 +1,4 @@
-use crate::{cardnames::CardName, potions::Potion};
+use crate::{cards::CardName, potions::Potion};
 
 pub struct RewardsScreen(pub Vec<Reward>);
 

@@ -84,7 +84,7 @@ impl Boss {
 }
 
 #[derive(Copy, Clone, PartialEq, Eq)]
-struct RoomNode {
+pub struct RoomNode {
     pub floor: usize,
     pub x: usize,
 }
@@ -133,7 +133,7 @@ pub struct Map {
 }
 
 impl Map {
-    fn go_to_room(&mut self, room: RoomNode) {
+    pub fn go_to_room(&mut self, room: RoomNode) {
         // TODO: Figure out how to represent bosses
         match self.current {
             Some(room) => {
@@ -350,5 +350,19 @@ impl Map {
 
     fn get_room(&self, room: RoomNode) -> Option<RoomType> {
         self.rooms[room.floor][room.x]
+    }
+
+    pub fn next_rooms(&self) -> Vec<RoomNode> {
+        if let Some(current) = self.current {
+            current.get_next(self.paths)
+        } else {
+            let mut starters = vec![];
+            for x in 0..7 {
+                if let Some(_) = self.rooms[0][x] {
+                    starters.push(RoomNode { floor: 0, x });
+                }
+            }
+            starters
+        }
     }
 }

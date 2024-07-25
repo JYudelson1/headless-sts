@@ -3,7 +3,7 @@ use crate::{
     utils::Number,
 };
 
-use super::{enemy_trait::Enemy, get_starting_health, EnemyIntent};
+use super::{enemy_trait::{Enemy, EnemyConstructor}, get_starting_health, EnemyIntent};
 
 pub struct JawWorm {
     intent: EnemyIntent,
@@ -11,27 +11,10 @@ pub struct JawWorm {
     max_hp: u16,
     current_hp: u16,
     intent_history: [Option<JawWormAttacks>; 2],
+    current_block: u16,
 }
 
 impl Enemy for JawWorm {
-    fn new(ascension: u8) -> Self {
-        let hp = if ascension >= 7 {
-            get_starting_health(42, 46)
-        } else {
-            get_starting_health(40, 44)
-        };
-
-        let first_attack = JawWormAttacks::chomp(ascension);
-
-        Self {
-            intent: first_attack.to_intent(),
-            effects: Effects::new(),
-            max_hp: hp,
-            current_hp: hp,
-            intent_history: [Some(first_attack), None],
-        }
-    }
-
     fn next_intent(&mut self, ascension: u8) {
         let new_intent = loop {
             let x = rand::random::<f32>();
@@ -63,8 +46,8 @@ impl Enemy for JawWorm {
         super::EnemyType::JawWorm
     }
 
-    fn get_effects(&self) -> crate::effects::Effects {
-        self.effects.clone()
+    fn get_effects(&mut self) -> &mut Effects {
+        &mut self.effects
     }
 
     fn get_current_intent(&self) -> super::EnemyIntent {
@@ -77,6 +60,10 @@ impl Enemy for JawWorm {
 
     fn get_current_hp(&self) -> u16 {
         self.current_hp
+    }
+
+    fn get_current_block(&self) -> u16 {
+        todo!()
     }
 }
 
@@ -118,5 +105,28 @@ impl JawWormAttacks {
 
     fn thrash() -> Self {
         Self::Thrash
+    }
+}
+
+pub struct JawWormConstructor;
+
+impl EnemyConstructor<JawWorm> for JawWormConstructor {
+    fn new(ascension: u8) -> JawWorm {
+        let hp = if ascension >= 7 {
+            get_starting_health(42, 46)
+        } else {
+            get_starting_health(40, 44)
+        };
+
+        let first_attack = JawWormAttacks::chomp(ascension);
+
+        JawWorm {
+            intent: first_attack.to_intent(),
+            effects: Effects::new(),
+            max_hp: hp,
+            current_hp: hp,
+            intent_history: [Some(first_attack), None],
+            current_block: 0,
+        }
     }
 }

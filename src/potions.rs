@@ -22,4 +22,8 @@ impl PotionBag {
             self.potions.push(potion);
         }
     }
+
+    pub fn increase_size(&mut self, added_slots: usize) {
+        self.capacity += added_slots;
+    }
 }

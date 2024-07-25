@@ -5,14 +5,6 @@ pub enum CardName {
 }
 
 impl CardName {
-    pub fn targets(&self) -> bool {
-        match self {
-            CardName::Strike => true,
-            CardName::Defend => false,
-            CardName::Bash => true,
-        }
-    }
-
     pub fn random_common() -> Self {
         todo!()
     }
@@ -24,4 +16,12 @@ impl CardName {
     pub fn random_rare() -> Self {
         todo!()
     }
+}
+
+pub enum CardType {
+    Attack,
+    Power,
+    Skill,
+    Status,
+    Curse,
 }

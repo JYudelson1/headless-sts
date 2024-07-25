@@ -1,11 +1,12 @@
 mod actions;
-mod card;
-mod cardnames;
+mod cardrewardrng;
+mod cards;
 mod combat;
 mod effects;
 mod enemies;
 mod map;
 mod potions;
+mod relic_pickup;
 mod relics;
 mod screens;
 mod state;
