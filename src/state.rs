@@ -25,6 +25,7 @@ pub struct State {
     pub relics: Relics,
     pub main_deck: Vec<MasterCard>,
     pub keys: Keys,
+    pub still_playing: bool,
 }
 
 impl State {
@@ -44,7 +45,8 @@ impl State {
             character,
             relics: Relics::new(character),
             main_deck: make_starter_deck(character),
-            keys: Keys::new()
+            keys: Keys::new(),
+            still_playing: true,
         }
     }
 

@@ -14,8 +14,14 @@ mod screens;
 mod state;
 mod utils;
 
+use rand::seq::SliceRandom;
+
 fn main() {
     let mut state = state::State::new(utils::Character::Ironclad, 0);
-    let action: Action = unimplemented!();
-    state.apply_action(action);
+    while state.still_playing {
+        let mut actions = state.get_actions();
+        actions.shuffle(&mut rand::thread_rng());
+        let random_action = &actions[0];
+        state.apply_action(random_action.clone());
+    }
 }
