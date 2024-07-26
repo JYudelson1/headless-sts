@@ -25,8 +25,6 @@ impl State {
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
         }
-        // After every action is fully resolved, check if the combat is finished
-        self.maybe_end_combat();
     }
 
     pub fn play_card(&mut self, card_index: CardIndex, target: Option<EnemyIndex>) {

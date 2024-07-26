@@ -1,4 +1,4 @@
-use crate::{enemies::EnemyIndex, relics::Relic, screens::VisibleStates, state::State, utils::Number};
+use crate::{relics::Relic, screens::VisibleStates, state::State};
 
 use super::Combat;
 
