@@ -167,15 +167,15 @@ impl State {
         }
 
         // Beginning of opponent's turn effects (e.g. poison)
-
+        self.begin_enemy_turn();
         // Enemies lose all block
-
+        self.get_combat().enemies_lose_block();
         // Apply opponent's intent
-
+        self.get_combat().enemy_actions();
         // Change opponent's intent
-
+        self.get_combat().cycle_enemy_intents();
         // End of enemy turn effects (e.g. metallicize)
-
+        todo!();
         // Start your next turn
         self.start_combat_turn()
     }

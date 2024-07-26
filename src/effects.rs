@@ -13,8 +13,10 @@ pub struct Effects {
     thorns: Option<Number>,
     frail: Option<Number>,
     intangible: Option<Number>,
+    metallicize: Option<Number>,
     // TODO: Other effects
     // TODO: Other buffs??
+    pub barricade: bool,
     // A lot of relics have only-in-combat effects
     // It makes sense to hand that info over to combat so we don't often need
     //  to work with the full state
@@ -45,6 +47,13 @@ impl Effects {
         }
     }
 
+    pub fn get_metallicize(&self) -> Number {
+        match self.metallicize {
+            Some(amt) => amt,
+            None => Number(0),
+        }
+    }
+
     pub fn get_dexterity(&self) -> Number {
         match self.dexterity {
             Some(amt) => amt,
@@ -54,6 +63,13 @@ impl Effects {
 
     pub fn get_focus(&self) -> Number {
         match self.focus {
+            Some(amt) => amt,
+            None => Number(0),
+        }
+    }
+
+    pub fn get_poison(&self) -> Number {
+        match self.poison {
             Some(amt) => amt,
             None => Number(0),
         }
@@ -70,6 +86,7 @@ impl Effects {
             Buff::Focus(amt) => self.focus = amt.add_option(self.focus),
             Buff::Thorns(amt) => self.thorns = amt.add_option(self.thorns),
             Buff::Intangible(amt) => self.intangible = amt.add_option(self.intangible),
+            Buff::Metallicize(amt) => self.metallicize = amt.add_option(self.metallicize)
         }
     }
 
@@ -104,6 +121,8 @@ impl Effects {
             dexterity: None,
             relevant_relics: HashSet::new(),
             intangible: None,
+            barricade: false,
+            metallicize: None
         }
     }
 }
@@ -115,6 +134,7 @@ pub enum Buff {
     Thorns(Number),
     Dexterity(Number),
     Intangible(Number),
+    Metallicize(Number),
 }
 
 #[derive(Copy, Clone, Debug)]

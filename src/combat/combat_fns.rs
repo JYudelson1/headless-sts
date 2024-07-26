@@ -147,6 +147,22 @@ impl State {
             Targets::Random => todo!(),
         }
     }
+
+    fn begin_enemy_turn_effects(&mut self, enemy_index: EnemyIndex) {
+        let enemy = &mut self.get_combat().enemies[enemy_index.0];
+        // Poison
+        let poison = enemy.effects.get_poison();
+        if poison.0 > 0 {
+            self.enemy_lose_hp(enemy_index, poison.0 as u16)
+        }
+    }
+
+    pub fn begin_enemy_turn(&mut self) {
+        let num_enemies = self.get_combat().num_enemies();
+        for i in 0..num_enemies {
+            self.begin_enemy_turn_effects(EnemyIndex(i));
+        }
+    }
 }
 
 pub fn calculate_damage(
@@ -241,10 +257,43 @@ impl Combat {
     }
 
     pub fn block_goes_away(&mut self) {
+        // Barricade
+        if self.self_effects.barricade {
+            return;
+        }
+
+        // Calipers
         if self.has_relic(&Relic::Calipers) && self.self_block.0 > 15 {
             self.self_block -= Number(15)
         } else {
             self.self_block = Number(0)
+        }
+    }
+
+    fn enemy_loses_block(&mut self, enemy_index: EnemyIndex) {
+        let enemy = &mut self.enemies[enemy_index.0];
+        if enemy.effects.barricade {
+            return;
+        }
+        enemy.current_block = Number(0)
+    }
+
+    pub fn enemies_lose_block(&mut self) {
+        for i in 0..self.num_enemies() {
+            self.enemy_loses_block(EnemyIndex(i));
+        }
+    }
+
+    fn enemy_end_of_turn(&mut self, enemy_index: EnemyIndex) {
+        let enemy = &mut self.enemies[enemy_index.0];
+        // Metallicize
+        let metal = enemy.effects.get_metallicize();
+        enemy.current_block += metal;
+    }
+
+    pub fn end_enemies_turn(&mut self) {
+        for i in 0..self.num_enemies() {
+            self.enemy_end_of_turn(EnemyIndex(i))
         }
     }
 }

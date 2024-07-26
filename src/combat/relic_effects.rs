@@ -48,6 +48,7 @@ impl Combat {
             Relic::Turnip => self.add_relic(Relic::Turnip),
             Relic::Calipers => self.add_relic(Relic::Calipers),
             Relic::RunicPyramid => self.add_relic(Relic::RunicPyramid),
+            Relic::TheBoot => self.add_relic(Relic::TheBoot),
             Relic::CrackedCore => todo!(),    // Channel 1 lightning
             Relic::SymbioticVirus => todo!(), // Channel 1 dark
             Relic::NuclearBattery => todo!(), // Channel 1 plasma
