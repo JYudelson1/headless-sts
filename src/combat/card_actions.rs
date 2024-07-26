@@ -15,6 +15,7 @@ impl State {
                 self.get_combat().self_block += amt;
             }
             CardActions::Draw(amt) => self.get_combat().draw(amt),
+            CardActions::LoseHealth(amt) => self.lose_hp(amt),
         }
         // After every action is fully resolved, check if the combat is finished
         self.maybe_end_combat();

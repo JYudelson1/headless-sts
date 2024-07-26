@@ -12,6 +12,7 @@ pub struct Effects {
     focus: Option<Number>,
     thorns: Option<Number>,
     frail: Option<Number>,
+    intangible: Option<Number>,
     // TODO: Other effects
     // TODO: Other buffs??
     // A lot of relics have only-in-combat effects
@@ -25,12 +26,16 @@ impl Effects {
         self.vulnerable.is_some()
     }
 
+    pub fn is_frail(&self) -> bool {
+        self.frail.is_some()
+    }
+
     pub fn is_weak(&self) -> bool {
         self.weak.is_some()
     }
 
-    pub fn is_frail(&self) -> bool {
-        self.frail.is_some()
+    pub fn is_intangible(&self) -> bool {
+        self.intangible.is_some()
     }
 
     pub fn get_strength(&self) -> Number {
@@ -64,6 +69,7 @@ impl Effects {
             Buff::Dexterity(amt) => self.dexterity = amt.add_option(self.dexterity),
             Buff::Focus(amt) => self.focus = amt.add_option(self.focus),
             Buff::Thorns(amt) => self.thorns = amt.add_option(self.thorns),
+            Buff::Intangible(amt) => self.intangible = amt.add_option(self.intangible),
         }
     }
 
@@ -96,7 +102,8 @@ impl Effects {
             focus: None,
             thorns: None,
             dexterity: None,
-            relevant_relics: HashSet::new()
+            relevant_relics: HashSet::new(),
+            intangible: None,
         }
     }
 }
@@ -107,6 +114,7 @@ pub enum Buff {
     Focus(Number),
     Thorns(Number),
     Dexterity(Number),
+    Intangible(Number),
 }
 
 #[derive(Copy, Clone)]

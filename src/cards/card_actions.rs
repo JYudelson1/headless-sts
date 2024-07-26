@@ -11,5 +11,5 @@ pub enum CardActions {
     ApplyWeak((Number, Targets)),
     Block(Number),
     Draw(u8),
-    // TODO: Other things cards can do
+    LoseHealth(u16), // TODO: Other things cards can do
 }

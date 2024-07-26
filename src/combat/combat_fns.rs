@@ -27,6 +27,26 @@ impl State {
         self.max_health += Number(amt as i16);
         self.heal(amt);
     }
+
+    pub fn lose_hp(&mut self, mut amt: u16) {
+        // If you are in combat & have intangible, all hp loss goes to 1
+        if let VisibleStates::Combat(combat) = &self.visible_screen {
+            if combat.self_effects.is_intangible() {
+                amt = 1;
+            }
+        }
+
+        if amt >= self.current_health {
+            // Player would die
+            // TODO: Check for lizard tail
+            // TODO: Check for fairy in a bottle
+            // TODO: Show that you lose
+            println!("Player is dead!");
+            self.still_playing = false;
+        } else {
+            self.current_health -= amt;
+        }
+    }
 }
 
 pub fn calculate_damage(
@@ -100,5 +120,16 @@ impl Combat {
         self.self_block += amt;
         // TODO: Block effects
         // TODO: Juggernaut
+    }
+
+    pub fn end_turn(&mut self) {
+        // End of turn effects
+
+        // Discard every card that doesn't retain
+        // If you don't have Runic Pyramid
+
+        // Beginning of opponent's turn effects (e.g. poison)
+
+        // Apply opponent's intent
     }
 }
