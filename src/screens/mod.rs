@@ -110,6 +110,8 @@ impl State {
                 }
             }
             VisibleStates::Combat(combat) => {
+                // Can always end turn
+                actions.push(Action::EndTurn);
                 // TODO: Add potions
                 
                 // Add every playable card in hand

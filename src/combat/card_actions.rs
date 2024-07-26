@@ -33,6 +33,9 @@ impl State {
         for action in actions {
             self.process_action(action, target);
         }
+        // TODO: Apply card double-play effects
+        // TODO: Echo form
+        // TODO: Necronomicon
         // Then if the card exhausts, move it to exhaust pile
         // Otherwise, move it to the discard
         if card.card().exhausts() {
