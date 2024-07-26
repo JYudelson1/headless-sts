@@ -1,4 +1,4 @@
-use crate::utils::Number;
+use crate::{effects::Buff, utils::Number};
 
 pub enum Targets {
     All,
@@ -12,5 +12,14 @@ pub enum CardActions {
     ApplyWeak((Number, Targets)),
     Block(Number),
     Draw(u8),
-    LoseHealth(u16), // TODO: Other things cards can do
+    LoseHealth(u16),
+    AddAngerToDiscard,
+    UpgradeACardInHand,
+    UpgradeAllCardsInHand,
+    BodySlam,
+    GainTempStrength(Number),
+    ApplyBuff(Buff),
+    ExhaustRandomCard,
+    ExhaustSelectedCard,
+    ShuffleWoundIntoDraw, // TODO: Other things cards can do
 }

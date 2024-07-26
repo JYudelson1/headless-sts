@@ -1,4 +1,4 @@
-use crate::{cards::{CardActions, CardIndex}, effects::Debuff, enemies::EnemyIndex, state::State, utils::Number};
+use crate::{cards::{CardActions, CardIndex, Targets}, effects::Debuff, enemies::EnemyIndex, state::State, utils::Number};
 
 impl State {
     pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
@@ -24,6 +24,21 @@ impl State {
             }
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
+            CardActions::AddAngerToDiscard => todo!(),
+            CardActions::UpgradeACardInHand => todo!(),
+            CardActions::UpgradeAllCardsInHand => todo!(),
+            CardActions::BodySlam => {
+                let damage_amt = self.get_combat().self_block;
+                self.damage_enemy(damage_amt, Targets::One, target);
+            },
+            CardActions::GainTempStrength(_) => todo!(),
+            CardActions::ExhaustRandomCard => todo!(),
+            CardActions::ExhaustSelectedCard => todo!(),
+            CardActions::ShuffleWoundIntoDraw => todo!(),
+            CardActions::ApplyBuff(buff) => {
+                // TODO: Are there relics or powers that interact here?
+                self.get_combat().self_effects.apply_buff(buff);
+            },
         }
     }
 
