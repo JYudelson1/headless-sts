@@ -15,27 +15,27 @@ impl CardName {
     pub fn random_common(character: Character) -> Self {
         match character {
             Character::Ironclad => Self::random_from(Self::ironclad_commons()),
-            Character::Silent => todo!(),
-            Character::Defect => todo!(),
-            Character::Watcher => todo!(),
+            Character::Silent => Self::random_from(Self::silent_commons()),
+            Character::Defect => Self::random_from(Self::defect_commons()),
+            Character::Watcher => Self::random_from(Self::watcher_commons()),
         }
     }
 
     pub fn random_uncommon(character: Character) -> Self {
         match character {
             Character::Ironclad => Self::random_from(Self::ironclad_uncommons()),
-            Character::Silent => todo!(),
-            Character::Defect => todo!(),
-            Character::Watcher => todo!(),
+            Character::Silent => Self::random_from(Self::silent_uncommons()),
+            Character::Defect => Self::random_from(Self::defect_uncommons()),
+            Character::Watcher => Self::random_from(Self::watcher_uncommons()),
         }
     }
 
     pub fn random_rare(character: Character) -> Self {
         match character {
             Character::Ironclad => Self::random_from(Self::ironclad_rares()),
-            Character::Silent => todo!(),
-            Character::Defect => todo!(),
-            Character::Watcher => todo!(),
+            Character::Silent => Self::random_from(Self::silent_rares()),
+            Character::Defect => Self::random_from(Self::defect_rares()),
+            Character::Watcher => Self::random_from(Self::watcher_rares()),
         }
     }
 
