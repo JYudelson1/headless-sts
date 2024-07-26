@@ -218,7 +218,7 @@ pub enum Relic {
     RegalPillow,            // NOT IMPLEMENTED
     SmilingMask,            // NOT IMPLEMENTED
     Strawberry,             // IMPLEMENTED
-    TheBoot,                // NOT IMPLEMENTED
+    TheBoot,                // IMPLEMENTED
     TinyChest(u8),          // NOT IMPLEMENTED
     ToyOrnithopter,         // NOT IMPLEMENTED
     Vajra,                  // NOT IMPLEMENTED
