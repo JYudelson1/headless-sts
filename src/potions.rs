@@ -1,9 +1,11 @@
+#[derive(Debug)]
 pub enum Potion {
     BlockPotion,
     StrengthPotion,
     // TODO: add the rest
 }
 
+#[derive(Debug)]
 pub struct PotionBag {
     capacity: usize,
     potions: Vec<Potion>,

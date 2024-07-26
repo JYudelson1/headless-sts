@@ -1,5 +1,6 @@
 use crate::{relics::{Relic, Relics}, utils::number_between};
 
+#[derive(Debug)]
 pub struct Chest {
     gold: u32,
     size: ChestType,
@@ -18,6 +19,7 @@ impl Chest {
     }
 }
 
+#[derive(Debug)]
 pub enum ChestType {
     Small,
     Medium,
@@ -91,12 +93,14 @@ impl ChestType {
     }
 }
 
+#[derive(Debug)]
 pub enum ChestRelicType {
     None,
     Relic(Relic),
     RelicOrKey(Relic),
 }
 
+#[derive(Debug)]
 enum ChestRelicRarity {
     Common,
     Uncommon,

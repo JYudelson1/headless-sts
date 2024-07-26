@@ -20,6 +20,7 @@ use crate::{
     utils::Key,
 };
 
+#[derive(Debug)]
 pub enum VisibleStates {
     Reward(RewardsScreen),
     CardReward(Vec<CardReward>),

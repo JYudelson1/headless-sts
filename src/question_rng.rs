@@ -1,5 +1,6 @@
 use crate::relics::Relics;
 
+#[derive(Debug)]
 pub struct QuestionMarkRng {
     fight_chance: f32,
     treasure_chance: f32,

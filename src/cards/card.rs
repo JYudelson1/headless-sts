@@ -91,7 +91,7 @@ pub enum CardType {
     Curse,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum CardName {
     Strike,
     Defend,

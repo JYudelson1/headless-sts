@@ -2,8 +2,10 @@ use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics:
 
 use super::VisibleStates;
 
+#[derive(Debug)]
 pub struct RewardsScreen(pub Vec<Reward>);
 
+#[derive(Debug)]
 pub enum Reward {
     Gold(u32),
     Relic(Relic),
@@ -11,6 +13,7 @@ pub enum Reward {
     CardReward(CombatType),
 }
 
+#[derive(Debug)]
 pub struct CardReward {
     pub card: CardName,
     pub is_upgraded: bool,

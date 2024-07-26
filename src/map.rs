@@ -30,28 +30,28 @@ impl RoomType {
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Act1Boss {
     SlimeBoss,
     Guardian,
     Hexaghost,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Act2Boss {
     Champ,
     Collector,
     Automaton,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Act3Boss {
     AwakenedOne,
     DonuAndDeca,
     TimeEater,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Boss {
     Act1(Act1Boss),
     Act2(Act2Boss),
@@ -124,7 +124,7 @@ impl RoomNode {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Map {
     paths: [[bool; 19]; 14],
     rooms: [[Option<RoomType>; 7]; 15],

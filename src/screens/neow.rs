@@ -8,7 +8,7 @@ use crate::{
 
 use super::VisibleStates;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum FirstBlessing {
     Remove,
     Transform,
@@ -33,7 +33,7 @@ impl FirstBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum SecondBlessing {
     MaxHP,
     NeowsLament,
@@ -56,7 +56,7 @@ impl SecondBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum ThirdUpside {
     Remove2,
     Transform2,
@@ -81,7 +81,7 @@ impl ThirdUpside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum ThirdDownside {
     LoseMaxHealth,
     RandomCurse,
@@ -102,7 +102,7 @@ impl ThirdDownside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct ThirdBlessing {
     pub upside: ThirdUpside,
     pub downside: ThirdDownside,
@@ -127,7 +127,7 @@ impl ThirdBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum NeowsBlessing {
     First(FirstBlessing),
     Second(SecondBlessing),

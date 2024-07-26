@@ -67,7 +67,7 @@ pub enum Act {
     Act3,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum Character {
     Ironclad,
     Silent,
@@ -75,13 +75,14 @@ pub enum Character {
     Watcher,
 }
 
-#[derive(Clone, Copy, Hash, PartialEq, Eq)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Debug)]
 pub enum Key {
     Ruby,
     Emerald,
     Sapphire,
 }
 
+#[derive(Debug)]
 pub struct Keys(pub HashSet<Key>);
 
 impl Keys {

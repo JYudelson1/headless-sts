@@ -1,5 +1,6 @@
 use crate::utils::{number_between, Character};
 
+#[derive(Debug)]
 pub struct Relics {
     pub list: Vec<Relic>,
     common_pool: Vec<Relic>,

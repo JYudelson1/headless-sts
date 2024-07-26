@@ -10,6 +10,7 @@ use crate::{
     utils::{Act, Character, Keys, Number},
 };
 
+#[derive(Debug)]
 pub struct State {
     pub act: Act,
     // TODO: map
