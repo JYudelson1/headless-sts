@@ -27,7 +27,7 @@ pub struct State {
     pub main_deck: Vec<MasterCard>,
     pub keys: Keys,
     pub still_playing: bool,
-    question_rng: QuestionMarkRng,
+    pub question_rng: QuestionMarkRng,
 }
 
 impl State {

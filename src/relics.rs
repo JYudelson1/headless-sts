@@ -387,7 +387,7 @@ pub enum Relic {
     OddMushroom,            // NOT IMPLEMENTED
     RedMask,                // IMPLEMENTED
     SpiritPoop,             // IMPLEMENTED
-    SerpentHead,            // NOT IMPLEMENTED
+    SerpentHead,            // IMPLEMENTED
     WarpedTongs,            // NOT IMPLEMENTED
 }
 

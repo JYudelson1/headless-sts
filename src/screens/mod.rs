@@ -14,6 +14,8 @@ use crate::{
     combat::{get_enemies, Combat},
     enemies::EnemyIndex,
     map::{Map, RoomType},
+    question_rng::QuestionMark,
+    relics::Relic,
     state::State,
     utils::Key,
 };
@@ -66,6 +68,20 @@ impl State {
         self.relics.turn_on_tea_set();
     }
 
+    fn to_question_mark(&mut self) {
+        // Serpent head
+        if self.relics.contains(Relic::SerpentHead) {
+            self.gold += 50;
+        }
+
+        match self.question_rng.get_question_mark(&mut self.relics) {
+            QuestionMark::NormalFight => self.to_combat(CombatType::Normal),
+            QuestionMark::TreasureRoom => self.to_treasure(),
+            QuestionMark::Shop => todo!(),
+            QuestionMark::Event => todo!(),
+        }
+    }
+
     pub fn combat_finished(&mut self) {
         self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
     }
@@ -73,7 +89,7 @@ impl State {
     pub fn _go_to_new_room(&mut self, room: RoomType) {
         match room {
             RoomType::Monster => self.to_combat(CombatType::Normal),
-            RoomType::Event => todo!(),
+            RoomType::Event => self.to_question_mark(),
             RoomType::Elite => self.to_combat(CombatType::Elite),
             RoomType::Rest => self.to_rest(),
             RoomType::Merchant => todo!(),
