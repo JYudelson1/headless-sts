@@ -3,6 +3,7 @@ use crate::{
     utils::Number,
 };
 
+#[derive(Debug)]
 pub struct Armaments(pub bool);
 
 impl Card for Armaments {

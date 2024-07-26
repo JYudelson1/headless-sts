@@ -3,6 +3,7 @@ use crate::{
     effects::Buff,
 };
 
+#[derive(Debug)]
 pub struct Barricade(pub bool);
 
 impl Card for Barricade {

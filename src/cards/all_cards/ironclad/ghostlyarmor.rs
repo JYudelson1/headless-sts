@@ -3,6 +3,7 @@ use crate::{
     utils::Number,
 };
 
+#[derive(Debug)]
 pub struct GhostlyArmor(pub bool);
 
 impl Card for GhostlyArmor {

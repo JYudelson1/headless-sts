@@ -1,6 +1,6 @@
 use crate::{cards::CardName, relics::Relic, screens::CardReward, state::State, utils::{Act, Character}};
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum CombatType {
     Normal,
     Elite,

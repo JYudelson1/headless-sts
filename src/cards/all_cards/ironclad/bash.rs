@@ -8,6 +8,7 @@ use crate::{
     utils::Number,
 };
 
+#[derive(Debug)]
 pub struct Bash(pub bool);
 
 impl Card for Bash {

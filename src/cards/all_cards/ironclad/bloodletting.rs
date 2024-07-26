@@ -1,5 +1,6 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
 
+#[derive(Debug)]
 pub struct Bloodletting(pub bool);
 
 impl Card for Bloodletting {

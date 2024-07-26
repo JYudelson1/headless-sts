@@ -8,6 +8,7 @@ use crate::{
     utils::Number,
 };
 
+#[derive(Debug)]
 pub struct Clothesline(pub bool);
 
 impl Card for Clothesline {

@@ -8,7 +8,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 
 pub struct Strike(pub bool);
 

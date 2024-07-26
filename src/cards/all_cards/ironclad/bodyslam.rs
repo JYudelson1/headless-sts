@@ -1,5 +1,6 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
 
+#[derive(Debug)]
 pub struct BodySlam(pub bool);
 
 impl Card for BodySlam {

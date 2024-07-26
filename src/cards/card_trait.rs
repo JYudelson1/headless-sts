@@ -1,8 +1,8 @@
-use std::{cell::{Ref, RefCell, RefMut}, rc::Rc};
+use std::{cell::{Ref, RefCell, RefMut}, fmt::Debug, rc::Rc};
 
 use super::{card::CardType, card_actions::CardActions, CardName};
 
-pub trait Card {
+pub trait Card: Debug {
     fn name(&self) -> CardName;
     fn get_type(&self) -> CardType;
     fn reset(&mut self) {}
@@ -44,7 +44,7 @@ pub trait Card {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct MasterCard {
     pub card: Rc<RefCell<dyn Card>>,
     pub id: uuid::Uuid,

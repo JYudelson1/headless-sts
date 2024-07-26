@@ -1,7 +1,7 @@
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CardRewardRng,
-    cards::{make_starter_deck, MasterCard},
+    cards::{make_card, make_starter_deck, MasterCard},
     map::{Map, RoomNode},
     potions::PotionBag,
     question_rng::QuestionMarkRng,
@@ -78,8 +78,17 @@ impl State {
                     // Maybe they should be seperate actions??
                     // TODO: When skipping, should send back to reward screen
                     CardRewardChoice::Skip => (),
-                    CardRewardChoice::CardRewardIndex(_) => todo!(),
+                    CardRewardChoice::CardRewardIndex(i) => {
+                        if let VisibleStates::CardReward(cards) = &self.visible_screen {
+                            let card_reward = &cards[i];
+                            let card = make_card(card_reward.card, card_reward.is_upgraded);
+                            self.main_deck.push(card);
+                        } else {
+                            panic!("Making card choice not on CardReward screen!");
+                        }
+                    },
                 }
+                self.to_map();
             },
             Action::EndTurn => self.end_turn(),
             Action::TraverseMap(node_x) => {

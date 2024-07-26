@@ -5,6 +5,7 @@ mod card_trait;
 mod starter_decks;
 mod deck_effects;
 
+pub use all_cards::make_card;
 pub use card::CardName;
 pub use card_actions::{CardActions, Targets};
 pub use card_trait::MasterCard;
