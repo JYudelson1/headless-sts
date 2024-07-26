@@ -1,6 +1,6 @@
 use crate::{
     cards::{CardName, Targets},
-    effects::Effects,
+    effects::{Debuff, Effects},
     enemies::EnemyIndex,
     relics::Relic,
     screens::VisibleStates,
@@ -113,6 +113,32 @@ impl State {
 
         for (enemy_index, amt) in damages {
             self.direct_damage_enemy(enemy_index, amt);
+        }
+    }
+
+    fn debuff_one_enemy(&mut self, debuff: Debuff, enemy_index: EnemyIndex) {
+        let combat = self.get_combat();
+        let enemy = &mut combat.enemies[enemy_index.0];
+        enemy.effects.apply_debuff(debuff);
+    }
+
+    pub fn debuff_enemy(
+        &mut self,
+        debuff: Debuff,
+        target_type: Targets,
+        enemy_index: Option<EnemyIndex>,
+    ) {
+        // TODO: Effects that alter debuffs
+        // TODO: Champion's belt
+        let num_enemies = self.get_combat().enemies.len();
+        match target_type {
+            Targets::All => {
+                for i in 0..num_enemies {
+                    self.debuff_one_enemy(debuff, EnemyIndex(i));
+                }
+            }
+            Targets::One => self.debuff_one_enemy(debuff, enemy_index.unwrap()),
+            Targets::Random => todo!(),
         }
     }
 }

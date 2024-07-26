@@ -77,7 +77,7 @@ impl State {
                     CardRewardChoice::CardRewardIndex(_) => todo!(),
                 }
             },
-            Action::EndTurn => todo!(),
+            Action::EndTurn => self.end_turn(),
             Action::TraverseMap(node_x) => {
                 let node = RoomNode {
                     x: node_x as usize,

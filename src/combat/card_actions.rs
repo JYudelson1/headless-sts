@@ -1,4 +1,4 @@
-use crate::{cards::{CardActions, CardIndex}, enemies::EnemyIndex, state::State, utils::Number};
+use crate::{cards::{CardActions, CardIndex}, effects::Debuff, enemies::EnemyIndex, state::State, utils::Number};
 
 impl State {
     pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
@@ -6,8 +6,14 @@ impl State {
             CardActions::Damage((amt, target_type)) => {
                 self.damage_enemy(amt, target_type, target);
             }
-            CardActions::ApplyVulnerable((amt, target_type)) => todo!(),
-            CardActions::ApplyWeak((amt, target_type)) => todo!(),
+            CardActions::ApplyVulnerable((amt, target_type)) => {
+                let debuff = Debuff::Vulnerable(amt);
+                self.debuff_enemy(debuff, target_type, target);
+            },
+            CardActions::ApplyWeak((amt, target_type)) => {
+                let debuff = Debuff::Weak(amt);
+                self.debuff_enemy(debuff, target_type, target);
+            },
             CardActions::Block(mut amt) => {
                 amt += self.get_combat().self_effects.get_dexterity();
                 if self.get_combat().self_effects.is_frail() {
