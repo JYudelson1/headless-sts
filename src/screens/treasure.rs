@@ -104,7 +104,7 @@ enum ChestRelicRarity {
 }
 
 impl ChestRelicType {
-    pub fn new_random(
+    fn new_random(
         rarity: ChestRelicRarity,
         relics: &mut Relics,
         has_sapphire_key: bool,
