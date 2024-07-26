@@ -81,6 +81,22 @@ impl CardRewardRng {
 
         cards
     }
+
+    pub fn get_noncombat_choice(&mut self, num_cards: usize, act: Act) -> Vec<CardReward> {
+        // This doesn't take the offset into account
+        let inner = self.0;
+
+        let mut cards = vec![];
+
+        for _ in 0..num_cards {
+            self.0 = 0.0;
+            cards.push(self.get_one_reward(CombatType::Normal, &act));
+        }
+
+        self.0 = inner;
+
+        cards
+    }
 }
 
 impl State {

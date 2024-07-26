@@ -3,7 +3,7 @@
 use crate::{
     relics::Relic,
     state::State,
-    utils::{number_between, Character, Number},
+    utils::{number_between, Act, Character, Number},
 };
 
 use super::VisibleStates;
@@ -154,7 +154,10 @@ impl State {
                 crate::screens::FirstBlessing::Upgrade => {
                     self.visible_screen = VisibleStates::UpgradeCardScreen;
                 }
-                crate::screens::FirstBlessing::ChooseClassCard => todo!(),
+                crate::screens::FirstBlessing::ChooseClassCard => {
+                    let card_reward = self.card_rng.get_noncombat_choice(3, Act::Act1);
+                    self.visible_screen = VisibleStates::CardReward(card_reward);
+                },
                 crate::screens::FirstBlessing::ChooseUncommonColorless => todo!(),
                 crate::screens::FirstBlessing::RandomRare => todo!(),
             },
@@ -185,13 +188,32 @@ impl State {
                     crate::screens::ThirdUpside::Gold250 => self.gold += 250,
                     crate::screens::ThirdUpside::ChooseRareClassCard => todo!(),
                     crate::screens::ThirdUpside::ChooseRareColorless => todo!(),
-                    crate::screens::ThirdUpside::BigMaxHP => todo!(),
+                    crate::screens::ThirdUpside::BigMaxHP => {
+                        let amt = match self.character {
+                            Character::Ironclad => 16,
+                            Character::Silent => 12,
+                            Character::Defect => 14,
+                            Character::Watcher => 14,
+                        };
+                        self.max_health += Number(amt);
+                    },
                 }
 
                 match bless.downside {
-                    crate::screens::ThirdDownside::LoseMaxHealth => todo!(),
+                    crate::screens::ThirdDownside::LoseMaxHealth => {
+                        let amt = match self.character {
+                            Character::Ironclad => 8,
+                            Character::Silent => 7,
+                            Character::Defect => 7,
+                            Character::Watcher => 7,
+                        };
+                        self.max_health -= Number(amt);
+                    },
                     crate::screens::ThirdDownside::RandomCurse => todo!(),
-                    crate::screens::ThirdDownside::TakeDamage => todo!(),
+                    crate::screens::ThirdDownside::TakeDamage => {
+                        let amt = ((self.current_health as f32 / 10.0).floor() * 3.0).floor() as u16;
+                        self.current_health -= amt;
+                    },
                     crate::screens::ThirdDownside::LoseAllGold => self.gold = 0,
                 }
             }
