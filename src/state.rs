@@ -13,7 +13,6 @@ use crate::{
 #[derive(Debug)]
 pub struct State {
     pub act: Act,
-    // TODO: map
     pub visible_screen: VisibleStates,
     pub card_rng: CardRewardRng,
     pub potions: PotionBag,
@@ -40,7 +39,6 @@ impl State {
             potions: PotionBag::new(ascension),
             map: Map::new(Act::Act1, ascension),
             ascension,
-            //TODO: non-ironclad
             max_health: Number(80),
             current_health: if ascension >= 6 { 72 } else { 80 },
             gold: 99,
@@ -130,6 +128,5 @@ impl State {
             },
         }
 
-        // TODO: Figure out what state to change to after applying action
     }
 }

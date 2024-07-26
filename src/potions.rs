@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use crate::{combat::Combat, effects::Buff, state::State, utils::Number};
+
+#[derive(Debug, Clone, Copy)]
 pub enum Potion {
     BlockPotion,
     StrengthPotion,
@@ -27,5 +29,44 @@ impl PotionBag {
 
     pub fn increase_size(&mut self, added_slots: usize) {
         self.capacity += added_slots;
+    }
+
+    pub fn len(&self) -> usize {
+        self.potions.len()
+    }
+
+    pub fn remove_potion(&mut self, index: usize) -> Potion {
+        self.potions.remove(index)
+    }
+}
+
+impl Combat {
+    pub fn use_combat_potion(&mut self, potion: Potion) {
+        match potion {
+            Potion::BlockPotion => self.self_block += Number(12),
+            Potion::StrengthPotion => self.self_effects.apply_buff(Buff::Strength(Number(2))),
+        }
+    }
+}
+
+impl State {
+    fn use_non_combat_potion(&mut self, potion: Potion) -> bool {
+        match potion {
+            _ => false,
+        }
+    }
+
+    pub fn use_potion(&mut self, index: usize) {
+        let potion = self.potions.remove_potion(index);
+
+        let potion_used = self.use_non_combat_potion(potion);
+
+        if !potion_used {
+            self.get_combat().use_combat_potion(potion)
+        }
+    }
+
+    pub fn discard_potion(&mut self, index: usize) {
+        self.potions.remove_potion(index);
     }
 }

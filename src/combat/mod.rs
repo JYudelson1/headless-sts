@@ -22,12 +22,12 @@ use rand::seq::SliceRandom;
 
 #[derive(Debug)]
 pub struct Combat {
-    self_effects: Effects,
+    pub self_effects: Effects,
     enemies: Vec<ConcreteEnemy>,
     turn: u16,
     pub current_energy: u8,
     max_energy: u8,
-    self_block: Number,
+    pub self_block: Number,
     pub combat_type: CombatType,
     deck: Vec<MasterCard>,
     pub hand: Vec<MasterCard>,
@@ -178,7 +178,7 @@ impl State {
         // Beginning of opponent's turn effects (e.g. poison)
         self.begin_enemy_turn();
         // TODO: All timed debuffs should go down
-        
+
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
         // Apply opponent's intent
