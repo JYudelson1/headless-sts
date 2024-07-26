@@ -1,3 +1,7 @@
+use rand::seq::SliceRandom;
+
+use crate::utils::Character;
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum CardName {
     Strike,
@@ -8,16 +12,83 @@ pub enum CardName {
 }
 
 impl CardName {
-    pub fn random_common() -> Self {
-        todo!()
+    pub fn random_common(character: Character) -> Self {
+        match character {
+            Character::Ironclad => Self::random_from(Self::ironclad_commons()),
+            Character::Silent => todo!(),
+            Character::Defect => todo!(),
+            Character::Watcher => todo!(),
+        }
     }
 
-    pub fn random_uncommon() -> Self {
-        todo!()
+    pub fn random_uncommon(character: Character) -> Self {
+        match character {
+            Character::Ironclad => Self::random_from(Self::ironclad_uncommons()),
+            Character::Silent => todo!(),
+            Character::Defect => todo!(),
+            Character::Watcher => todo!(),
+        }
     }
 
-    pub fn random_rare() -> Self {
-        todo!()
+    pub fn random_rare(character: Character) -> Self {
+        match character {
+            Character::Ironclad => Self::random_from(Self::ironclad_rares()),
+            Character::Silent => todo!(),
+            Character::Defect => todo!(),
+            Character::Watcher => todo!(),
+        }
+    }
+
+    fn random_from(pool: Vec<Self>) -> Self {
+        *pool.choose(&mut rand::thread_rng()).unwrap()
+    }
+
+    fn ironclad_commons() -> Vec<Self> {
+        vec![CardName::ShrugItOff]
+    }
+
+    fn ironclad_uncommons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn ironclad_rares() -> Vec<Self> {
+        vec![]
+    }
+
+    fn silent_commons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn silent_uncommons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn silent_rares() -> Vec<Self> {
+        vec![]
+    }
+
+    fn defect_commons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn defect_uncommons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn defect_rares() -> Vec<Self> {
+        vec![]
+    }
+
+    fn watcher_commons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn watcher_uncommons() -> Vec<Self> {
+        vec![]
+    }
+
+    fn watcher_rares() -> Vec<Self> {
+        vec![]
     }
 }
 

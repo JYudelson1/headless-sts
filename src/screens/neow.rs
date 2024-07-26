@@ -155,7 +155,7 @@ impl State {
                     self.visible_screen = VisibleStates::UpgradeCardScreen;
                 }
                 crate::screens::FirstBlessing::ChooseClassCard => {
-                    let card_reward = self.card_rng.get_noncombat_choice(3, Act::Act1);
+                    let card_reward = self.card_rng.get_noncombat_choice(3, Act::Act1, self.character);
                     self.visible_screen = VisibleStates::CardReward(card_reward);
                 },
                 crate::screens::FirstBlessing::ChooseUncommonColorless => todo!(),

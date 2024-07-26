@@ -1,4 +1,4 @@
-use crate::{cards::CardName, relics::Relic, screens::CardReward, state::State, utils::Act};
+use crate::{cards::CardName, relics::Relic, screens::CardReward, state::State, utils::{Act, Character}};
 
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum CombatType {
@@ -23,11 +23,16 @@ impl CardRewardRng {
         *self = Self::new();
     }
 
-    fn get_one_reward(&mut self, combat_type: CombatType, act: &Act) -> CardReward {
+    fn get_one_reward(
+        &mut self,
+        combat_type: CombatType,
+        act: &Act,
+        character: Character,
+    ) -> CardReward {
         if matches!(combat_type, CombatType::Boss) {
             self.reset();
             return CardReward {
-                card: CardName::random_rare(),
+                card: CardName::random_rare(character),
                 is_upgraded: false,
             };
         }
@@ -46,12 +51,12 @@ impl CardRewardRng {
 
         let card = if rng < common {
             self.increase();
-            CardName::random_common()
+            CardName::random_common(character)
         } else if rng < common + uncommon {
-            CardName::random_uncommon()
+            CardName::random_uncommon(character)
         } else {
             self.reset();
-            CardName::random_rare()
+            CardName::random_rare(character)
         };
 
         // TODO: Change upgraded card odds after A12
@@ -72,17 +77,23 @@ impl CardRewardRng {
         num_cards: usize,
         combat_type: CombatType,
         act: &Act,
+        character: Character,
     ) -> Vec<CardReward> {
         let mut cards = vec![];
 
         for _ in 0..num_cards {
-            cards.push(self.get_one_reward(combat_type, act));
+            cards.push(self.get_one_reward(combat_type, act, character));
         }
 
         cards
     }
 
-    pub fn get_noncombat_choice(&mut self, num_cards: usize, act: Act) -> Vec<CardReward> {
+    pub fn get_noncombat_choice(
+        &mut self,
+        num_cards: usize,
+        act: Act,
+        character: Character,
+    ) -> Vec<CardReward> {
         // This doesn't take the offset into account
         let inner = self.0;
 
@@ -90,7 +101,7 @@ impl CardRewardRng {
 
         for _ in 0..num_cards {
             self.0 = 0.0;
-            cards.push(self.get_one_reward(CombatType::Normal, &act));
+            cards.push(self.get_one_reward(CombatType::Normal, &act, character));
         }
 
         self.0 = inner;
@@ -108,6 +119,6 @@ impl State {
         if self.relics.contains(Relic::QuestionCard) {
             num_cards += 1;
         }
-        self.card_rng.get_rewards(num_cards, combat_type, &self.act)
+        self.card_rng.get_rewards(num_cards, combat_type, &self.act, self.character)
     }
 }
