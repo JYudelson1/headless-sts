@@ -93,4 +93,16 @@ impl Combat {
             _ => (),
         }
     }
+
+    fn _end_of_turn_relic(&mut self, relic: &mut Relic) {
+        match relic {
+            Relic::FrozenCore => todo!(),
+            Relic::Orichalcum => {
+                if self.self_block == Number(0) {
+                    self.gain_block(Number(6));
+                }
+            }
+            _ => (),
+        }
+    }
 }

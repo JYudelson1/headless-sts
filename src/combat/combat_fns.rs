@@ -95,4 +95,10 @@ impl Combat {
             self.draw_1();
         }
     }
+
+    pub fn gain_block(&mut self, amt: Number) {
+        self.self_block += amt;
+        // TODO: Block effects
+        // TODO: Juggernaut
+    }
 }

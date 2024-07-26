@@ -211,7 +211,7 @@ pub enum Relic {
     Nunchaku(u8),           // NOT IMPLEMENTED
     SmoothStone,            // IMPLEMENTED
     Omamori(u8),            // NOT IMPLEMENTED
-    Orichalcum,             // NOT IMPLEMENTED
+    Orichalcum,             // IMPLEMENTED
     PenNib(u8),             // NOT IMPLEMENTED
     PotionBelt,             // IMPLEMENTED
     PreservedInsect,        // NOT IMPLEMENTED
