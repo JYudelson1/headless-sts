@@ -4,6 +4,7 @@ use crate::{
     cards::{make_starter_deck, MasterCard},
     map::{Map, RoomNode},
     potions::PotionBag,
+    question_rng::QuestionMarkRng,
     relics::Relics,
     screens::VisibleStates,
     utils::{Act, Character, Keys, Number},
@@ -26,6 +27,7 @@ pub struct State {
     pub main_deck: Vec<MasterCard>,
     pub keys: Keys,
     pub still_playing: bool,
+    question_rng: QuestionMarkRng,
 }
 
 impl State {
@@ -47,6 +49,7 @@ impl State {
             main_deck: make_starter_deck(character),
             keys: Keys::new(),
             still_playing: true,
+            question_rng: QuestionMarkRng::new()
         }
     }
 

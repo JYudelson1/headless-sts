@@ -6,6 +6,7 @@ mod effects;
 mod enemies;
 mod map;
 mod potions;
+mod question_rng;
 mod relic_pickup;
 mod relics;
 mod screens;

@@ -181,6 +181,29 @@ impl Relics {
             }
         }
     }
+
+    pub fn tiny_chest_is_on(&self) -> bool {
+        for relic in &self.list {
+            if let Relic::TinyChest(inner) = relic {
+                if *inner == 3 {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
+    pub fn increase_tiny_chest(&mut self) {
+        for relic in &mut self.list {
+            if let Relic::TinyChest(inner) = relic {
+                if *inner == 3 {
+                    *inner = 0
+                } else {
+                    *inner += 1
+                }
+            }
+        }
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
@@ -202,7 +225,7 @@ pub enum Relic {
     CeramicFish,            // NOT IMPLEMENTED
     Dreamcatcher,           // NOT IMPLEMENTED
     HappyFlower(u8),        // NOT IMPLEMENTED
-    JuzuBracelet,           // NOT IMPLEMENTED
+    JuzuBracelet,           // IMPLEMENTED
     Lantern,                // IMPLEMENTED
     MawBank(bool),          // NOT IMPLEMENTED
     MealTicket,             // NOT IMPLEMENTED
@@ -217,7 +240,7 @@ pub enum Relic {
     SmilingMask,            // NOT IMPLEMENTED
     Strawberry,             // IMPLEMENTED
     TheBoot,                // IMPLEMENTED
-    TinyChest(u8),          // NOT IMPLEMENTED
+    TinyChest(u8),          // IMPLEMENTED
     ToyOrnithopter,         // NOT IMPLEMENTED
     Vajra,                  // NOT IMPLEMENTED
     WarPaint,               // NOT IMPLEMENTED
