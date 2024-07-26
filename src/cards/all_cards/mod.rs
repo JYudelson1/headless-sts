@@ -1,4 +1,5 @@
 mod bash;
+mod carnage;
 mod cleave;
 mod clothesline;
 mod defend;
@@ -9,6 +10,7 @@ mod void;
 use std::{cell::RefCell, rc::Rc};
 
 pub use bash::Bash;
+pub use carnage::Carnage;
 pub use cleave::Cleave;
 pub use clothesline::Clothesline;
 pub use defend::Defend;
@@ -30,6 +32,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::ShrugItOff => Rc::new(RefCell::new(ShrugItOff(upgraded))),
         CardName::Cleave => Rc::new(RefCell::new(Cleave(upgraded))),
         CardName::Clothesline => Rc::new(RefCell::new(Clothesline(upgraded))),
+        CardName::Carnage => Rc::new(RefCell::new(Carnage(upgraded))),
     };
     MasterCard {
         card,

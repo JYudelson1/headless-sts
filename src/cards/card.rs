@@ -39,7 +39,7 @@ impl CardName {
     }
 
     fn ironclad_uncommons() -> Vec<Self> {
-        vec![]
+        vec![CardName::Carnage]
     }
 
     fn ironclad_rares() -> Vec<Self> {
@@ -100,4 +100,5 @@ pub enum CardName {
     ShrugItOff,
     Cleave,
     Clothesline,
+    Carnage,
 }
