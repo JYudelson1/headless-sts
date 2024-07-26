@@ -86,6 +86,12 @@ impl State {
         self.enemy_lose_hp(enemy_index, amt)
     }
 
+    fn attack_damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+        // TODO: Check for thorns
+
+        self.direct_damage_enemy(enemy_index, amt);
+    }
+
     pub fn damage_enemy(
         &mut self,
         damage_amt: Number,
@@ -112,7 +118,7 @@ impl State {
         }
 
         for (enemy_index, amt) in damages {
-            self.direct_damage_enemy(enemy_index, amt);
+            self.attack_damage_enemy(enemy_index, amt);
         }
     }
 
