@@ -41,6 +41,10 @@ impl State {
         let actions = card.card_mut().play();
         for action in actions {
             self.process_action(action, target);
+            // Stop early if the combat finished
+            if !self.is_in_combat() {
+                return;
+            }
         }
         // TODO: Apply card double-play effects
         // TODO: Echo form

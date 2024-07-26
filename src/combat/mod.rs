@@ -149,6 +149,10 @@ impl State {
         }
     }
 
+    pub fn is_in_combat(&self) -> bool {
+        matches!(self.visible_screen, VisibleStates::Combat(_))
+    }
+
     pub fn end_turn_effects(&mut self) {
         if let VisibleStates::Combat(combat) = &mut self.visible_screen {
             for relic in &mut self.relics.list {
