@@ -1,9 +1,5 @@
 // TODO: Figure out whether to have different blessings if you die early
 
-use core::num;
-
-use rand::Rng;
-
 use crate::{
     relics::Relic,
     state::State,

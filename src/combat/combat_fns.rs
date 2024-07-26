@@ -226,9 +226,17 @@ impl Combat {
         let hand_size = self.hand.len();
 
         for i in (0..hand_size).rev() {
-            if !self.hand[i].card().retains() {
+            // If the card is ethereal, exhaust it
+            if self.hand[i].card().is_ethereal() {
+                self.exhaust.push(self.hand.remove(i));
+            } else if !self.hand[i].card().retains() {
+                // Else discard if not retained
                 self.discard.push(self.hand.remove(i));
+            } {
+                
             }
+
+            
         }
     }
 
