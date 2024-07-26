@@ -221,4 +221,14 @@ impl Combat {
         // TODO: Block effects
         // TODO: Juggernaut
     }
+
+    pub fn discard_hand_end_of_turn(&mut self) {
+        let hand_size = self.hand.len();
+
+        for i in (0..hand_size).rev() {
+            if !self.hand[i].card().retains() {
+                self.discard.push(self.hand.remove(i));
+            }
+        }
+    }
 }

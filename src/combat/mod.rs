@@ -161,6 +161,9 @@ impl State {
         self.end_turn_effects();
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
+        if !self.relics.contains(Relic::RunicPyramid) {
+            self.get_combat().discard_hand_end_of_turn();
+        }
 
         // Beginning of opponent's turn effects (e.g. poison)
 

@@ -332,7 +332,7 @@ pub enum Relic {
     PandorasBox,            // NOT IMPLEMENTED
     PhilosophersStone,      // PARTIALLY IMPLEMENTED
     RunicDome,              // PARTIALLY IMPLEMENTED
-    RunicPyramid,           // NOT IMPLEMENTED
+    RunicPyramid,           // IMPLEMENTED
     SacredBark,             // NOT IMPLEMENTED
     SlaversCollar,          // PARTIALLY IMPLEMENTED
     SneckoEye,              // NOT IMPLEMENTED
