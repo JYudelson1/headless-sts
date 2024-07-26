@@ -18,7 +18,7 @@ pub mod claw;
 pub mod compiledriver;
 pub mod consume;
 pub mod coresurge;
-pub mod creativeaI;
+pub mod creativeai;
 pub mod darkness;
 pub mod defragment;
 pub mod doomandgloom;
@@ -67,3 +67,5 @@ pub mod thunderstrike;
 pub mod turbo;
 pub mod whitenoise;
 pub mod zap;
+
+//TODO: Make sure this is exhaustive
