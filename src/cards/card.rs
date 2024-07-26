@@ -2,15 +2,6 @@ use rand::seq::SliceRandom;
 
 use crate::utils::Character;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub enum CardName {
-    Strike,
-    Defend,
-    Bash,
-    Void,
-    ShrugItOff,
-}
-
 impl CardName {
     pub fn random_common(character: Character) -> Self {
         match character {
@@ -44,7 +35,7 @@ impl CardName {
     }
 
     fn ironclad_commons() -> Vec<Self> {
-        vec![CardName::ShrugItOff]
+        vec![CardName::ShrugItOff, CardName::Cleave, CardName::Clothesline]
     }
 
     fn ironclad_uncommons() -> Vec<Self> {
@@ -98,4 +89,15 @@ pub enum CardType {
     Skill,
     Status,
     Curse,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum CardName {
+    Strike,
+    Defend,
+    Bash,
+    Void,
+    ShrugItOff,
+    Cleave,
+    Clothesline,
 }
