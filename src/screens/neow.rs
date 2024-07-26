@@ -208,6 +208,9 @@ impl State {
                             Character::Watcher => 7,
                         };
                         self.max_health -= Number(amt);
+                        if self.current_health > self.max_health.0 as u16 {
+                            self. current_health = self.max_health.0 as u16;
+                        }
                     },
                     crate::screens::ThirdDownside::RandomCurse => todo!(),
                     crate::screens::ThirdDownside::TakeDamage => {

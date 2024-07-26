@@ -132,6 +132,8 @@ impl State {
         // Other start turn relic effects
         self.start_every_turn_effects();
 
+        // TODO: All timed debuffs should go down
+
         // TODO: Start of turn power effects
 
         // Set energy equal to max
@@ -175,6 +177,8 @@ impl State {
 
         // Beginning of opponent's turn effects (e.g. poison)
         self.begin_enemy_turn();
+        // TODO: All timed debuffs should go down
+        
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
         // Apply opponent's intent
