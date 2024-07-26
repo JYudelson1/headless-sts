@@ -17,11 +17,20 @@ pub struct ConcreteEnemy {
     pub current_block: Number,
     inner: Box<dyn Enemy>,
     pub enemy_type: EnemyType,
+    ascension: u8,
 }
 
 impl ConcreteEnemy {
     pub fn is_dead(&self) -> bool {
         self.current_hp == 0
+    }
+
+    pub fn get_intent(&self) -> EnemyIntent {
+        self.inner.get_current_intent()
+    }
+
+    pub fn next_intent(&mut self) {
+        self.inner.next_intent(self.ascension)
     }
 }
 

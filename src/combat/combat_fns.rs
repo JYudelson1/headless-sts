@@ -231,4 +231,12 @@ impl Combat {
             }
         }
     }
+
+    pub fn block_goes_away(&mut self) {
+        if self.has_relic(&Relic::Calipers) && self.self_block.0 > 15 {
+            self.self_block -= Number(15)
+        } else {
+            self.self_block = Number(0)
+        }
+    }
 }

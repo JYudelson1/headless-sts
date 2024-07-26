@@ -121,7 +121,8 @@ impl State {
         let turn = combat.turn;
 
         // Lose all block
-        // TODO: Except with calipers
+        // Except with calipers
+        self.get_combat().block_goes_away();
 
         // Start of combat relics
         if turn == 1 {

@@ -107,6 +107,7 @@ impl JawWorm {
             current_block: Number(0),
             inner: Box::new(jawworm),
             enemy_type: EnemyType::JawWorm,
+            ascension: ascension
         }
     }
 }
