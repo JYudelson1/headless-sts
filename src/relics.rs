@@ -147,7 +147,7 @@ impl Relics {
         if pool.is_empty() {
             return Relic::Circlet;
         }
-        let index = number_between(0, pool.len());
+        let index = number_between(0, pool.len() - 1);
         pool.remove(index)
     }
 
