@@ -5,6 +5,7 @@ use crate::{
 
 use super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
+#[derive(Debug)]
 pub struct JawWorm {
     intent: EnemyIntent,
     intent_history: [Option<JawWormAttacks>; 2],
@@ -43,7 +44,7 @@ impl Enemy for JawWorm {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 enum JawWormAttacks {
     Bellow(Number, Number),
     Chomp(Number),

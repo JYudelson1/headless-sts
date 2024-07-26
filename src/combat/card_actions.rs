@@ -1,9 +1,11 @@
-use crate::{cards::{CardActions, CardIndex}, enemies::EnemyIndex, screens::VisibleStates, state::State, utils::Number};
+use crate::{cards::{CardActions, CardIndex}, enemies::EnemyIndex, state::State, utils::Number};
 
 impl State {
     pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
         match action {
-            CardActions::Damage((amt, target_type)) => todo!(),
+            CardActions::Damage((amt, target_type)) => {
+                self.damage_enemy(amt, target_type, target);
+            }
             CardActions::ApplyVulnerable((amt, target_type)) => todo!(),
             CardActions::ApplyWeak((amt, target_type)) => todo!(),
             CardActions::Block(mut amt) => {

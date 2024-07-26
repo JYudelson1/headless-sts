@@ -3,6 +3,7 @@ use crate::utils::Number;
 pub enum Targets {
     All,
     One,
+    Random,
 }
 
 pub enum CardActions {

@@ -9,6 +9,7 @@ mod enemy_trait;
 
 pub mod jawworm;
 
+#[derive(Debug)]
 pub struct ConcreteEnemy {
     pub effects: Effects,
     pub max_hp: u16,
@@ -27,7 +28,7 @@ impl ConcreteEnemy {
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct EnemyIndex(pub usize);
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum EnemyIntent {
     Damage(Number),
     MultiAttack((Number, u16)),
@@ -39,6 +40,7 @@ pub enum EnemyIntent {
     BuffAndBlock(Buff, Number),
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EnemyType {
     JawWorm,
     Louse,

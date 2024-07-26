@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use crate::{relics::Relic, utils::Number};
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Effects {
     strength: Option<Number>,
     dexterity: Option<Number>,
@@ -108,7 +108,7 @@ impl Effects {
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Buff {
     Strength(Number),
     Focus(Number),
@@ -117,7 +117,7 @@ pub enum Buff {
     Intangible(Number),
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum Debuff {
     Weak(Number),
     Vulnerable(Number),

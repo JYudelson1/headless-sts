@@ -1,5 +1,10 @@
 use crate::{
-    cards::CardName, effects::Effects, relics::Relic, screens::VisibleStates, state::State,
+    cards::{CardName, Targets},
+    effects::Effects,
+    enemies::EnemyIndex,
+    relics::Relic,
+    screens::VisibleStates,
+    state::State,
     utils::Number,
 };
 
@@ -45,6 +50,69 @@ impl State {
             self.still_playing = false;
         } else {
             self.current_health -= amt;
+        }
+    }
+
+    pub fn enemy_lose_hp(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+        let has_the_boot = self.relics.contains(Relic::TheBoot);
+        let combat = self.get_combat();
+        let enemy = &mut combat.enemies[enemy_index.0];
+        if enemy.effects.is_intangible() {
+            amt = 1;
+        }
+        if has_the_boot && amt < 5 {
+            amt = 5;
+        }
+
+        if amt <= enemy.current_hp {
+            enemy.current_hp -= amt;
+        } else {
+            enemy.current_hp = 0;
+        }
+        self.maybe_end_combat();
+    }
+
+    fn direct_damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+        let combat = self.get_combat();
+        let enemy = &mut combat.enemies[enemy_index.0];
+
+        if amt < enemy.current_block.0 as u16 {
+            enemy.current_block -= Number(amt as i16);
+        } else {
+            amt -= enemy.current_block.0 as u16;
+            enemy.current_block = Number(0);
+        }
+
+        self.enemy_lose_hp(enemy_index, amt)
+    }
+
+    pub fn damage_enemy(
+        &mut self,
+        damage_amt: Number,
+        target_type: Targets,
+        target: Option<EnemyIndex>,
+    ) {
+        let self_effects = &self.get_combat().self_effects.clone();
+        let enemies = &self.get_combat().enemies;
+        let mut damages: Vec<(EnemyIndex, u16)> = vec![];
+        match target_type {
+            Targets::All => {
+                // Calculate damage and apply it for each enemy individually, in order
+                for (i, enemy) in enemies.iter().enumerate() {
+                    let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                    damages.push((EnemyIndex(i), total_damage.0 as u16))
+                }
+            }
+            Targets::One => {
+                let enemy = &enemies[target.unwrap().0];
+                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                damages.push((target.unwrap(), total_damage.0 as u16))
+            }
+            Targets::Random => todo!(),
+        }
+
+        for (enemy_index, amt) in damages {
+            self.direct_damage_enemy(enemy_index, amt);
         }
     }
 }

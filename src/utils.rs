@@ -9,7 +9,7 @@ use rand::{
     Rng,
 };
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Number(pub i16);
 
 impl Number {

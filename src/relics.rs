@@ -185,7 +185,7 @@ impl Relics {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
 pub enum Relic {
     Circlet,                // IMPLEMENTED
     BurningBlood,           // IMPLEMENTED
