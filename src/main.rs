@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod actions;
 mod cardrewardrng;
 mod cards;

@@ -76,6 +76,7 @@ impl State {
                     // TODO: This should send to map in the case of a whale bonus
                     // Or a dreamcatcher card reward
                     // Maybe they should be seperate actions??
+                    // TODO: When skipping, should send back to reward screen
                     CardRewardChoice::Skip => (),
                     CardRewardChoice::CardRewardIndex(_) => todo!(),
                 }
