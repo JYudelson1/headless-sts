@@ -331,65 +331,65 @@ pub enum Relic {
     MedKit,            // NOT IMPLEMENTED
     MembershipCard,    // NOT IMPLEMENTED
     // TODO: Figure out pellets
-    OrangePellets,          // NOT IMPLEMENTED
-    Orrery,                 // NOT IMPLEMENTED
-    PrismaticShard,         // NOT IMPLEMENTED
-    SlingOfCourage,         // NOT IMPLEMENTED
-    StrangeSpoon,           // NOT IMPLEMENTED
-    Abacus,                 // NOT IMPLEMENTED
-    Toolkit,                // NOT IMPLEMENTED
-    Brimstone,              // NOT IMPLEMENTED
-    TwistedFunnel,          // NOT IMPLEMENTED
-    RunicCapacitor,         // PARTIALLY IMPLEMENTED
-    Melange,                // NOT IMPLEMENTED
-    Astrolabe,              // NOT IMPLEMENTED
-    BlackStar,              // NOT IMPLEMENTED
-    BrokenCrown,            // IMPLEMENTED
-    CallingBell,            // NOT IMPLEMENTED
-    CoffeeDripper,          // IMPLEMENTED
-    CursedKey,              // PARTIALLY IMPLEMENTED
-    Ectoplasm,              // PARTIALLY IMPLEMENTED
-    EmptyCage,              // NOT IMPLEMENTED
-    FusionHammer,           // IMPLEMENTED
-    PandorasBox,            // NOT IMPLEMENTED
-    PhilosophersStone,      // PARTIALLY IMPLEMENTED
-    RunicDome,              // PARTIALLY IMPLEMENTED
-    RunicPyramid,           // IMPLEMENTED
-    SacredBark,             // NOT IMPLEMENTED
-    SlaversCollar,          // PARTIALLY IMPLEMENTED
-    SneckoEye,              // NOT IMPLEMENTED
-    Sozu,                   // PARTIALLY IMPLEMENTED
-    TinyHouse,              // NOT IMPLEMENTED
-    VelvetChoker,           // PARTIALLY IMPLEMENTED
-    MarkOfPain,             // PARTIALLY IMPLEMENTED
-    BlackBlood,             // IMPLEMENTED
-    RunicCube,              // NOT IMPLEMENTED
-    RingOfTheSerpent,       // NOT IMPLEMENTED
-    WristBlade,             // NOT IMPLEMENTED
-    HoveringKite(bool),     // NOT IMPLEMENTED
-    NuclearBattery,         // PARTIALLY IMPLEMENTED
-    Inserter(bool),         // NOT IMPLEMENTED
-    FrozenCore,             // PARTIALLY IMPLEMENTED
-    HolyWater,              // PARTIALLY IMPLEMENTED
-    VioletLotus,            // NOT IMPLEMENTED
-    BloodyIdol,             // NOT IMPLEMENTED
-    CultistHeadpiece,       // IMPLEMENTED
-    Enchiridion,            // NOT IMPLEMENTED
-    ClericMask,             // NOT IMPLEMENTED
-    GoldenIdol,             // NOT IMPLEMENTED
-    GremlinVisage,          // NOT IMPLEMENTED
-    MarkOfTheBloom,         // IMPLEMENTED
-    MutagenicStrength,      // NOT IMPLEMENTED
-    NlothsGift,             // NOT IMPLEMENTED
-    NlothsHungryFace(bool), // NOT IMPLEMENTED
-    Necronomicon,           // NOT IMPLEMENTED
-    NeowsLament(u8),        // NOT IMPLEMENTED
-    NilrysCodex(u8),        // NOT IMPLEMENTED
-    OddMushroom,            // NOT IMPLEMENTED
-    RedMask,                // IMPLEMENTED
-    SpiritPoop,             // IMPLEMENTED
-    SerpentHead,            // IMPLEMENTED
-    WarpedTongs,            // NOT IMPLEMENTED
+    OrangePellets(bool, bool, bool), // NOT IMPLEMENTED
+    Orrery,                          // NOT IMPLEMENTED
+    PrismaticShard,                  // NOT IMPLEMENTED
+    SlingOfCourage,                  // NOT IMPLEMENTED
+    StrangeSpoon,                    // NOT IMPLEMENTED
+    Abacus,                          // NOT IMPLEMENTED
+    Toolkit,                         // NOT IMPLEMENTED
+    Brimstone,                       // NOT IMPLEMENTED
+    TwistedFunnel,                   // NOT IMPLEMENTED
+    RunicCapacitor,                  // PARTIALLY IMPLEMENTED
+    Melange,                         // NOT IMPLEMENTED
+    Astrolabe,                       // NOT IMPLEMENTED
+    BlackStar,                       // NOT IMPLEMENTED
+    BrokenCrown,                     // IMPLEMENTED
+    CallingBell,                     // NOT IMPLEMENTED
+    CoffeeDripper,                   // IMPLEMENTED
+    CursedKey,                       // PARTIALLY IMPLEMENTED
+    Ectoplasm,                       // PARTIALLY IMPLEMENTED
+    EmptyCage,                       // NOT IMPLEMENTED
+    FusionHammer,                    // IMPLEMENTED
+    PandorasBox,                     // NOT IMPLEMENTED
+    PhilosophersStone,               // PARTIALLY IMPLEMENTED
+    RunicDome,                       // PARTIALLY IMPLEMENTED
+    RunicPyramid,                    // IMPLEMENTED
+    SacredBark,                      // NOT IMPLEMENTED
+    SlaversCollar,                   // PARTIALLY IMPLEMENTED
+    SneckoEye,                       // NOT IMPLEMENTED
+    Sozu,                            // PARTIALLY IMPLEMENTED
+    TinyHouse,                       // NOT IMPLEMENTED
+    VelvetChoker,                    // PARTIALLY IMPLEMENTED
+    MarkOfPain,                      // PARTIALLY IMPLEMENTED
+    BlackBlood,                      // IMPLEMENTED
+    RunicCube,                       // NOT IMPLEMENTED
+    RingOfTheSerpent,                // NOT IMPLEMENTED
+    WristBlade,                      // NOT IMPLEMENTED
+    HoveringKite(bool),              // NOT IMPLEMENTED
+    NuclearBattery,                  // PARTIALLY IMPLEMENTED
+    Inserter(bool),                  // NOT IMPLEMENTED
+    FrozenCore,                      // PARTIALLY IMPLEMENTED
+    HolyWater,                       // PARTIALLY IMPLEMENTED
+    VioletLotus,                     // NOT IMPLEMENTED
+    BloodyIdol,                      // NOT IMPLEMENTED
+    CultistHeadpiece,                // IMPLEMENTED
+    Enchiridion,                     // NOT IMPLEMENTED
+    ClericMask,                      // NOT IMPLEMENTED
+    GoldenIdol,                      // NOT IMPLEMENTED
+    GremlinVisage,                   // NOT IMPLEMENTED
+    MarkOfTheBloom,                  // IMPLEMENTED
+    MutagenicStrength,               // NOT IMPLEMENTED
+    NlothsGift,                      // NOT IMPLEMENTED
+    NlothsHungryFace(bool),          // NOT IMPLEMENTED
+    Necronomicon,                    // NOT IMPLEMENTED
+    NeowsLament(u8),                 // NOT IMPLEMENTED
+    NilrysCodex(u8),                 // NOT IMPLEMENTED
+    OddMushroom,                     // NOT IMPLEMENTED
+    RedMask,                         // IMPLEMENTED
+    SpiritPoop,                      // IMPLEMENTED
+    SerpentHead,                     // IMPLEMENTED
+    WarpedTongs,                     // NOT IMPLEMENTED
 }
 
 impl Relic {
@@ -525,7 +525,7 @@ impl Relic {
             Self::LeesWaffle,
             Self::MedKit,
             Self::MembershipCard,
-            Self::OrangePellets,
+            Self::OrangePellets(false, false, false),
             Self::Orrery,
             Self::PrismaticShard,
             Self::SlingOfCourage,
