@@ -35,15 +35,15 @@ impl CardName {
     }
 
     fn ironclad_commons() -> Vec<Self> {
-        vec![CardName::ShrugItOff, CardName::Cleave, CardName::Clothesline]
+        vec![CardName::ShrugItOff, CardName::Cleave, CardName::Clothesline, CardName::Anger, CardName::Armaments, CardName::BodySlam]
     }
 
     fn ironclad_uncommons() -> Vec<Self> {
-        vec![CardName::Carnage]
+        vec![CardName::Carnage, CardName::GhostlyArmor, CardName::Bloodletting]
     }
 
     fn ironclad_rares() -> Vec<Self> {
-        vec![]
+        vec![CardName::Barricade, CardName::Bludgeon]
     }
 
     fn silent_commons() -> Vec<Self> {
@@ -101,4 +101,11 @@ pub enum CardName {
     Cleave,
     Clothesline,
     Carnage,
+    Anger,
+    GhostlyArmor,
+    Barricade,
+    Armaments,
+    Bloodletting,
+    BodySlam,
+    Bludgeon,
 }

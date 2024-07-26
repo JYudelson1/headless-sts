@@ -134,6 +134,8 @@ impl State {
         // TODO: Start of turn power effects
 
         // Set energy equal to max
+        // TODO: Think harder about this, re gaining extra energy on their turn
+        // Maybe zero out energy at end of turn, and here gain max_energy energy?
         let combat = self.get_combat();
         combat.current_energy = combat.max_energy;
 

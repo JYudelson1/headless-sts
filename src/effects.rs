@@ -86,7 +86,8 @@ impl Effects {
             Buff::Focus(amt) => self.focus = amt.add_option(self.focus),
             Buff::Thorns(amt) => self.thorns = amt.add_option(self.thorns),
             Buff::Intangible(amt) => self.intangible = amt.add_option(self.intangible),
-            Buff::Metallicize(amt) => self.metallicize = amt.add_option(self.metallicize)
+            Buff::Metallicize(amt) => self.metallicize = amt.add_option(self.metallicize),
+            Buff::Barricade => self.barricade = true,
         }
     }
 
@@ -135,6 +136,7 @@ pub enum Buff {
     Dexterity(Number),
     Intangible(Number),
     Metallicize(Number),
+    Barricade,
 }
 
 #[derive(Copy, Clone, Debug)]

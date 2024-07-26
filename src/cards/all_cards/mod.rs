@@ -21,6 +21,13 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Cleave => Rc::new(RefCell::new(ironclad::cleave::Cleave(upgraded))),
         CardName::Clothesline => Rc::new(RefCell::new(ironclad::clothesline::Clothesline(upgraded))),
         CardName::Carnage => Rc::new(RefCell::new(ironclad::carnage::Carnage(upgraded))),
+        CardName::Anger => Rc::new(RefCell::new(ironclad::anger::Anger(upgraded))),
+        CardName::GhostlyArmor => Rc::new(RefCell::new(ironclad::ghostlyarmor::GhostlyArmor(upgraded))),
+        CardName::Barricade => Rc::new(RefCell::new(ironclad::barricade::Barricade(upgraded))),
+        CardName::Armaments => Rc::new(RefCell::new(ironclad::armaments::Armaments(upgraded))),
+        CardName::Bloodletting => Rc::new(RefCell::new(ironclad::bloodletting::Bloodletting(upgraded))),
+        CardName::BodySlam => todo!(),
+        CardName::Bludgeon => Rc::new(RefCell::new(ironclad::bludgeon::Bludgeon(upgraded))),
     };
     MasterCard {
         card,

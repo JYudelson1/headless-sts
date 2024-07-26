@@ -13,7 +13,7 @@ pub enum CardActions {
     Block(Number),
     Draw(u8),
     LoseHealth(u16),
-    AddAngerToDiscard,
+    AddAngerToDiscard(bool), // bool: upgraded or not
     UpgradeACardInHand,
     UpgradeAllCardsInHand,
     BodySlam,
@@ -21,5 +21,6 @@ pub enum CardActions {
     ApplyBuff(Buff),
     ExhaustRandomCard,
     ExhaustSelectedCard,
-    ShuffleWoundIntoDraw, // TODO: Other things cards can do
+    ShuffleWoundIntoDraw,
+    GainEnergy(u8), // TODO: Other things cards can do
 }

@@ -24,7 +24,7 @@ impl State {
             }
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
-            CardActions::AddAngerToDiscard => todo!(),
+            CardActions::AddAngerToDiscard(upgraded) => todo!(),
             CardActions::UpgradeACardInHand => todo!(),
             CardActions::UpgradeAllCardsInHand => todo!(),
             CardActions::BodySlam => {
@@ -39,6 +39,7 @@ impl State {
                 // TODO: Are there relics or powers that interact here?
                 self.get_combat().self_effects.apply_buff(buff);
             },
+            CardActions::GainEnergy(amt) => self.get_combat().current_energy += amt,
         }
     }
 
