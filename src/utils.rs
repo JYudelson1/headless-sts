@@ -6,7 +6,7 @@ use std::{
 
 use rand::Rng;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord)]
 pub struct Number(pub i16);
 
 impl Number {

@@ -39,6 +39,8 @@ impl State {
             if combat.self_effects.is_intangible() {
                 amt = 1;
             }
+            // TODO: Self-forming clay
+            // TODO: Centennial puzzle
         }
 
         if amt >= self.current_health {
@@ -51,6 +53,23 @@ impl State {
         } else {
             self.current_health -= amt;
         }
+    }
+
+    pub fn damage_self(&mut self, mut amt: Number) {
+        let combat = self.get_combat();
+        if amt < combat.self_block {
+            combat.self_block -= amt;
+        } else {
+            amt -= combat.self_block;
+            combat.self_block = Number(0);
+        }
+
+        self.lose_hp(amt.0 as u16);
+    }
+
+    pub fn attack_damage_self(&mut self, amt: Number) {
+        // TODO: Are there specific thing to check for??
+        self.damage_self(amt)
     }
 
     pub fn enemy_lose_hp(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
@@ -186,6 +205,10 @@ pub fn calculate_damage(
             true => damage *= 0.6,
             false => damage *= 0.75,
         }
+    }
+
+    if damage < 0.0 {
+        damage = 0.0;
     }
 
     Number(damage.floor() as i16)

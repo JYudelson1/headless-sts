@@ -171,11 +171,11 @@ impl State {
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
         // Apply opponent's intent
-        self.get_combat().enemy_actions();
+        self.enemy_actions();
         // Change opponent's intent
         self.get_combat().cycle_enemy_intents();
         // End of enemy turn effects (e.g. metallicize)
-        todo!();
+        self.get_combat().end_enemies_turn();
         // Start your next turn
         self.start_combat_turn()
     }
