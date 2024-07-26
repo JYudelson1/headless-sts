@@ -4,10 +4,7 @@ use std::{
     ops::{Add, AddAssign, Range, Sub, SubAssign},
 };
 
-use rand::{
-    distributions::uniform::{SampleRange, SampleUniform},
-    Rng,
-};
+use rand::Rng;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Number(pub i16);

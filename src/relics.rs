@@ -1,5 +1,3 @@
-use rand::Rng;
-
 use crate::utils::{number_between, Character};
 
 pub struct Relics {

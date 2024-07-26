@@ -1,5 +1,3 @@
-use rand::Rng;
-
 use crate::{relics::{Relic, Relics}, utils::number_between};
 
 pub struct Chest {

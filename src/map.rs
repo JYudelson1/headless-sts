@@ -1,5 +1,3 @@
-use rand::Rng;
-
 use crate::utils::{number_between, Act};
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]

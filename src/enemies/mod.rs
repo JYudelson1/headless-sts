@@ -1,5 +1,4 @@
 pub use enemy_trait::Enemy;
-use rand::Rng;
 
 use crate::{
     effects::{Buff, Effects},
