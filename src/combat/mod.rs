@@ -120,6 +120,9 @@ impl State {
         combat.turn += 1;
         let turn = combat.turn;
 
+        // Lose all block
+        // TODO: Except with calipers
+
         // Start of combat relics
         if turn == 1 {
             self.start_turn_1_effects();
@@ -143,5 +146,33 @@ impl State {
         } else {
             panic!("Cannot access combat from outside of combat!")
         }
+    }
+
+    pub fn end_turn_effects(&mut self) {
+        if let VisibleStates::Combat(combat) = &mut self.visible_screen {
+            for relic in &mut self.relics.list {
+                combat._end_of_turn_relic(relic);
+            }
+        }
+    }
+
+    pub fn end_turn(&mut self) {
+        // End of turn effects
+        self.end_turn_effects();
+        // Discard every card that doesn't retain
+        // If you don't have Runic Pyramid
+
+        // Beginning of opponent's turn effects (e.g. poison)
+
+        // Enemies lose all block
+
+        // Apply opponent's intent
+
+        // Change opponent's intent
+
+        // End of enemy turn effects (e.g. metallicize)
+
+        // Start your next turn
+        self.start_combat_turn()
     }
 }

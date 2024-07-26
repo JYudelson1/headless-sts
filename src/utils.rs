@@ -1,7 +1,7 @@
 use std::{
     collections::HashSet,
     fmt::Debug,
-    ops::{Add, AddAssign, Range, Sub},
+    ops::{Add, AddAssign, Range, Sub, SubAssign},
 };
 
 use rand::{
@@ -39,6 +39,12 @@ impl Add for Number {
 impl AddAssign for Number {
     fn add_assign(&mut self, rhs: Self) {
         *self = self.clone() + rhs;
+    }
+}
+
+impl SubAssign for Number {
+    fn sub_assign(&mut self, rhs: Self) {
+        *self = self.clone() - rhs;
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::{relics::Relic, screens::VisibleStates, state::State};
+use crate::{enemies::EnemyIndex, relics::Relic, screens::VisibleStates, state::State, utils::Number};
 
 use super::Combat;
 
@@ -39,5 +39,38 @@ impl State {
         } else {
             panic!("Should not try to end combat outside of combat!")
         }
+    }
+
+    pub fn enemy_lose_hp(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+        let has_the_boot = self.relics.contains(Relic::TheBoot);
+        let combat = self.get_combat();
+        let enemy = &mut combat.enemies[enemy_index.0];
+        if enemy.effects.is_intangible() {
+            amt = 1;
+        }
+        if has_the_boot && amt < 5 {
+            amt = 5;
+        }
+
+        if amt <= enemy.current_hp {
+            enemy.current_hp -= amt;
+        } else {
+            enemy.current_hp = 0;
+        }
+        self.maybe_end_combat();
+    }
+
+    pub fn damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+        let combat = self.get_combat();
+        let enemy = &mut combat.enemies[enemy_index.0];
+
+        if amt < enemy.current_block.0 as u16 {
+            enemy.current_block -= Number(amt as i16);
+        } else {
+            amt -= enemy.current_block.0 as u16;
+            enemy.current_block = Number(0);
+        }
+
+        self.enemy_lose_hp(enemy_index, amt)
     }
 }

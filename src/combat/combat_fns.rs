@@ -121,15 +121,4 @@ impl Combat {
         // TODO: Block effects
         // TODO: Juggernaut
     }
-
-    pub fn end_turn(&mut self) {
-        // End of turn effects
-
-        // Discard every card that doesn't retain
-        // If you don't have Runic Pyramid
-
-        // Beginning of opponent's turn effects (e.g. poison)
-
-        // Apply opponent's intent
-    }
 }

@@ -95,7 +95,7 @@ impl Combat {
         }
     }
 
-    fn _end_of_turn_relic(&mut self, relic: &mut Relic) {
+    pub fn _end_of_turn_relic(&mut self, relic: &mut Relic) {
         match relic {
             Relic::FrozenCore => todo!(),
             Relic::Orichalcum => {
