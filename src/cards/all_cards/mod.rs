@@ -6,6 +6,8 @@ mod watcher;
 
 use std::{cell::RefCell, rc::Rc};
 
+use crate::utils::Number;
+
 use super::{
     card_trait::{Card, MasterCard},
     CardName,
@@ -34,7 +36,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Havoc => todo!(),
         CardName::Headbutt => todo!(),
         CardName::HeavyBlade => todo!(),
-        CardName::IronWave => todo!(),
+        CardName::IronWave => Rc::new(RefCell::new(ironclad::ironwave::IronWave(upgraded))),
         CardName::PerfectedStrike => todo!(),
         CardName::PommelStrike => Rc::new(RefCell::new(ironclad::pommelstrike::PommelStrike(upgraded))),
         CardName::SwordBoomerang => todo!(),
@@ -64,7 +66,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::PowerThrough => todo!(),
         CardName::Pummel => todo!(),
         CardName::Rage => todo!(),
-        CardName::Rampage => todo!(),
+        CardName::Rampage => Rc::new(RefCell::new(ironclad::rampage::Rampage::new(upgraded))),
         CardName::RecklessCharge => todo!(),
         CardName::Rupture => todo!(),
         CardName::SearingBlow => todo!(),
