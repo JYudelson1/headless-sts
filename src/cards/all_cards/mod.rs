@@ -71,7 +71,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Rupture => todo!(),
         CardName::SearingBlow => todo!(),
         CardName::SecondWind => todo!(),
-        CardName::SeeingRed => todo!(),
+        CardName::SeeingRed => Rc::new(RefCell::new(ironclad::seeingred::SeeingRed(upgraded))),
         CardName::Sentinel => todo!(),
         CardName::SeverSoul => todo!(),
         CardName::Shockwave => todo!(),

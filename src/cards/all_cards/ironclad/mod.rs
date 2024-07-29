@@ -45,6 +45,7 @@ pub mod rage;
 pub mod rampage;
 pub mod reaper;
 pub mod rupture;
+pub mod seeingred;
 pub mod sentinel;
 pub mod shockwave;
 pub mod shrugitoff;
