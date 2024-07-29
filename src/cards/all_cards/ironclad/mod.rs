@@ -22,6 +22,7 @@ pub mod entrench;
 pub mod evolve;
 pub mod exhume;
 pub mod feed;
+pub mod fiendfire;
 pub mod flex;
 pub mod ghostlyarmor;
 pub mod havoc;
