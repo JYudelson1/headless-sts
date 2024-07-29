@@ -44,7 +44,6 @@ pub trait Card: Debug {
     }
 
     fn duplicate(&self) -> MasterCard {
-        // TODO: Correctly duplicate rampage
         // TODO: Correctly duplicate searing blow
         make_card(self.name(), self.is_upgraded())
     }
