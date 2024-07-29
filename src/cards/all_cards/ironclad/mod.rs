@@ -1,3 +1,4 @@
+mod Anger;
 pub mod anger;
 pub mod armaments;
 pub mod barricade;

@@ -108,4 +108,5 @@ pub enum CardName {
     Bloodletting,
     BodySlam,
     Bludgeon,
+    Impervious,
 }
