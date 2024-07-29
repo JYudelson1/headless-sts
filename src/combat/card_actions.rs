@@ -1,4 +1,4 @@
-use crate::{cards::{CardActions, CardIndex, Targets}, effects::Debuff, enemies::EnemyIndex, state::State, utils::Number};
+use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::Debuff, enemies::EnemyIndex, state::State, utils::{number_between, Number}};
 
 impl State {
     pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
@@ -24,7 +24,6 @@ impl State {
             }
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
-            CardActions::AddAngerToDiscard(upgraded) => todo!(),
             CardActions::UpgradeACardInHand => todo!(),
             CardActions::UpgradeAllCardsInHand => todo!(),
             CardActions::BodySlam => {
@@ -34,12 +33,19 @@ impl State {
             CardActions::GainTempStrength(_) => todo!(),
             CardActions::ExhaustRandomCard => todo!(),
             CardActions::ExhaustSelectedCard => todo!(),
-            CardActions::ShuffleWoundIntoDraw => todo!(),
             CardActions::ApplyBuff(buff) => {
                 // TODO: Are there relics or powers that interact here?
                 self.get_combat().self_effects.apply_buff(buff);
             },
             CardActions::GainEnergy(amt) => self.get_combat().current_energy += amt,
+            CardActions::ShuffleCardToPile((card, pile)) => {
+                let pile = match pile {
+                    Pile::Draw => &mut self.get_combat().deck,
+                    Pile::Discard => &mut self.get_combat().discard,
+                };
+                let index = number_between(0, pile.len() - 1);
+                pile.insert(index, card);
+            },
         }
     }
 

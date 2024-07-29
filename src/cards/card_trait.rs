@@ -1,6 +1,6 @@
 use std::{cell::{Ref, RefCell, RefMut}, fmt::Debug, rc::Rc};
 
-use super::{card::CardType, card_actions::CardActions, CardName};
+use super::{card::CardType, card_actions::CardActions, make_card, CardName};
 
 pub trait Card: Debug {
     fn name(&self) -> CardName;
@@ -41,6 +41,12 @@ pub trait Card: Debug {
         } else {
             self.play_unupgraded()
         }
+    }
+
+    fn duplicate(&self) -> MasterCard {
+        // TODO: Correctly duplicate rampage
+        // TODO: Correctly duplicate searing blow
+        make_card(self.name(), self.is_upgraded())
     }
 }
 

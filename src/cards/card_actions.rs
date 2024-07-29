@@ -1,5 +1,7 @@
 use crate::{effects::Buff, utils::Number};
 
+use super::MasterCard;
+
 pub enum Targets {
     All,
     One,
@@ -13,7 +15,6 @@ pub enum CardActions {
     Block(Number),
     Draw(u8),
     LoseHealth(u16),
-    AddAngerToDiscard(bool), // bool: upgraded or not
     UpgradeACardInHand,
     UpgradeAllCardsInHand,
     BodySlam,
@@ -21,6 +22,11 @@ pub enum CardActions {
     ApplyBuff(Buff),
     ExhaustRandomCard,
     ExhaustSelectedCard,
-    ShuffleWoundIntoDraw,
+    ShuffleCardToPile((MasterCard, Pile)),
     GainEnergy(u8), // TODO: Other things cards can do
+}
+
+pub enum Pile {
+    Draw,
+    Discard,
 }

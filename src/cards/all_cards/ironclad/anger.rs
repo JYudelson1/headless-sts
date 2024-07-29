@@ -1,3 +1,5 @@
+use crate::cards::make_card;
+use crate::cards::Pile;
 use crate::{
     cards::{
         card::CardType,
@@ -39,14 +41,20 @@ impl Card for Anger {
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Damage((Number(8), Targets::One)),
-            CardActions::AddAngerToDiscard(true),
+            CardActions::ShuffleCardToPile((
+                make_card(self.name(), self.is_upgraded()),
+                Pile::Discard,
+            )),
         ]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Damage((Number(6), Targets::One)),
-            CardActions::AddAngerToDiscard(false),
+            CardActions::ShuffleCardToPile((
+                make_card(self.name(), self.is_upgraded()),
+                Pile::Discard,
+            )),
         ]
     }
 
