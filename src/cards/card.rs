@@ -35,7 +35,28 @@ impl CardName {
     }
 
     fn ironclad_commons() -> Vec<Self> {
-        vec![CardName::ShrugItOff, CardName::Cleave, CardName::Clothesline, CardName::Anger, CardName::Armaments, CardName::BodySlam]
+        vec![
+            CardName::ShrugItOff,
+            CardName::Cleave,
+            CardName::Clothesline,
+            CardName::Anger,
+            CardName::Armaments,
+            CardName::BodySlam,
+            CardName::Clash,
+            CardName::Flex,
+            CardName::Havoc,
+            CardName::Headbutt,
+            CardName::HeavyBlade,
+            CardName::IronWave,
+            CardName::PerfectedStrike,
+            CardName::PommelStrike,
+            CardName::SwordBoomerang,
+            CardName::ThunderClap,
+            CardName::TrueGrit,
+            CardName::TrinStrike,
+            CardName::WarCry,
+            CardName::WildStrike,
+        ]
     }
 
     fn ironclad_uncommons() -> Vec<Self> {
@@ -43,7 +64,7 @@ impl CardName {
     }
 
     fn ironclad_rares() -> Vec<Self> {
-        vec![CardName::Barricade, CardName::Bludgeon]
+        vec![CardName::Barricade, CardName::Bludgeon, CardName::Impervious]
     }
 
     fn silent_commons() -> Vec<Self> {
@@ -109,4 +130,18 @@ pub enum CardName {
     BodySlam,
     Bludgeon,
     Impervious,
+    Clash,
+    Flex,
+    Havoc,
+    Headbutt,
+    HeavyBlade,
+    IronWave,
+    PerfectedStrike,
+    PommelStrike,
+    SwordBoomerang,
+    ThunderClap,
+    TrueGrit,
+    TrinStrike,
+    WarCry,
+    WildStrike,
 }
