@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::utils::{number_between, Act};
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
@@ -82,7 +84,7 @@ impl Boss {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
 pub struct RoomNode {
     pub floor: usize,
     pub x: usize,
@@ -169,6 +171,9 @@ impl Map {
         };
 
         map.make_paths(ascension);
+
+        map.remove_redundant_floor_1();
+
         for _ in 0..15 {
             if !map.fix_rooms(ascension) {
                 break;
@@ -184,28 +189,41 @@ impl Map {
 
     fn add_one_path(&mut self, starting_room: RoomNode, ascension: u8) -> RoomNode {
         let possible = starting_room.get_paths();
-        let index = number_between(0, possible.len() - 1);
-        let x = possible[index].0;
-        let path_is_on_index = possible[index].1;
-        let path_is_on = self.paths[starting_room.floor][path_is_on_index];
-        if !path_is_on {
-            // Set the starting room type
-            // If the floor is 8, a treasure room
-            // If 13, a rest site
-            // Else, randomize
 
-            self.rooms[starting_room.floor + 1][x] = if x == 8 {
-                Some(RoomType::Treasure)
-            } else if x == 14 {
-                Some(RoomType::Rest)
-            } else {
-                Some(RoomType::random(ascension))
-            };
+        let (x, path_is_on_index) = loop {
+            let index = number_between(0, possible.len() - 1);
+            let x = possible[index].0;
+            let path_is_on_index = possible[index].1;
 
-            // Make the path
-            self.paths[starting_room.floor][path_is_on_index] = true;
-            
-        }
+            // If the corresponding "crossing path" is off:
+            let crosses_another = ((path_is_on_index % 3 == 1)
+                && self.paths[starting_room.floor][path_is_on_index + 1])
+                || ((path_is_on_index % 3 == 2)
+                    && self.paths[starting_room.floor][path_is_on_index - 1]);
+
+            if !crosses_another {
+                break (x, path_is_on_index);
+            }
+        };
+
+        //let path_is_on = self.paths[starting_room.floor][path_is_on_index];
+
+        // Set the starting room type
+        // If the floor is 8, a treasure room
+        // If 13, a rest site
+        // Else, randomize
+
+        self.rooms[starting_room.floor + 1][x] = if x == 8 {
+            Some(RoomType::Treasure)
+        } else if x == 14 {
+            Some(RoomType::Rest)
+        } else {
+            Some(RoomType::random(ascension))
+        };
+
+        // Make the path
+        self.paths[starting_room.floor][path_is_on_index] = true;
+
         return RoomNode {
             floor: starting_room.floor + 1,
             x,
@@ -370,6 +388,34 @@ impl Map {
         match self.current {
             Some(current) => current.floor + 1,
             None => 0,
+        }
+    }
+
+    fn remove_redundant_floor_1(&mut self) {
+        let mut second_floor_nodes = HashSet::new();
+
+        for i in 0..7 {
+            if let Some(_) = self.rooms[0][i] {
+                let room = RoomNode { floor: 0, x: i };
+                let next = room.get_paths();
+                for (x, path_index) in next {
+                    if self.paths[0][path_index] {
+                        let room = RoomNode { floor: 1, x };
+                        if second_floor_nodes.contains(&room) {
+                            // The room is already a destination
+                            // Remove the new edge to the room
+                            self.paths[0][path_index] = false;
+                            // If the first floor room has no more destinations,
+                            // remove it
+                            if room.get_next(self.paths).is_empty() {
+                                self.rooms[0][i] = None;
+                            }
+                        } else {
+                            second_floor_nodes.insert(room);
+                        }
+                    }
+                }
+            }
         }
     }
 }
