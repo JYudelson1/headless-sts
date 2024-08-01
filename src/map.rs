@@ -422,16 +422,18 @@ impl Map {
                             // The room is already a destination
                             // Remove the new edge to the room
                             self.paths[0][path_index] = false;
-                            // If the first floor room has no more destinations,
-                            // remove it
-                            if room.get_next(self.paths).is_empty() {
-                                self.rooms[0][i] = None;
-                            }
+                            
                         } else {
                             second_floor_nodes.insert(room);
                         }
                     }
                 }
+            }
+            let room = RoomNode { floor: 0, x: i };
+            // If the first floor room has no more destinations,
+            // remove it
+            if room.get_next(self.paths).is_empty() {
+                self.rooms[0][i] = None;
             }
         }
     }
