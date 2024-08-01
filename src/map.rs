@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Display};
 
 use crate::utils::{number_between, Act};
 
@@ -111,9 +111,27 @@ impl RoomNode {
         next
     }
 
+    pub fn get_prev(&self, paths: [[bool; 19]; 14]) -> Vec<RoomNode> {
+        let mut prev = vec![];
+
+        for i in 0..7 {
+            let last_floor_node = RoomNode {
+                floor: self.floor - 1,
+                x: i,
+            };
+            for node in last_floor_node.get_next(paths) {
+                if node.x == self.x {
+                    prev.push(last_floor_node)
+                }
+            }
+        }
+
+        prev
+    }
+
     pub fn get_paths(&self) -> Vec<(usize, usize)> {
         if self.x == 0 {
-            vec![(0, 0), (0, 1)]
+            vec![(0, 0), (1, 1)]
         } else if self.x < 6 {
             vec![
                 (self.x - 1, 3 * self.x - 1),
@@ -171,8 +189,10 @@ impl Map {
         };
 
         map.make_paths(ascension);
+        println!("first:\n{map}");
 
         map.remove_redundant_floor_1();
+        println!("After remove redundant:\n{map}");
 
         for _ in 0..15 {
             if !map.fix_rooms(ascension) {
@@ -213,9 +233,9 @@ impl Map {
         // If 13, a rest site
         // Else, randomize
 
-        self.rooms[starting_room.floor + 1][x] = if x == 8 {
+        self.rooms[starting_room.floor + 1][x] = if starting_room.floor + 1 == 8 {
             Some(RoomType::Treasure)
-        } else if x == 14 {
+        } else if starting_room.floor + 1 == 14 {
             Some(RoomType::Rest)
         } else {
             Some(RoomType::random(ascension))
@@ -228,7 +248,6 @@ impl Map {
             floor: starting_room.floor + 1,
             x,
         };
-        
     }
 
     fn add_one_full_path(&mut self, mut starting_room: RoomNode, ascension: u8) {
@@ -284,17 +303,10 @@ impl Map {
             }
         }
         // Rule 2: Rests on floor 13
-        for room in 0..7 {
-            if let Some(r) = &mut self.rooms[13][room] {
-                while matches!(r, RoomType::Rest) {
-                    *r = RoomType::random(ascension);
-                    changed = true;
-                }
-            }
-        }
+        // Taken care of previously
 
         // Rule 3: Elite, Merchant, and Rests cannot be consecutive
-        for floor in 0..14 {
+        for floor in (1..15).rev() {
             for x in 0..7 {
                 match self.rooms[floor][x] {
                     Some(room) => {
@@ -304,10 +316,11 @@ impl Map {
                             RoomType::Merchant => (),
                             _ => continue,
                         }
-                        let next = RoomNode::new(floor, x).get_next(self.paths);
-                        for next_room in next {
-                            while self.get_room(next_room) == Some(room) {
-                                self.rooms[next_room.floor][next_room.x] =Some(RoomType::random(ascension));
+                        let prev = RoomNode::new(floor, x).get_prev(self.paths);
+                        for prev_room in prev {
+                            while self.get_room(prev_room) == Some(room) {
+                                self.rooms[prev_room.floor][prev_room.x] =
+                                    Some(RoomType::random(ascension));
                                 changed = true;
                             }
                         }
@@ -319,7 +332,11 @@ impl Map {
 
         // Rule 4: Every room with options must have all unique options
         let mut rule4problems = vec![];
-        for floor in 0..14 {
+        for floor in 0..13 {
+            // Skip floor 7, since all options will be chests
+            if floor == 7 {
+                continue;
+            }
             for x in 0..7 {
                 match self.rooms[floor][x] {
                     Some(_) => {
@@ -417,5 +434,60 @@ impl Map {
                 }
             }
         }
+    }
+}
+
+impl Display for Map {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Iterate backwards through the rooms
+        for i in (0..15).rev() {
+            // Draw the rooms
+            let floor = self.rooms[i];
+            for x in 0..7 {
+                let room = floor[x];
+                let letter = match room {
+                    Some(room) => format!("{room}"),
+                    None => " ".to_string(),
+                };
+                write!(f, "{letter} ").unwrap();
+            }
+            write!(f, "\n").unwrap();
+            // Draw the paths
+            if i == 0 {
+                continue;
+            }
+            let paths = self.paths[i - 1];
+            let mut path_string = "             ".to_string();
+            for (i, path) in paths.iter().enumerate() {
+                if !*path {
+                    continue;
+                }
+                if i % 3 == 0 {
+                    path_string.replace_range((2 * i / 3)..((2 * i / 3) + 1), "|");
+                } else if i % 3 == 1 {
+                    path_string
+                        .replace_range(((2 * (i - 1) / 3) + 1)..((2 * (i - 1) / 3) + 2), "/");
+                } else {
+                    path_string.replace_range((((2 * i) - 1) / 3)..((((2 * i) - 1) / 3) + 1), "\\");
+                }
+            }
+            write!(f, "{path_string}\n").unwrap();
+        }
+        std::fmt::Result::Ok(())
+    }
+}
+
+impl Display for RoomType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let letter = match self {
+            RoomType::Monster => "M",
+            RoomType::Event => "?",
+            RoomType::Elite => "E",
+            RoomType::Rest => "R",
+            RoomType::Merchant => "$",
+            RoomType::Treasure => "T",
+            RoomType::Boss => "B",
+        };
+        write!(f, "{letter}")
     }
 }
