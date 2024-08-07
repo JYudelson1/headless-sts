@@ -137,8 +137,14 @@ impl State {
         // TODO: Start of turn power effects
 
         // Set energy equal to max
+        let has_ice_cream = self.relics.contains(Relic::IceCream);
         let combat = self.get_combat();
-        combat.current_energy = combat.max_energy;
+        if has_ice_cream {
+            combat.current_energy += combat.max_energy;
+        } else {
+            combat.current_energy = combat.max_energy;
+        }
+        
 
         // Draw 5 cards
         combat.draw(5);

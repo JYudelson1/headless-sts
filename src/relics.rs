@@ -296,7 +296,7 @@ pub enum Relic {
     GamblersChip,      // NOT IMPLEMENTED
     Ginger,            // IMPLEMENTED
     Girya(u8),         // IMPLEMENTED
-    IceCream,          // NOT IMPLEMENTED
+    IceCream,          // IMPLEMENTED
     IncenseBurner(u8), // NOT IMPLEMENTED
     LizardTail(bool),  // NOT IMPLEMENTED
     Mango,             // IMPLEMENTED
