@@ -1,6 +1,6 @@
 use crate::{
     cards::{CardName, Targets},
-    effects::{Debuff, Effects, PermanentBoolEffects},
+    effects::{Debuff, Effects, OneTurnBoolEffects, PermanentBoolEffects},
     enemies::EnemyIndex,
     relics::Relic,
     screens::VisibleStates,
@@ -250,6 +250,14 @@ impl Combat {
     }
 
     pub fn draw(&mut self, amt: u8) {
+        // Don't draw if no card draw
+        if self
+            .self_effects
+            .has_temp_effect(OneTurnBoolEffects::NoCardDraw)
+        {
+            return;
+        }
+
         for _ in 0..amt {
             self.draw_1();
         }
