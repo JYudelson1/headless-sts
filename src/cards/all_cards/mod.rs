@@ -6,8 +6,6 @@ mod watcher;
 
 use std::{cell::RefCell, rc::Rc};
 
-use crate::utils::Number;
-
 use super::{
     card_trait::{Card, MasterCard},
     CardName,
