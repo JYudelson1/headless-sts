@@ -1,6 +1,6 @@
 use crate::{
     cards::{CardName, Targets},
-    effects::{Debuff, Effects},
+    effects::{Debuff, Effects, PermanentBoolEffects},
     enemies::EnemyIndex,
     relics::Relic,
     screens::VisibleStates,
@@ -281,7 +281,7 @@ impl Combat {
 
     pub fn block_goes_away(&mut self) {
         // Barricade
-        if self.self_effects.barricade {
+        if self.self_effects.has_perm_effect(PermanentBoolEffects::Barricade) {
             return;
         }
 
@@ -295,7 +295,7 @@ impl Combat {
 
     fn enemy_loses_block(&mut self, enemy_index: EnemyIndex) {
         let enemy = &mut self.enemies[enemy_index.0];
-        if enemy.effects.barricade {
+        if enemy.effects.has_perm_effect(PermanentBoolEffects::Barricade) {
             return;
         }
         enemy.current_block = Number(0)
