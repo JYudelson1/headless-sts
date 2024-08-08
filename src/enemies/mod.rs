@@ -6,6 +6,7 @@ use crate::{
 };
 mod enemy_trait;
 
+pub mod cultist;
 pub mod jawworm;
 
 #[derive(Debug)]
@@ -52,4 +53,5 @@ pub enum EnemyIntent {
 pub enum EnemyType {
     JawWorm,
     Louse,
+    Cultist,
 }

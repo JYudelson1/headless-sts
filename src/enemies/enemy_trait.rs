@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use super::{jawworm::JawWorm, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::{cultist::Cultist, jawworm::JawWorm, ConcreteEnemy, EnemyIntent, EnemyType};
 
 pub trait Enemy: Debug {
     fn next_intent(&mut self, ascension: u8);
@@ -13,6 +13,7 @@ impl EnemyType {
         match self {
             EnemyType::JawWorm => JawWorm::new(ascension),
             EnemyType::Louse => todo!(),
+            EnemyType::Cultist => Cultist::new(ascension),
         }
     }
 }
