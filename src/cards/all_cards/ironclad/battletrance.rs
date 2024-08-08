@@ -1,6 +1,6 @@
 use crate::{
     cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName},
-    effects::{Buff, Debuff, OneTurnBoolDebuffs, PermanentBoolBuffs},
+    effects::{Debuff, OneTurnBoolDebuffs},
 };
 
 #[derive(Debug)]
