@@ -5,7 +5,7 @@ use crate::{
     relics::Relic,
     screens::VisibleStates,
     state::State,
-    utils::Number,
+    utils::{number_between, Number},
 };
 
 use super::Combat;
@@ -133,7 +133,12 @@ impl State {
                 let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
                 damages.push((target.unwrap(), total_damage.0 as u16))
             }
-            Targets::Random => todo!(),
+            Targets::Random => {
+                let enemy_index = number_between(0, enemies.len() - 1);
+                let enemy = &enemies[enemy_index];
+                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                damages.push((target.unwrap(), total_damage.0 as u16))
+            },
         }
 
         for (enemy_index, amt) in damages {
