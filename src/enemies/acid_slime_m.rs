@@ -114,9 +114,9 @@ impl AcidSlimeMAttacks {
 impl AcidSlimeM {
     pub fn new(ascension: u8) -> ConcreteEnemy {
         let hp = if ascension >= 7 {
-            number_between(42, 46)
+            number_between(29, 34)
         } else {
-            number_between(40, 44)
+            number_between(28, 32)
         };
 
         let first_attack = AcidSlimeMAttacks::new_attack(&[None, None], ascension);
