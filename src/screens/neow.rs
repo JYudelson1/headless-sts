@@ -1,6 +1,8 @@
 // TODO: Figure out whether to have different blessings if you die early
 
 use crate::{
+    cardrewardrng::CombatType,
+    cards::make_card,
     relics::Relic,
     state::State,
     utils::{number_between, Act, Character, Number},
@@ -159,7 +161,10 @@ impl State {
                     self.visible_screen = VisibleStates::CardReward(card_reward);
                 },
                 crate::screens::FirstBlessing::ChooseUncommonColorless => todo!(),
-                crate::screens::FirstBlessing::RandomRare => todo!(),
+                crate::screens::FirstBlessing::RandomRare => {
+                    let rare = self.card_rng.get_rewards(1, CombatType::Boss, &Act::Act3, self.character)[0].card;
+                    self.main_deck.push(make_card(rare, false));
+                },
             },
             NeowsBlessing::Second(bless) => match bless {
                 crate::screens::SecondBlessing::MaxHP => {
