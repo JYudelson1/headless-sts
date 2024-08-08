@@ -168,7 +168,7 @@ impl State {
                 }
             }
             Targets::One => self.debuff_one_enemy(debuff, enemy_index.unwrap()),
-            Targets::Random => todo!(),
+            Targets::Random => self.debuff_one_enemy(debuff, EnemyIndex(number_between(0, num_enemies - 1))),
         }
     }
 
