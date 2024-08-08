@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use super::{acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::{acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm, spike_slime_s::SpikeSlimeS, ConcreteEnemy, EnemyIntent, EnemyType};
 
 pub trait Enemy: Debug {
     fn next_intent(&mut self, ascension: u8);
@@ -18,7 +18,7 @@ impl EnemyType {
             EnemyType::AcidSlimeM => AcidSlimeM::new(ascension),
             EnemyType::SpikeSlimeM => todo!(),
             EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
-            EnemyType::SpikeSlimeS => todo!(),
+            EnemyType::SpikeSlimeS => SpikeSlimeS::new(ascension),
         }
     }
 }
