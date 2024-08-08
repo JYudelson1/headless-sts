@@ -1,6 +1,6 @@
 use crate::{
     cards::{CardName, Targets},
-    effects::{Debuff, Effects, OneTurnBoolEffects, PermanentBoolEffects},
+    effects::{Debuff, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
     relics::Relic,
     screens::VisibleStates,
@@ -174,6 +174,9 @@ impl State {
         if poison.0 > 0 {
             self.enemy_lose_hp(enemy_index, poison.0 as u16)
         }
+        // Increment the enemies effects
+        let enemy = &mut self.get_combat().enemies[enemy_index.0];
+        enemy.effects.increment_turn();
     }
 
     pub fn begin_enemy_turn(&mut self) {
@@ -253,7 +256,7 @@ impl Combat {
         // Don't draw if no card draw
         if self
             .self_effects
-            .has_temp_effect(OneTurnBoolEffects::NoCardDraw)
+            .one_turn_bool_debuffs.contains(&OneTurnBoolDebuffs::NoCardDraw)
         {
             return;
         }
@@ -289,7 +292,7 @@ impl Combat {
 
     pub fn block_goes_away(&mut self) {
         // Barricade
-        if self.self_effects.has_perm_effect(PermanentBoolEffects::Barricade) {
+        if self.self_effects.permanent_bool_buffs.contains(&PermanentBoolBuffs::Barricade) {
             return;
         }
 
@@ -303,7 +306,7 @@ impl Combat {
 
     fn enemy_loses_block(&mut self, enemy_index: EnemyIndex) {
         let enemy = &mut self.enemies[enemy_index.0];
-        if enemy.effects.has_perm_effect(PermanentBoolEffects::Barricade) {
+        if enemy.effects.permanent_bool_buffs.contains(&PermanentBoolBuffs::Barricade) {
             return;
         }
         enemy.current_block = Number(0)

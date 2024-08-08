@@ -1,5 +1,5 @@
 use crate::{
-    effects::{Buff, Effects},
+    effects::{Buff, Effects, IntensityBuffOrDebuff},
     utils::{number_between, Number},
 };
 
@@ -55,7 +55,7 @@ impl JawWormAttacks {
     fn to_intent(&self) -> EnemyIntent {
         match self {
             JawWormAttacks::Bellow(buff, block) => {
-                EnemyIntent::BuffAndBlock(Buff::Strength(*buff), *block)
+                EnemyIntent::BuffAndBlock(Buff::Basic((IntensityBuffOrDebuff::Strength, *buff)), *block)
             }
             JawWormAttacks::Chomp(attack) => EnemyIntent::Damage(*attack),
             JawWormAttacks::Thrash => EnemyIntent::AttackAndBlock(Number(7), Number(5)),

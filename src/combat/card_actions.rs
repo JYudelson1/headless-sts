@@ -1,4 +1,4 @@
-use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::Debuff, enemies::EnemyIndex, state::State, utils::{number_between, Number}};
+use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, Number}};
 
 impl State {
     pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
@@ -7,11 +7,11 @@ impl State {
                 self.damage_enemy(amt, target_type, target);
             }
             CardActions::ApplyVulnerable((amt, target_type)) => {
-                let debuff = Debuff::Vulnerable(amt);
+                let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, amt));
                 self.debuff_enemy(debuff, target_type, target);
             },
             CardActions::ApplyWeak((amt, target_type)) => {
-                let debuff = Debuff::Weak(amt);
+                let debuff = Debuff::Duration((DurationDebuffs::Weak, amt));
                 self.debuff_enemy(debuff, target_type, target);
             },
             CardActions::Block(mut amt) => {

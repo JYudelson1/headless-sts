@@ -125,14 +125,15 @@ impl State {
         // Except with calipers
         self.get_combat().block_goes_away();
 
+        // All timed debuffs should go down
+        self.get_combat().self_effects.increment_turn();
+
         // Start of combat relics
         if turn == 1 {
             self.start_turn_1_effects();
         }
         // Other start turn relic effects
         self.start_every_turn_effects();
-
-        // TODO: All timed debuffs should go down
 
         // TODO: Start of turn power effects
 

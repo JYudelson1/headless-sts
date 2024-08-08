@@ -19,6 +19,8 @@ use rand::seq::SliceRandom;
 
 fn main() {
     let mut state = state::State::new(utils::Character::Ironclad, 0);
+    println!("{}", state.map);
+    return;
     while state.still_playing {
         let mut actions = state.get_actions();
         actions.shuffle(&mut rand::thread_rng());

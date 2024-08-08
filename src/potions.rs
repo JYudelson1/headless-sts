@@ -1,4 +1,4 @@
-use crate::{combat::Combat, effects::Buff, state::State, utils::Number};
+use crate::{combat::Combat, effects::{Buff, IntensityBuffOrDebuff}, state::State, utils::Number};
 
 #[derive(Debug, Clone, Copy)]
 pub enum Potion {
@@ -44,7 +44,7 @@ impl Combat {
     pub fn use_combat_potion(&mut self, potion: Potion) {
         match potion {
             Potion::BlockPotion => self.self_block += Number(12),
-            Potion::StrengthPotion => self.self_effects.apply_buff(Buff::Strength(Number(2))),
+            Potion::StrengthPotion => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(2)))),
         }
     }
 }

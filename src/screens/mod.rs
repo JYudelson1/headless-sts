@@ -127,7 +127,7 @@ impl State {
                 }
             }
             VisibleStates::Combat(combat) => {
-                println!("{combat:?}");
+                // println!("{combat:?}");
                 // Can always end turn
                 actions.push(Action::EndTurn);
                 // TODO: Add potions

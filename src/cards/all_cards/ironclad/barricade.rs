@@ -1,6 +1,6 @@
 use crate::{
     cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName},
-    effects::Buff,
+    effects::{Buff, PermanentBoolBuffs},
 };
 
 #[derive(Debug)]
@@ -32,11 +32,11 @@ impl Card for Barricade {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ApplyBuff(Buff::Barricade)]
+        vec![CardActions::ApplyBuff(Buff::PermanentBool(PermanentBoolBuffs::Barricade))]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ApplyBuff(Buff::Barricade)]
+        vec![CardActions::ApplyBuff(Buff::PermanentBool(PermanentBoolBuffs::Barricade))]
     }
 
     fn get_cost(&self) -> u8 {

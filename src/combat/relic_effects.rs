@@ -1,5 +1,5 @@
 use crate::{
-    effects::{Buff, Debuff},
+    effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs},
     relics::Relic,
     screens::VisibleStates,
     state::State,
@@ -57,18 +57,18 @@ impl Combat {
             Relic::RingOfSnake => todo!(),    // Draw 2 cards
             Relic::BagOfPrep => todo!(),      // Draw 2 cards
             Relic::BagOfMarbles => {
-                let debuff = Debuff::Vulnerable(Number(1));
+                let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, Number(1)));
                 for enemy in &mut self.enemies {
                     enemy.effects.apply_debuff(debuff);
                 }
             }
             Relic::RedMask => {
-                let debuff = Debuff::Weak(Number(1));
+                let debuff = Debuff::Duration((DurationDebuffs::Weak, Number(1)));
                 for enemy in &mut self.enemies {
                     enemy.effects.apply_debuff(debuff);
                 }
             }
-            Relic::DataDisk => self.self_effects.apply_buff(Buff::Focus(Number(1))),
+            Relic::DataDisk => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Focus, Number(1)))),
             Relic::Anchor => self.self_block += Number(10),
             Relic::AncientTeaSet(rested) => {
                 if *rested {
@@ -76,12 +76,12 @@ impl Combat {
                     *rested = false;
                 }
             }
-            Relic::BronzeScales => self.self_effects.apply_buff(Buff::Thorns(Number(3))),
+            Relic::BronzeScales => self.self_effects.apply_buff(Buff::Intensity((IntensityBuffs::Thorns, Number(3)))),
             Relic::Lantern => self.current_energy += 1,
-            Relic::SmoothStone => self.self_effects.apply_buff(Buff::Dexterity(Number(1))),
+            Relic::SmoothStone => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Dexterity, Number(1)))),
             Relic::NinjaScroll => todo!(),    // Add 3 shivs to hand
             Relic::RunicCapacitor => todo!(), // Add 3 orb slots
-            Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Strength(Number(*amt as i16))),
+            Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(*amt as i16)))),
             _ => (),
         }
     }
