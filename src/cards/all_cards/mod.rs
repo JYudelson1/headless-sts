@@ -88,6 +88,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::LimitBreak => todo!(),
         CardName::Offering => todo!(),
         CardName::Reaper => todo!(),
+        CardName::Slimed => Rc::new(RefCell::new(shared::slimed::Slimed(upgraded))),
     };
     MasterCard {
         card,

@@ -1,5 +1,5 @@
 use crate::{
-    effects::{Buff, Effects, IntensityBuffOrDebuff, IntensityBuffs},
+    effects::{Buff, Effects, IntensityBuffs},
     utils::{number_between, Number},
 };
 
@@ -16,7 +16,7 @@ impl Enemy for Cultist {
     }
 
     fn get_current_intent(&self) -> super::EnemyIntent {
-        self.intent
+        self.intent.clone()
     }
 }
 

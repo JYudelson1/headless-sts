@@ -1,11 +1,13 @@
 pub use enemy_trait::Enemy;
 
 use crate::{
-    effects::{Buff, Effects},
+    cards::{CardName, Pile},
+    effects::{Buff, Debuff, Effects},
     utils::Number,
 };
 mod enemy_trait;
 
+pub mod acid_slime_m;
 pub mod cultist;
 pub mod jawworm;
 
@@ -37,16 +39,19 @@ impl ConcreteEnemy {
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct EnemyIndex(pub usize);
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub enum EnemyIntent {
     Damage(Number),
     MultiAttack((Number, u16)),
     Block(Number),
     Buff(Buff),
+    Debuff(Debuff),
     Stun,
     Sleep,
     AttackAndBlock(Number, Number),
     BuffAndBlock(Buff, Number),
+    ShuffleCardToPile(CardName, Pile, bool),
+    Multiple(Vec<EnemyIntent>),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

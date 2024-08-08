@@ -125,8 +125,7 @@ impl State {
         // Except with calipers
         self.get_combat().block_goes_away();
 
-        // All timed debuffs should go down
-        self.get_combat().self_effects.increment_turn();
+        // TODO: Do effects that change strength/dex/focus here
 
         // Start of combat relics
         if turn == 1 {
@@ -179,6 +178,9 @@ impl State {
         if !self.relics.contains(Relic::RunicPyramid) {
             self.get_combat().discard_hand_end_of_turn();
         }
+
+        // All timed debuffs should go down
+        self.get_combat().self_effects.increment_turn();
 
         // Beginning of opponent's turn effects (e.g. poison)
         self.begin_enemy_turn();

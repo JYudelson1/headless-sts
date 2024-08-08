@@ -171,6 +171,7 @@ pub enum CardName {
     Defend,
     Bash,
     Void,
+    Slimed,
     ShrugItOff,
     Cleave,
     Clothesline,

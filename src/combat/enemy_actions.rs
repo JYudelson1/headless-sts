@@ -1,7 +1,8 @@
 use crate::{
+    cards::{make_card, Pile},
     enemies::{ConcreteEnemy, EnemyIndex, EnemyIntent},
     state::State,
-    utils::Number,
+    utils::{number_between, Number},
 };
 
 use super::{combat_fns::calculate_damage, Combat};
@@ -27,6 +28,11 @@ impl State {
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
         let action = enemy.get_intent();
 
+        self.apply_enemy_action(action, enemy_index);
+    }
+
+    fn apply_enemy_action(&mut self, action: EnemyIntent, enemy_index: EnemyIndex) {
+        let enemy = &mut self.get_combat().enemies[enemy_index.0];
         match action {
             EnemyIntent::Damage(amt) => self.enemy_attack(amt, enemy_index),
             EnemyIntent::Block(amt) => enemy.block_intent(amt),
@@ -48,11 +54,27 @@ impl State {
                     if !self.get_combat().enemies[enemy_index.0].is_dead() {
                         self.enemy_attack(amt, enemy_index);
                     }
-                    
                 }
+            }
+            EnemyIntent::ShuffleCardToPile(card, pile, upgraded) => {
+                let pile = match pile {
+                    Pile::Draw => &mut self.get_combat().deck,
+                    Pile::Discard => &mut self.get_combat().discard,
+                };
+                let card = make_card(card, upgraded);
+                let index = number_between(0, pile.len() - 1);
+                pile.insert(index, card);
+            }
+            EnemyIntent::Multiple(intents) => {
+                for intent in intents {
+                    self.apply_enemy_action(intent, enemy_index);
+                }
+            }
+            EnemyIntent::Debuff(debuff) => {
+                self.get_combat().self_effects.apply_debuff(debuff);
             },
         }
-    }
+    } 
 
     pub fn enemy_actions(&mut self) {
         for i in 0..self.get_combat().num_enemies() {

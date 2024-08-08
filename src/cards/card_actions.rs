@@ -27,6 +27,7 @@ pub enum CardActions {
     GainEnergy(u8), // TODO: Other things cards can do
 }
 
+#[derive(Debug, Clone, Copy)]
 pub enum Pile {
     Draw,
     Discard,

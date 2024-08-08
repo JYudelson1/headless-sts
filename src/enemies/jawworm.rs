@@ -40,7 +40,7 @@ impl Enemy for JawWorm {
     }
 
     fn get_current_intent(&self) -> super::EnemyIntent {
-        self.intent
+        self.intent.clone()
     }
 }
 
