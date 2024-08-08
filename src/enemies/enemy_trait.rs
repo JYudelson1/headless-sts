@@ -12,8 +12,13 @@ impl EnemyType {
     pub fn new(&self, ascension: u8) -> ConcreteEnemy {
         match self {
             EnemyType::JawWorm => JawWorm::new(ascension),
-            EnemyType::Louse => todo!(),
             EnemyType::Cultist => Cultist::new(ascension),
+            EnemyType::GreenLouse => todo!(),
+            EnemyType::RedLouse => todo!(),
+            EnemyType::AcidSlimeM => todo!(),
+            EnemyType::SpikeSlimeM => todo!(),
+            EnemyType::AcidSlimeS => todo!(),
+            EnemyType::SpikeSlimeS => todo!(),
         }
     }
 }

@@ -52,6 +52,11 @@ pub enum EnemyIntent {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EnemyType {
     JawWorm,
-    Louse,
+    GreenLouse,
+    RedLouse,
     Cultist,
+    AcidSlimeM,
+    SpikeSlimeM,
+    AcidSlimeS,
+    SpikeSlimeS,
 }
