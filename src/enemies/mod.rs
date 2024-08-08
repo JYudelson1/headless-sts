@@ -8,6 +8,7 @@ use crate::{
 mod enemy_trait;
 
 pub mod acid_slime_m;
+pub mod acid_slime_s;
 pub mod cultist;
 pub mod jawworm;
 
