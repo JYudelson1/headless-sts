@@ -175,6 +175,18 @@ impl Effects {
             None => (),
         }
     }
+
+    pub fn cleanse_debuffs(&mut self) {
+        self.duration_debuffs = HashMap::new();
+        self.intensity_debuffs = HashMap::new();
+        self.one_turn_bool_debuffs = HashSet::new();
+        self.permanent_bool_debuffs = HashSet::new();
+        for val in self.intensity_basics.values_mut() {
+            if *val < Number(0) {
+                *val = Number(0)
+            }
+        }
+    }
 }
 
 #[derive(Copy, Clone, Debug)]
