@@ -94,6 +94,13 @@ impl Effects {
         }
     }
 
+    fn get_ritual(&self) -> Number {
+        match self.intensity_buffs.get(&IntensityBuffs::Ritual) {
+            Some(amt) => *amt,
+            None => Number(0),
+        }
+    }
+
     pub fn apply_buff(&mut self, buff: Buff) {
         match buff {
             Buff::Basic((buff, amt)) => {
@@ -160,11 +167,15 @@ impl Effects {
     }
 
     pub fn increment_turn(&mut self) {
-        // TODO: Basic stats up/down should go here?
+        // Lose one turn effects
         self.one_turn_bool_buffs = HashSet::new();
         self.one_turn_bool_debuffs = HashSet::new();
+
+        // Duration effects tick down
         decrement_map(&mut self.duration_buffs);
         decrement_map(&mut self.duration_debuffs);
+
+        // Poison ticks down (damage is done somewhere else)
         match self.poison {
             Some(amt) => {
                 self.poison = Some(amt - Number(1));
@@ -174,6 +185,14 @@ impl Effects {
             },
             None => (),
         }
+
+        // Apply ritual
+        self.apply_buff(Buff::Basic((
+            IntensityBuffOrDebuff::Strength,
+            self.get_ritual(),
+        )));
+
+        // TODO: Apply basics up/down effects
     }
 
     pub fn cleanse_debuffs(&mut self) {
@@ -239,6 +258,7 @@ pub enum DurationDebuffs {
 pub enum IntensityBuffs {
     Thorns,
     Metallicize,
+    Ritual,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
