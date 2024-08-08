@@ -1,5 +1,3 @@
-mod Anger;
-mod Rampage;
 pub mod anger;
 pub mod armaments;
 pub mod barricade;

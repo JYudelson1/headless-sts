@@ -46,6 +46,10 @@ impl State {
                 let index = number_between(0, pile.len() - 1);
                 pile.insert(index, card);
             },
+            CardActions::ApplyDebuff(debuff) => {
+                // TODO: Are there relics or powers that interact here?
+                self.get_combat().self_effects.apply_debuff(debuff);
+            },
         }
     }
 

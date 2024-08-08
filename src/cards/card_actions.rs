@@ -1,4 +1,4 @@
-use crate::{effects::Buff, utils::Number};
+use crate::{effects::{Buff, Debuff}, utils::Number};
 
 use super::MasterCard;
 
@@ -20,6 +20,7 @@ pub enum CardActions {
     BodySlam,
     GainTempStrength(Number),
     ApplyBuff(Buff),
+    ApplyDebuff(Debuff),
     ExhaustRandomCard,
     ExhaustSelectedCard,
     ShuffleCardToPile((MasterCard, Pile)),
