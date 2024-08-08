@@ -54,8 +54,8 @@ impl Combat {
             Relic::NuclearBattery => todo!(), // Channel 1 plasma
             Relic::PureWater => todo!(),      // Add miracle to hand
             Relic::HolyWater => todo!(),      // Add 3 miracles to hand
-            Relic::RingOfSnake => todo!(),    // Draw 2 cards
-            Relic::BagOfPrep => todo!(),      // Draw 2 cards
+            Relic::RingOfSnake => self.draw(2),    // Draw 2 cards
+            Relic::BagOfPrep => self.draw(2),      // Draw 2 cards
             Relic::BagOfMarbles => {
                 let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, Number(1)));
                 for enemy in &mut self.enemies {

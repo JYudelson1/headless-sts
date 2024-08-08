@@ -211,7 +211,7 @@ impl Relics {
 pub enum Relic {
     Circlet,                // IMPLEMENTED
     BurningBlood,           // IMPLEMENTED
-    RingOfSnake,            // PARTIALLY IMPLEMENTED
+    RingOfSnake,            // IMPLEMENTED
     CrackedCore,            // PARTIALLY IMPLEMENTED
     PureWater,              // PARTIALLY IMPLEMENTED
     Akabeko,                // NOT IMPLEMENTED
