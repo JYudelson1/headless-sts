@@ -26,7 +26,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Barricade => Rc::new(RefCell::new(ironclad::barricade::Barricade(upgraded))),
         CardName::Armaments => Rc::new(RefCell::new(ironclad::armaments::Armaments(upgraded))),
         CardName::Bloodletting => Rc::new(RefCell::new(ironclad::bloodletting::Bloodletting(upgraded))),
-        CardName::BodySlam => todo!(),
+        CardName::BodySlam => Rc::new(RefCell::new(ironclad::bodyslam::BodySlam(upgraded))),
         CardName::Bludgeon => Rc::new(RefCell::new(ironclad::bludgeon::Bludgeon(upgraded))),
         CardName::Impervious => Rc::new(RefCell::new(ironclad::impervious::Impervious(upgraded))),
         CardName::Clash => todo!(),
