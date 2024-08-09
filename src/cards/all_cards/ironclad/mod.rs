@@ -15,6 +15,7 @@ pub mod cleave;
 pub mod clothesline;
 pub mod combust;
 pub mod corruption;
+pub mod demonform;
 pub mod disarm;
 pub mod dropkick;
 pub mod entrench;
