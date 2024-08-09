@@ -36,11 +36,16 @@ impl State {
     pub fn lose_hp(&mut self, mut amt: u16) {
         // If you are in combat & have intangible, all hp loss goes to 1
         if let VisibleStates::Combat(combat) = &self.visible_screen {
-            if combat.self_effects.is_intangible() {
+            if combat.self_effects.is_intangible() && amt >= 1{
                 amt = 1;
             }
             // TODO: Self-forming clay
             // TODO: Centennial puzzle
+        }
+
+        // Tungsten rod reduces all hp loss by one
+        if self.relics.contains(Relic::TungstenRod) && amt >= 1 {
+            amt -= 1;
         }
 
         if amt >= self.current_health {

@@ -308,7 +308,7 @@ pub enum Relic {
     StoneCalendar,     // NOT IMPLEMENTED
     ThreadAndNeedle,   // NOT IMPLEMENTED
     Torii,             // NOT IMPLEMENTED
-    TungstenRod,       // NOT IMPLEMENTED
+    TungstenRod,       // IMPLEMENTED
     Turnip,            // IMPLEMENTED
     UnceasingTop,      // NOT IMPLEMENTED
     WingBoots,         // NOT IMPLEMENTED
