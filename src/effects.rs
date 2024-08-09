@@ -94,6 +94,20 @@ impl Effects {
         }
     }
 
+    pub fn firebreathing(&self) -> Option<Number> {
+        match self.intensity_buffs.get(&IntensityBuffs::Firebreathing) {
+            Some(amt) => Some(*amt),
+            None => None,
+        }
+    }
+
+    pub fn evolve(&self) -> Option<Number> {
+        match self.intensity_buffs.get(&IntensityBuffs::Evolve) {
+            Some(amt) => Some(*amt),
+            None => None,
+        }
+    }
+
     fn get_ritual(&self) -> Number {
         match self.intensity_buffs.get(&IntensityBuffs::Ritual) {
             Some(amt) => *amt,
@@ -259,6 +273,8 @@ pub enum IntensityBuffs {
     Thorns,
     Metallicize,
     Ritual,
+    Firebreathing,
+    Evolve,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]

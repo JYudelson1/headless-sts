@@ -157,6 +157,7 @@ impl CardName {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum CardType {
     Attack,
     Power,

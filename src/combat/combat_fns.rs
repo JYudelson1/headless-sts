@@ -1,5 +1,5 @@
 use crate::{
-    cards::{CardName, Targets},
+    cards::{CardName, CardType, Targets},
     effects::{Debuff, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
     relics::Relic,
@@ -108,6 +108,17 @@ impl State {
         }
 
         self.enemy_lose_hp(enemy_index, amt)
+    }
+
+    pub fn direct_damage_all_enemies(&mut self, amt: u16) {
+        for enemy_index in 0..self.get_combat().enemies.len() {
+            self.direct_damage_enemy(EnemyIndex(enemy_index), amt);
+        }
+    }
+
+    pub fn direct_damage_random_enemy(&mut self, amt: u16) {
+        let index = number_between(0, self.get_combat().enemies.len() - 1);
+        self.direct_damage_enemy(EnemyIndex(index), amt);
     }
 
     pub fn attack_damage_enemy(&mut self, enemy_index: EnemyIndex, amt: u16) {
@@ -276,6 +287,7 @@ impl Combat {
         // Take the top card from deck and move to hand
         let top_card = self.deck.remove(0);
         let name = top_card.card().name();
+        let card_type = top_card.card().get_type();
         self.hand.push(top_card);
 
         // On Draw Effects
@@ -284,6 +296,14 @@ impl Combat {
         if name == CardName::Void {
             if self.current_energy > 0 {
                 self.current_energy -= 1;
+            }
+        }
+        // TODO: Firebreathing
+
+        // Evolve
+        if let Some(evolve_amt) = self.self_effects.evolve() {
+            if card_type == CardType::Status {
+                self.draw(evolve_amt.0 as u8);
             }
         }
     }
