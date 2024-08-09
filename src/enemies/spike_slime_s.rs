@@ -1,5 +1,5 @@
 use crate::{
-    effects::{Debuff, DurationDebuffs, Effects},
+    effects::Effects,
     utils::{number_between, Number},
 };
 
