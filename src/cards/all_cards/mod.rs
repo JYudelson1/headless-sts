@@ -52,7 +52,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Dropkick => todo!(),
         CardName::DualWield => todo!(),
         CardName::Entrench => todo!(),
-        CardName::Evolve => todo!(),
+        CardName::Evolve => Rc::new(RefCell::new(ironclad::evolve::Evolve(upgraded))),
         CardName::FeelNoPain => todo!(),
         CardName::FireBreathing => todo!(),
         CardName::FlameBarrier => todo!(),
