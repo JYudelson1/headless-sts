@@ -190,6 +190,32 @@ impl State {
             self.begin_enemy_turn_effects(EnemyIndex(i));
         }
     }
+
+    pub fn discard_hand_end_of_turn(&mut self) {
+        let hand_size = self.get_combat().hand.len();
+
+        for i in (0..hand_size).rev() {
+            //// Hold in hand effects:
+            // TODO: Watcher retain cards
+            // Burn
+            let card_name = self.get_combat().hand[i].card().name().clone();
+            if card_name == CardName::Burn {
+                self.damage_self(Number(2));
+                // Always discard burns, even if they retain
+                let combat = self.get_combat();
+                combat.discard.push(combat.hand.remove(i));
+            }
+
+            //// If the card is ethereal, exhaust it
+            let combat = self.get_combat();
+            if combat.hand[i].card().is_ethereal() {
+                combat.exhaust.push(combat.hand.remove(i));
+            } else if !combat.hand[i].card().retains() {
+                // Else discard if not retained
+                combat.discard.push(combat.hand.remove(i));
+            }
+        }
+    }
 }
 
 pub fn calculate_damage(
@@ -275,24 +301,6 @@ impl Combat {
         self.self_block += amt;
         // TODO: Block effects
         // TODO: Juggernaut
-    }
-
-    pub fn discard_hand_end_of_turn(&mut self) {
-        let hand_size = self.hand.len();
-
-        for i in (0..hand_size).rev() {
-            // If the card is ethereal, exhaust it
-            if self.hand[i].card().is_ethereal() {
-                self.exhaust.push(self.hand.remove(i));
-            } else if !self.hand[i].card().retains() {
-                // Else discard if not retained
-                self.discard.push(self.hand.remove(i));
-            } {
-                
-            }
-
-            
-        }
     }
 
     pub fn block_goes_away(&mut self) {

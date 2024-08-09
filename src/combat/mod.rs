@@ -176,7 +176,7 @@ impl State {
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
         if !self.relics.contains(Relic::RunicPyramid) {
-            self.get_combat().discard_hand_end_of_turn();
+            self.discard_hand_end_of_turn();
         }
 
         // All timed debuffs should go down

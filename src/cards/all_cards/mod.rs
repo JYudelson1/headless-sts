@@ -89,6 +89,9 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Offering => todo!(),
         CardName::Reaper => todo!(),
         CardName::Slimed => Rc::new(RefCell::new(shared::slimed::Slimed(upgraded))),
+        CardName::Burn => Rc::new(RefCell::new(shared::burn::Burn)),
+        CardName::Wound => Rc::new(RefCell::new(shared::wound::Wound)),
+        CardName::Dazed => Rc::new(RefCell::new(shared::dazed::Dazed)),
     };
     MasterCard {
         card,

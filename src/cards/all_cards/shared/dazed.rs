@@ -1,11 +1,11 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
 
 #[derive(Debug)]
-pub struct Void;
+pub struct Dazed;
 
-impl Card for Void {
+impl Card for Dazed {
     fn name(&self) -> CardName {
-        CardName::Void
+        CardName::Dazed
     }
 
     fn get_type(&self) -> CardType {
@@ -17,6 +17,10 @@ impl Card for Void {
     }
 
     fn exhausts(&self) -> bool {
+        true
+    }
+
+    fn is_ethereal(&self) -> bool {
         true
     }
 

@@ -22,7 +22,7 @@ TODOs:
   - [x] Starter decks
   - [ ] Colorless
   - [ ] Curses
-  - [ ] Statuses
+  - [x] Statuses
   - [ ] Ironclad
     - In progress
   - [ ] Other characters
