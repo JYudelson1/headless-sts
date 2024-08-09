@@ -86,7 +86,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::FiendFire => todo!(),
         CardName::Juggernaut => todo!(),
         CardName::LimitBreak => todo!(),
-        CardName::Offering => todo!(),
+        CardName::Offering => Rc::new(RefCell::new(ironclad::offering::Offering(upgraded))),
         CardName::Reaper => todo!(),
         CardName::Slimed => Rc::new(RefCell::new(shared::slimed::Slimed(upgraded))),
         CardName::Burn => Rc::new(RefCell::new(shared::burn::Burn)),
