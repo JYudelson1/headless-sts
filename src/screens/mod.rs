@@ -48,7 +48,7 @@ impl State {
         // Reset Relics for combat
         self.relics.reset_start_of_combat();
         // Get the enemies
-        let enemies = get_enemies(&self.act, combat_type);
+        let enemies = get_enemies(&self.act, combat_type, self.last_elite, self.fights_this_act);
         let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics, &self.main_deck);
         self.visible_screen = VisibleStates::Combat(combat);
 
@@ -89,13 +89,20 @@ impl State {
 
     pub fn _go_to_new_room(&mut self, room: RoomType) {
         match room {
-            RoomType::Monster => self.to_combat(CombatType::Normal),
+            RoomType::Monster => {
+                self.fights_this_act += 1;
+                self.to_combat(CombatType::Normal);
+            },
             RoomType::Event => self.to_question_mark(),
             RoomType::Elite => self.to_combat(CombatType::Elite),
             RoomType::Rest => self.to_rest(),
             RoomType::Merchant => todo!(),
             RoomType::Treasure => self.to_treasure(),
-            RoomType::Boss => todo!(),
+            RoomType::Boss => {
+                // Reset easy/hard encounter pool
+                self.fights_this_act = 0;
+                todo!()
+            },
         }
         // TODO: Activate maw bank
     }

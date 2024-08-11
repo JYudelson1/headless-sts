@@ -1,15 +1,24 @@
-use crate::{cardrewardrng::CombatType, enemies::EnemyType, utils::Act};
+use crate::{cardrewardrng::CombatType, enemies::EnemyType, utils::{number_between, Act}};
 
 use rand::prelude::SliceRandom;
 
-pub fn get_enemies(act: &Act, combat_type: CombatType) -> Vec<EnemyType> {
+pub fn get_enemies(
+    act: &Act,
+    combat_type: CombatType,
+    last_elite: Option<Elites>,
+    fights_this_act: u8,
+) -> Vec<EnemyType> {
     // TODO: Is there something weird about elite enemies? Like they dont happen twice?
     match act {
         Act::Act1 => {
             match combat_type {
                 CombatType::Normal => {
-                    // TODO: Only call this for first three encounters
-                    act_1_easy_pool()
+                    // Easy fights for first three encounters
+                    if fights_this_act < 3 {
+                        act_1_easy_pool()
+                    } else {
+                        todo!()
+                    }
                 }
                 CombatType::Elite => todo!(),
                 CombatType::Boss => todo!(),
@@ -49,4 +58,29 @@ fn act_1_easy_pool() -> Vec<EnemyType> {
     ];
 
     possible_fights.choose(&mut rand::thread_rng()).unwrap().clone()
+}
+
+fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
+    let elites = vec![Elites::Lagavulin, Elites::Sentries, Elites::GremlinNob];
+    let elite = loop {
+        let i = number_between(0, 2);
+        let e = elites[i];
+        if Some(e) != last_elite {
+            break e;
+        }
+    };
+
+    match elite {
+        Elites::Lagavulin => todo!(),
+        Elites::Sentries => todo!(),
+        Elites::GremlinNob => todo!(),
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Elites {
+    Lagavulin,
+    Sentries,
+    GremlinNob,
+    // TODO: Add acts 2 & 3 here
 }

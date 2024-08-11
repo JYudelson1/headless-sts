@@ -2,6 +2,7 @@ use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CardRewardRng,
     cards::{make_card, make_starter_deck, MasterCard},
+    combat::Elites,
     map::{Map, RoomNode},
     potions::PotionBag,
     question_rng::QuestionMarkRng,
@@ -28,6 +29,8 @@ pub struct State {
     pub keys: Keys,
     pub still_playing: bool,
     pub question_rng: QuestionMarkRng,
+    pub last_elite: Option<Elites>,
+    pub fights_this_act: u8,
 }
 
 impl State {
@@ -48,7 +51,9 @@ impl State {
             main_deck: make_starter_deck(character),
             keys: Keys::new(),
             still_playing: true,
-            question_rng: QuestionMarkRng::new()
+            question_rng: QuestionMarkRng::new(),
+            last_elite: None,
+            fights_this_act: 0,
         }
     }
 

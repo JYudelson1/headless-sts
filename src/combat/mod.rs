@@ -5,7 +5,7 @@ mod relic_effects;
 mod setup_combat;
 mod end_of_combat;
 
-pub use setup_combat::get_enemies;
+pub use setup_combat::{get_enemies, Elites};
 
 use crate::{
     cardrewardrng::CombatType,
