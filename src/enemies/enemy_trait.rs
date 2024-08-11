@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 
 use super::{
+    elites::sentries::{SentryA, SentryB},
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm,
         spike_slime_s::SpikeSlimeS,
@@ -38,8 +39,8 @@ impl EnemyType {
             EnemyType::SlaverBlue => todo!(),
             EnemyType::SlaverRed => todo!(),
             EnemyType::GremlinNob => todo!(),
-            EnemyType::SentryA => todo!(),
-            EnemyType::SentryB => todo!(),
+            EnemyType::SentryA => SentryA::new(ascension),
+            EnemyType::SentryB => SentryB::new(ascension),
             EnemyType::Hexaghost => todo!(),
             EnemyType::TheGuardian => todo!(),
             EnemyType::SlimeBoss => todo!(),

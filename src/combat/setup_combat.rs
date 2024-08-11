@@ -8,7 +8,6 @@ pub fn get_enemies(
     last_elite: Option<Elites>,
     fights_this_act: u8,
 ) -> Vec<EnemyType> {
-    // TODO: Is there something weird about elite enemies? Like they dont happen twice?
     match act {
         Act::Act1 => {
             match combat_type {
@@ -62,6 +61,8 @@ fn act_1_easy_pool() -> Vec<EnemyType> {
 
 fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
     let elites = vec![Elites::Lagavulin, Elites::Sentries, Elites::GremlinNob];
+
+    // Elites cannot happen twice in a row——we solve this by tracking the last elite.
     let elite = loop {
         let i = number_between(0, 2);
         let e = elites[i];
@@ -72,7 +73,7 @@ fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
 
     match elite {
         Elites::Lagavulin => todo!(),
-        Elites::Sentries => todo!(),
+        Elites::Sentries => vec![EnemyType::SentryA, EnemyType::SentryB, EnemyType::SentryA],
         Elites::GremlinNob => todo!(),
     }
 }
