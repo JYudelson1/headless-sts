@@ -4,7 +4,7 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
 #[derive(Debug)]
 pub struct AcidSlimeM {
@@ -21,7 +21,7 @@ impl Enemy for AcidSlimeM {
         self.intent = new_intent.to_intent();
     }
 
-    fn get_current_intent(&self) -> super::EnemyIntent {
+    fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
     }
 }

@@ -1,0 +1,16 @@
+pub mod acid_slime_l;
+pub mod acid_slime_m;
+pub mod acid_slime_s;
+pub mod cultist;
+pub mod fungus_beast;
+pub mod gremlin_fat;
+pub mod gremlin_mad;
+pub mod gremlin_shield;
+pub mod gremlin_sneaky;
+pub mod gremlin_wizard;
+pub mod jawworm;
+pub mod looter;
+pub mod slaver_blue;
+pub mod slaver_red;
+pub mod spike_slime_l;
+pub mod spike_slime_s;

@@ -3,7 +3,7 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
 #[derive(Debug)]
 pub struct Cultist {
@@ -15,7 +15,7 @@ impl Enemy for Cultist {
         self.intent = EnemyIntent::Damage(Number(6));
     }
 
-    fn get_current_intent(&self) -> super::EnemyIntent {
+    fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
     }
 }

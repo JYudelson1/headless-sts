@@ -7,11 +7,9 @@ use crate::{
 };
 mod enemy_trait;
 
-pub mod acid_slime_m;
-pub mod acid_slime_s;
-pub mod cultist;
-pub mod jawworm;
-pub mod spike_slime_s;
+pub mod bosses;
+pub mod elites;
+pub mod normal;
 
 #[derive(Debug)]
 pub struct ConcreteEnemy {

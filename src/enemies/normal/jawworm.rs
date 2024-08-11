@@ -3,7 +3,7 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
 #[derive(Debug)]
 pub struct JawWorm {
@@ -39,12 +39,12 @@ impl Enemy for JawWorm {
         self.intent = new_intent.to_intent();
     }
 
-    fn get_current_intent(&self) -> super::EnemyIntent {
+    fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
     }
 }
 
-#[derive(Clone,Debug)]
+#[derive(Clone, Debug)]
 enum JawWormAttacks {
     Bellow(Number, Number),
     Chomp(Number),
@@ -54,9 +54,10 @@ enum JawWormAttacks {
 impl JawWormAttacks {
     fn to_intent(&self) -> EnemyIntent {
         match self {
-            JawWormAttacks::Bellow(buff, block) => {
-                EnemyIntent::BuffAndBlock(Buff::Basic((IntensityBuffOrDebuff::Strength, *buff)), *block)
-            }
+            JawWormAttacks::Bellow(buff, block) => EnemyIntent::BuffAndBlock(
+                Buff::Basic((IntensityBuffOrDebuff::Strength, *buff)),
+                *block,
+            ),
             JawWormAttacks::Chomp(attack) => EnemyIntent::Damage(*attack),
             JawWormAttacks::Thrash => EnemyIntent::AttackAndBlock(Number(7), Number(5)),
         }
@@ -107,7 +108,7 @@ impl JawWorm {
             current_block: Number(0),
             inner: Box::new(jawworm),
             enemy_type: EnemyType::JawWorm,
-            ascension: ascension
+            ascension: ascension,
         }
     }
 }
