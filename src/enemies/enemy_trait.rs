@@ -25,6 +25,22 @@ impl EnemyType {
             EnemyType::SpikeSlimeM => todo!(),
             EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
             EnemyType::SpikeSlimeS => SpikeSlimeS::new(ascension),
+            EnemyType::Lagavulin => todo!(),
+            EnemyType::AcidSlimeL => todo!(),
+            EnemyType::SpikeSlimeL => todo!(),
+            EnemyType::Looter => todo!(),
+            EnemyType::FungusBeast => todo!(),
+            EnemyType::GremlinFat => todo!(),
+            EnemyType::GremlinSneaky => todo!(),
+            EnemyType::GremlinMad => todo!(),
+            EnemyType::GremlinShield => todo!(),
+            EnemyType::GremlinWizard => todo!(),
+            EnemyType::SlaverBlue => todo!(),
+            EnemyType::SlaverRed => todo!(),
+            EnemyType::GremlinNob => todo!(),
+            EnemyType::SentryA => todo!(),
+            EnemyType::SentryB => todo!(),
+            EnemyType::Hexaghost => todo!(),
         }
     }
 }
