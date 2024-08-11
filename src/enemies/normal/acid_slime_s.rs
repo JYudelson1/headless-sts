@@ -7,25 +7,22 @@ use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
 #[derive(Debug)]
 pub struct AcidSlimeS {
-    intent: EnemyIntent,
-    intent_history: AcidSlimeSAttacks,
+    intent: AcidSlimeSAttacks,
 }
 
 impl Enemy for AcidSlimeS {
     fn next_intent(&mut self, ascension: u8) {
         // Alternate attacks
-        let new_intent = match self.intent_history {
+        let new_intent = match self.intent {
             AcidSlimeSAttacks::Lick => AcidSlimeSAttacks::tackle(ascension),
             AcidSlimeSAttacks::Tackle(_) => AcidSlimeSAttacks::lick(),
         };
 
-        self.intent_history = new_intent.clone();
-
-        self.intent = new_intent.to_intent();
+        self.intent = new_intent;
     }
 
     fn get_current_intent(&self) -> EnemyIntent {
-        self.intent.clone()
+        self.intent.to_intent().clone()
     }
 }
 
@@ -77,8 +74,7 @@ impl AcidSlimeS {
         };
 
         let slime = AcidSlimeS {
-            intent: first_attack.to_intent(),
-            intent_history: first_attack,
+            intent: first_attack,
         };
 
         ConcreteEnemy {
