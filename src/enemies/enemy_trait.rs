@@ -1,7 +1,10 @@
 use std::fmt::Debug;
 
 use super::{
-    elites::sentries::{SentryA, SentryB},
+    elites::{
+        lagavulin::Lagavulin,
+        sentries::{SentryA, SentryB},
+    },
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm,
         spike_slime_s::SpikeSlimeS,
@@ -13,6 +16,8 @@ pub trait Enemy: Debug {
     fn next_intent(&mut self, ascension: u8);
 
     fn get_current_intent(&self) -> EnemyIntent;
+
+    fn lost_hp(&mut self) {}
 }
 
 impl EnemyType {
@@ -26,7 +31,7 @@ impl EnemyType {
             EnemyType::SpikeSlimeM => todo!(),
             EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
             EnemyType::SpikeSlimeS => SpikeSlimeS::new(ascension),
-            EnemyType::Lagavulin => todo!(),
+            EnemyType::Lagavulin => Lagavulin::new(ascension),
             EnemyType::AcidSlimeL => todo!(),
             EnemyType::SpikeSlimeL => todo!(),
             EnemyType::Looter => todo!(),

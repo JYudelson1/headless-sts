@@ -252,7 +252,7 @@ impl Effects {
     }
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Buff {
     Basic((IntensityBuffOrDebuff, Number)),
     OneTurnBool(OneTurnBoolBuffs),
@@ -261,7 +261,7 @@ pub enum Buff {
     Duration((DurationBuffs, Number)),
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Debuff {
     Basic((IntensityBuffOrDebuff, Number)),
     OneTurnBool(OneTurnBoolDebuffs),

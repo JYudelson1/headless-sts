@@ -72,7 +72,7 @@ fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
     };
 
     match elite {
-        Elites::Lagavulin => todo!(),
+        Elites::Lagavulin => vec![EnemyType::Lagavulin],
         Elites::Sentries => vec![EnemyType::SentryA, EnemyType::SentryB, EnemyType::SentryA],
         Elites::GremlinNob => todo!(),
     }

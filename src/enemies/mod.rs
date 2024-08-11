@@ -34,12 +34,18 @@ impl ConcreteEnemy {
     pub fn next_intent(&mut self) {
         self.inner.next_intent(self.ascension)
     }
+
+    pub fn lost_hp(&mut self) {
+        // This is ONLY for changing intents based on enemies losing HP
+        // Maybe only effects Lagavulin?
+        self.inner.lost_hp();
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct EnemyIndex(pub usize);
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum EnemyIntent {
     Damage(Number),
     MultiAttack((Number, u16)),

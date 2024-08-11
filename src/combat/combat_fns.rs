@@ -90,6 +90,8 @@ impl State {
 
         if amt <= enemy.current_hp {
             enemy.current_hp -= amt;
+            // Tell the enemy that it lost HP
+            enemy.lost_hp();
         } else {
             enemy.current_hp = 0;
         }
