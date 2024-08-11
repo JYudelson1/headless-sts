@@ -139,37 +139,67 @@ impl Effects {
         }
     }
 
+    fn use_artifact(&mut self) -> bool {
+        let mut out = false;
+        if let Some(artifact) = self.intensity_buffs.get_mut(&IntensityBuffs::Artifact) {
+            if artifact.0 > 0 {
+                *artifact -= Number(1);
+                out = true;
+            }
+        }
+
+        if out {
+            remove_zeros(&mut self.intensity_buffs);
+        }
+        out
+    }
+
     pub fn apply_debuff(&mut self, debuff: Debuff) {
         // TODO: artifact stuff
         match debuff {
             Debuff::Basic((debuff, amt)) => {
                 // TODO: Maybe this also needs to be a match? Unsure
-                add_to_map(&mut self.intensity_basics, debuff, amt);
+                // TODO: Maybe assert that amt is actually negative?
+                if !self.use_artifact() {
+                    add_to_map(&mut self.intensity_basics, debuff, amt);
+                }
             },
             Debuff::OneTurnBool(debuff) => {
-                self.one_turn_bool_debuffs.insert(debuff);
+                if !self.use_artifact() {
+                    self.one_turn_bool_debuffs.insert(debuff);
+                }
             },
             Debuff::PermanentBool(debuff) => {
-                self.permanent_bool_debuffs.insert(debuff);
+                if !self.use_artifact() {
+                    self.permanent_bool_debuffs.insert(debuff);
+                }
             },
             Debuff::Intensity((debuff, amt)) => {
                 // TODO: Maybe this also needs to be a match? Unsure
-                add_to_map(&mut self.intensity_debuffs, debuff, amt);
+                if !self.use_artifact() {
+                    add_to_map(&mut self.intensity_debuffs, debuff, amt);
+                }
             },
             Debuff::Duration((debuff, length)) => match debuff {
                 DurationDebuffs::Weak => {
                     // Ginger: cannot gain weak
                     if !self.relevant_relics.contains(&Relic::Ginger) {
-                        add_to_map(&mut self.duration_debuffs, DurationDebuffs::Weak, length)
+                        if !self.use_artifact() {
+                            add_to_map(&mut self.duration_debuffs, DurationDebuffs::Weak, length)
+                        }
                     }
                 }
                 DurationDebuffs::Vulnerable => {
-                    add_to_map(&mut self.duration_debuffs, DurationDebuffs::Vulnerable, length)
+                    if !self.use_artifact() {
+                        add_to_map(&mut self.duration_debuffs, DurationDebuffs::Vulnerable, length)
+                    }
                 },
                 DurationDebuffs::Frail => {
                     // Turnip: cannot gain frail
                     if !self.relevant_relics.contains(&Relic::Turnip) {
-                        add_to_map(&mut self.duration_debuffs, DurationDebuffs::Frail, length)
+                        if !self.use_artifact() {
+                            add_to_map(&mut self.duration_debuffs, DurationDebuffs::Frail, length)
+                        }
                     }
                 },
             },
@@ -275,6 +305,7 @@ pub enum IntensityBuffs {
     Ritual,
     Firebreathing,
     Evolve,
+    Artifact,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
