@@ -20,7 +20,7 @@ pub fn get_enemies(
                         todo!()
                     }
                 }
-                CombatType::Elite => todo!(),
+                CombatType::Elite => act_1_elite(last_elite),
                 CombatType::Boss => todo!(),
             }
         }
@@ -75,6 +75,16 @@ fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
         Elites::Sentries => todo!(),
         Elites::GremlinNob => todo!(),
     }
+}
+
+fn act_1_boss() -> Vec<EnemyType> {
+    let bosses = [
+        EnemyType::Hexaghost,
+        EnemyType::TheGuardian,
+        EnemyType::SlimeBoss,
+    ];
+    let boss = bosses[number_between(0, 2)];
+    vec![boss]
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

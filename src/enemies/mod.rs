@@ -80,4 +80,6 @@ pub enum EnemyType {
     SentryA,
     SentryB,
     Hexaghost,
+    TheGuardian,
+    SlimeBoss,
 }

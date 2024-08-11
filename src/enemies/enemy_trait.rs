@@ -41,6 +41,8 @@ impl EnemyType {
             EnemyType::SentryA => todo!(),
             EnemyType::SentryB => todo!(),
             EnemyType::Hexaghost => todo!(),
+            EnemyType::TheGuardian => todo!(),
+            EnemyType::SlimeBoss => todo!(),
         }
     }
 }
