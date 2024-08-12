@@ -4,6 +4,7 @@ impl State {
     pub fn upgrade_card_in_deck(&mut self, card_id: uuid::Uuid) {
         for card in &mut self.main_deck {
             if card.id == card_id {
+                card.upgraded += 1;
                 card.card_mut().upgrade();
                 return;
             }

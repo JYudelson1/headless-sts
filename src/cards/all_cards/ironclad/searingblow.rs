@@ -12,14 +12,11 @@ use crate::{
 
 #[derive(Clone, Debug)]
 
-pub struct Rampage {
-    upgraded: bool,
-    extra_damage: Number,
-}
+pub struct SearingBlow(pub u16);
 
-impl Card for Rampage {
+impl Card for SearingBlow {
     fn name(&self) -> CardName {
-        CardName::Rampage
+        CardName::SearingBlow
     }
 
     fn get_type(&self) -> CardType {
@@ -30,58 +27,57 @@ impl Card for Rampage {
         true
     }
 
-    fn set_upgraded(&mut self, to_set: bool) {
-        self.upgraded = to_set;
+    fn set_upgraded(&mut self, _: bool) {
+        panic!()
+    }
+
+    fn upgrade(&mut self) {
+        self.0 += 1;
+    }
+
+    fn set_upgraded_amt(&mut self, amt: u16) {
+        self.0 = amt
     }
 
     fn can_be_upgraded(&self) -> bool {
-        !self.upgraded
+        !true
     }
 
     fn is_upgraded(&self) -> bool {
-        self.upgraded
+        true
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        let current_damage = Number(8) + self.extra_damage;
-
-        self.extra_damage += Number(8);
-
-        vec![CardActions::Damage((current_damage, Targets::One))]
+        vec![CardActions::Damage((self.get_damage(), Targets::One))]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        let current_damage = Number(8) + self.extra_damage;
-
-        self.extra_damage += Number(5);
-
-        vec![CardActions::Damage((current_damage, Targets::One))]
+        panic!()
     }
 
     fn get_cost(&self) -> u8 {
-        1
+        2
     }
 
     fn duplicate(&self) -> MasterCard {
-        let inner = Self {
-            upgraded: self.upgraded,
-            extra_damage: self.extra_damage,
-        };
+        let inner = Self(self.0);
         let inner = Rc::new(RefCell::new(inner));
 
         MasterCard {
             card: inner,
             id: uuid::Uuid::new_v4(),
-            upgraded: if self.upgraded { 1 } else { 0 },
+            upgraded: self.0,
         }
     }
 }
 
-impl Rampage {
+impl SearingBlow {
     pub fn new(upgraded: bool) -> Self {
-        Self {
-            upgraded,
-            extra_damage: Number(0),
-        }
+        Self(if upgraded { 1 } else { 0 })
+    }
+
+    pub fn get_damage(&self) -> Number {
+        let damage = (self.0 * (self.0 + 7) / 2) + 12;
+        Number(damage as i16)
     }
 }

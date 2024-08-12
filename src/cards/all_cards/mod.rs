@@ -67,7 +67,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Rampage => Rc::new(RefCell::new(ironclad::rampage::Rampage::new(upgraded))),
         CardName::RecklessCharge => todo!(),
         CardName::Rupture => todo!(),
-        CardName::SearingBlow => todo!(),
+        CardName::SearingBlow => Rc::new(RefCell::new(ironclad::searingblow::SearingBlow(upgraded as u16))),
         CardName::SecondWind => todo!(),
         CardName::SeeingRed => Rc::new(RefCell::new(ironclad::seeingred::SeeingRed(upgraded))),
         CardName::Sentinel => todo!(),
@@ -109,6 +109,6 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
     MasterCard {
         card,
         id: uuid::Uuid::new_v4(),
-        upgraded,
+        upgraded: if upgraded {1} else {0},
     }
 }

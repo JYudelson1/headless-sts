@@ -9,7 +9,17 @@ pub trait Card: Debug {
     fn get_cost(&self) -> u8; 
 
     fn set_upgraded(&mut self, to_set: bool);
-    fn upgrade(&mut self) {self.set_upgraded(true)}
+    fn upgrade(&mut self) {
+        self.set_upgraded(true)
+    }
+    fn set_upgraded_amt(&mut self, amt: u16) {
+        if amt == 0 {
+            self.set_upgraded(false)
+        }
+        if amt == 1 {
+            self.set_upgraded(true)
+        }
+    }
     fn can_be_upgraded(&self) -> bool;
     fn is_upgraded(&self) -> bool;
 
@@ -53,13 +63,13 @@ pub trait Card: Debug {
 pub struct MasterCard {
     pub card: Rc<RefCell<dyn Card>>,
     pub id: uuid::Uuid,
-    pub upgraded: bool,
+    pub upgraded: u16,
 }
 
 impl MasterCard {
     pub fn reset_end_combat(&mut self) {
         self.card.as_ref().borrow_mut().reset();
-        self.card.as_ref().borrow_mut().set_upgraded(self.upgraded);
+        self.card.as_ref().borrow_mut().set_upgraded_amt(self.upgraded);
     }
 
     pub fn card(&self) -> Ref<dyn Card> {
