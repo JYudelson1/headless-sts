@@ -76,7 +76,7 @@ impl State {
         // Then if the card exhausts, move it to exhaust pile
         // Otherwise, move it to the discard
         if card.card().exhausts() {
-            self.get_combat().exhaust.push(card);
+            self.get_combat().exhaust_card(card);
         } else {
             self.get_combat().discard.push(card);
         }

@@ -1,5 +1,5 @@
 use crate::{
-    cards::{CardName, CardType, Targets},
+    cards::{CardName, CardType, MasterCard, Targets},
     effects::{Debuff, DurationDebuffs, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
     relics::Relic,
@@ -241,7 +241,8 @@ impl State {
                     // If the card is ethereal, exhaust it
                     let combat = self.get_combat();
                     if combat.hand[i].card().is_ethereal() {
-                        combat.exhaust.push(combat.hand.remove(i));
+                        let card = combat.hand.remove(i);
+                        combat.exhaust_card(card);
                     } else if !combat.hand[i].card().retains() {
                         // Else discard if not retained
                         combat.discard.push(combat.hand.remove(i));
@@ -391,5 +392,12 @@ impl Combat {
         for i in 0..self.num_enemies() {
             self.enemy_end_of_turn(EnemyIndex(i))
         }
+    }
+
+    pub fn exhaust_card(&mut self, card: MasterCard) {
+        // TODO: Feel no pain
+        // TODO: Dark embrace
+        // TODO: Necronomicurse goes here
+        self.exhaust.push(card);
     }
 }
