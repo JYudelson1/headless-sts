@@ -24,7 +24,7 @@ pub enum CardActions {
     ExhaustRandomCard,
     ExhaustSelectedCard,
     ShuffleCardToPile((MasterCard, Pile)),
-    GainEnergy(u8), // TODO: Other things cards can do
+    GainEnergy(u8),
     IncreaseMaxEnergy,
     DoubleBlock,
 }

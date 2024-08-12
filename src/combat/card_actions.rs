@@ -55,7 +55,7 @@ impl State {
             },
             CardActions::DoubleBlock => {
                 let block = self.get_combat().self_block;
-                self.get_combat().gain_block(block);
+                self.get_combat().gain_block(block)
             },
         }
     }
