@@ -25,13 +25,22 @@ impl State {
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
             CardActions::UpgradeACardInHand => todo!(),
-            CardActions::UpgradeAllCardsInHand => todo!(),
+            CardActions::UpgradeAllCardsInHand => {
+                for card in &mut self.get_combat().hand {
+                    // Upgrade the inner card without upgrading the MasterCard
+                    card.card_mut().upgrade();
+                }
+            },
             CardActions::BodySlam => {
                 let damage_amt = self.get_combat().self_block;
                 self.damage_enemy(damage_amt, Targets::One, target);
             },
             CardActions::GainTempStrength(_) => todo!(),
-            CardActions::ExhaustRandomCard => todo!(),
+            CardActions::ExhaustRandomCard => {
+                let i = number_between(0, self.get_combat().hand.len() - 1);
+                let card = self.get_combat().hand.remove(i);
+                self.get_combat().exhaust_card(card);
+            },
             CardActions::ExhaustSelectedCard => todo!(),
             CardActions::ApplyBuff(buff) => {
                 // TODO: Are there relics or powers that interact here?
