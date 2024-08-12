@@ -80,11 +80,24 @@ impl CardRewardRng {
         act: &Act,
         character: Character,
     ) -> Vec<CardReward> {
-        let mut cards = vec![];
+        let mut cards: Vec<CardReward> = vec![];
 
-        // TODO: Should check to make sure there are no duplicate cards
         for _ in 0..num_cards {
-            cards.push(self.get_one_reward(combat_type, act, character));
+            // Check to make sure there are no duplicate cards
+            let card = loop {
+                let maybe_card = self.get_one_reward(combat_type, act, character);
+                let mut usable = true;
+                for card in cards.iter() {
+                    if card.card == maybe_card.card {
+                        usable = false;
+                        break;
+                    }
+                }
+                if usable {
+                    break maybe_card;
+                }
+            };
+            cards.push(card);
         }
 
         cards
