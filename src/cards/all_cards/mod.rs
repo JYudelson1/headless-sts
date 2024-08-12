@@ -92,7 +92,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Burn => Rc::new(RefCell::new(shared::burn::Burn)),
         CardName::Wound => Rc::new(RefCell::new(shared::wound::Wound)),
         CardName::Dazed => Rc::new(RefCell::new(shared::dazed::Dazed)),
-        CardName::AscendersBane => todo!(),
+        CardName::AscendersBane => Rc::new(RefCell::new(shared::ascenders_bane::AscendersBane)),
         CardName::Clumsy => Rc::new(RefCell::new(shared::clumsy::Clumsy)),
         CardName::CurseOfTheBell => todo!(),
         CardName::Decay => todo!(),
