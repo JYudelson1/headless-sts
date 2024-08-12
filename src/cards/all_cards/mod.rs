@@ -74,7 +74,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::SeverSoul => todo!(),
         CardName::Shockwave => todo!(),
         CardName::SpotWeakness => todo!(),
-        CardName::Uppercut => todo!(),
+        CardName::Uppercut => Rc::new(RefCell::new(ironclad::uppercut::Uppercut(upgraded))),
         CardName::Whirlwind => todo!(),
         CardName::Berserk => todo!(),
         CardName::Brutality => todo!(),
