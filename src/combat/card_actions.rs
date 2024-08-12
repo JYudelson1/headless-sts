@@ -50,6 +50,13 @@ impl State {
                 // TODO: Are there relics or powers that interact here?
                 self.get_combat().self_effects.apply_debuff(debuff);
             },
+            CardActions::IncreaseMaxEnergy => {
+                self.get_combat().max_energy += 1
+            },
+            CardActions::DoubleBlock => {
+                let block = self.get_combat().self_block;
+                self.get_combat().gain_block(block);
+            },
         }
     }
 

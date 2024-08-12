@@ -25,6 +25,8 @@ pub enum CardActions {
     ExhaustSelectedCard,
     ShuffleCardToPile((MasterCard, Pile)),
     GainEnergy(u8), // TODO: Other things cards can do
+    IncreaseMaxEnergy,
+    DoubleBlock,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
