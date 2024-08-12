@@ -1,6 +1,8 @@
+use rand::prelude::SliceRandom;
+
 use crate::{
     cardrewardrng::CombatType,
-    cards::make_card,
+    cards::{make_card, CardName},
     relics::Relic,
     state::State,
     utils::{number_between, Act, Character, Number},
@@ -221,7 +223,12 @@ impl State {
                             self. current_health = self.max_health.0 as u16;
                         }
                     },
-                    crate::screens::ThirdDownside::RandomCurse => todo!(),
+                    crate::screens::ThirdDownside::RandomCurse => {
+                        let curses = CardName::transform_curses();
+                        let curse = curses.choose(&mut rand::thread_rng());
+                        let card = make_card(*curse.unwrap(), false);
+                        self.add_to_deck(card);
+                    }
                     crate::screens::ThirdDownside::TakeDamage => {
                         let amt = ((self.current_health as f32 / 10.0).floor() * 3.0).floor() as u16;
                         self.current_health -= amt;
