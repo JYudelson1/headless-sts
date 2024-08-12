@@ -385,7 +385,10 @@ impl Combat {
         let enemy = &mut self.enemies[enemy_index.0];
         // Metallicize
         let metal = enemy.effects.get_metallicize();
-        enemy.current_block += metal;
+        if let Some(amt) = metal {
+            enemy.current_block += amt;
+        }
+        
     }
 
     pub fn end_enemies_turn(&mut self) {
@@ -395,8 +398,14 @@ impl Combat {
     }
 
     pub fn exhaust_card(&mut self, card: MasterCard) {
-        // TODO: Feel no pain
-        // TODO: Dark embrace
+        // Feel no pain
+        if let Some(amt) = self.self_effects.get_feel_no_pain() {
+            self.gain_block(amt);
+        }
+        // Dark embrace
+        if let Some(amt) = self.self_effects.get_dark_embrace() {
+            self.draw(amt.0 as u8);
+        }
         // TODO: Necronomicurse goes here
         self.exhaust.push(card);
     }

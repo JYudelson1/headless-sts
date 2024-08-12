@@ -80,32 +80,20 @@ impl Effects {
         }
     }
 
-    pub fn get_metallicize(&self) -> Number {
-        match self.intensity_buffs.get(&IntensityBuffs::Metallicize) {
-            Some(amt) => *amt,
-            None => Number(0),
-        }
+    pub fn get_metallicize(&self) -> Option<Number> {
+        self.intensity_buffs.get(&IntensityBuffs::Metallicize).copied()
     }
 
     pub fn thorns(&self) -> Option<Number> {
-        match self.intensity_buffs.get(&IntensityBuffs::Thorns) {
-            Some(amt) => Some(*amt),
-            None => None,
-        }
+        self.intensity_buffs.get(&IntensityBuffs::Thorns).copied()
     }
 
     pub fn firebreathing(&self) -> Option<Number> {
-        match self.intensity_buffs.get(&IntensityBuffs::Firebreathing) {
-            Some(amt) => Some(*amt),
-            None => None,
-        }
+        self.intensity_buffs.get(&IntensityBuffs::Firebreathing).copied()
     }
 
     pub fn evolve(&self) -> Option<Number> {
-        match self.intensity_buffs.get(&IntensityBuffs::Evolve) {
-            Some(amt) => Some(*amt),
-            None => None,
-        }
+        self.intensity_buffs.get(&IntensityBuffs::Evolve).copied()
     }
 
     fn get_ritual(&self) -> Number {
@@ -113,6 +101,18 @@ impl Effects {
             Some(amt) => *amt,
             None => Number(0),
         }
+    }
+
+    pub fn get_feel_no_pain(&self) -> Option<Number> {
+        self.intensity_buffs
+            .get(&IntensityBuffs::FeelNoPain)
+            .copied()
+    }
+
+    pub fn get_dark_embrace(&self) -> Option<Number> {
+        self.intensity_buffs
+            .get(&IntensityBuffs::DarkEmbrace)
+            .copied()
     }
 
     pub fn apply_buff(&mut self, buff: Buff) {
@@ -306,6 +306,8 @@ pub enum IntensityBuffs {
     Firebreathing,
     Evolve,
     Artifact,
+    FeelNoPain,
+    DarkEmbrace,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
