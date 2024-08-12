@@ -97,7 +97,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::CurseOfTheBell => todo!(),
         CardName::Decay => todo!(),
         CardName::Doubt => todo!(),
-        CardName::Injury => todo!(),
+        CardName::Injury => Rc::new(RefCell::new(shared::injury::Injury)),
         CardName::Necronomicurse => todo!(),
         CardName::Normality => todo!(),
         CardName::Pain => todo!(),
