@@ -179,12 +179,11 @@ impl State {
             self.discard_hand_end_of_turn();
         }
 
-        // All timed debuffs should go down
+        // All timed debuffs go down
         self.get_combat().self_effects.increment_turn();
 
         // Beginning of opponent's turn effects (e.g. poison)
         self.begin_enemy_turn();
-        // TODO: All timed debuffs should go down
 
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
