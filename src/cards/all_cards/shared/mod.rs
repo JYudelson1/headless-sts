@@ -23,4 +23,4 @@ pub mod regret;
 pub mod shame;
 pub mod writhe;
 
-// TODO: Check for completeness
+// TODO: Colorless
