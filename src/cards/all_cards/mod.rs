@@ -72,7 +72,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::SeeingRed => Rc::new(RefCell::new(ironclad::seeingred::SeeingRed(upgraded))),
         CardName::Sentinel => todo!(),
         CardName::SeverSoul => todo!(),
-        CardName::Shockwave => todo!(),
+        CardName::Shockwave => Rc::new(RefCell::new(ironclad::shockwave::Shockwave(upgraded))),
         CardName::SpotWeakness => todo!(),
         CardName::Uppercut => Rc::new(RefCell::new(ironclad::uppercut::Uppercut(upgraded))),
         CardName::Whirlwind => todo!(),
