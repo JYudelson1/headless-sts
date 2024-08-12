@@ -72,10 +72,6 @@ impl Card for SearingBlow {
 }
 
 impl SearingBlow {
-    pub fn new(upgraded: bool) -> Self {
-        Self(if upgraded { 1 } else { 0 })
-    }
-
     pub fn get_damage(&self) -> Number {
         let damage = (self.0 * (self.0 + 7) / 2) + 12;
         Number(damage as i16)
