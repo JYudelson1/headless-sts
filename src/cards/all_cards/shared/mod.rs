@@ -19,7 +19,6 @@ pub mod necronomicurse;
 pub mod normality;
 pub mod pain;
 pub mod parasite;
-pub mod pride;
 pub mod regret;
 pub mod shame;
 pub mod writhe;
