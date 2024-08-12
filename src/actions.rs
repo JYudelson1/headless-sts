@@ -14,6 +14,7 @@ pub enum Action {
     MakeRestChoice(RestChoice),
     Upgrade(Uuid),
     Remove(Uuid),
+    Transform(Uuid),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

@@ -86,7 +86,7 @@ impl State {
                         if let VisibleStates::CardReward(cards) = &self.visible_screen {
                             let card_reward = &cards[i];
                             let card = make_card(card_reward.card, card_reward.is_upgraded);
-                            self.main_deck.push(card);
+                            self.add_to_deck(card);
                         } else {
                             panic!("Making card choice not on CardReward screen!");
                         }
@@ -121,16 +121,34 @@ impl State {
             Action::MakeRestChoice(choice) => self.apply_rest_choice(choice),
             Action::Upgrade(id) => {
                 self.upgrade_card_in_deck(id);
-                if matches!(self.visible_screen, VisibleStates::UpgradeCardScreen) {
-                    self.to_map();
+                if let VisibleStates::UpgradeCardScreen(amt_to_upgrade) = &mut self.visible_screen {
+                    if *amt_to_upgrade == 1 {
+                        self.to_map();
+                    } else {
+                        *amt_to_upgrade -= 1;
+                    }
                 }
             },
             Action::Remove(id) => {
                 self.remove_card_in_deck(id);
-                if matches!(self.visible_screen, VisibleStates::RemoveCardScreen) {
-                    self.to_map();
+                if let VisibleStates::RemoveCardScreen(amt_to_remove) = &mut self.visible_screen {
+                    if *amt_to_remove == 1 {
+                        self.to_map();
+                    } else {
+                        *amt_to_remove -= 1;
+                    }
                 }
             },
+            Action::Transform(id) => {
+                self.transform_card_in_deck(id);
+                if let VisibleStates::TransformCardScreen(amt_to_transform) = &mut self.visible_screen {
+                    if *amt_to_transform == 1 {
+                        self.to_map();
+                    } else {
+                        *amt_to_transform -= 1;
+                    }
+                }
+            }
         }
 
     }

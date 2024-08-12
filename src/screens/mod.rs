@@ -29,8 +29,9 @@ pub enum VisibleStates {
     Combat(Combat),
     Treasure(Chest),
     Rest,
-    RemoveCardScreen,
-    UpgradeCardScreen
+    RemoveCardScreen(usize),
+    UpgradeCardScreen(usize),
+    TransformCardScreen(usize)
 }
 
 impl VisibleStates {
@@ -160,17 +161,24 @@ impl State {
             VisibleStates::Rest => {
                 actions.append(&mut self.get_rest_actions());
             }
-            VisibleStates::RemoveCardScreen => {
+            VisibleStates::RemoveCardScreen(_) => {
                 for card in &self.main_deck {
                     if card.card().can_be_removed() {
                         actions.push(Action::Remove(card.id));
                     }
                 }
             },
-            VisibleStates::UpgradeCardScreen => {
+            VisibleStates::UpgradeCardScreen(_) => {
                 for card in &self.main_deck {
                     if card.card().can_be_upgraded() {
                         actions.push(Action::Upgrade(card.id));
+                    }
+                }
+            },
+            VisibleStates::TransformCardScreen(_) => {
+                for card in &self.main_deck {
+                    if card.card().can_be_removed() {
+                        actions.push(Action::Transform(card.id));
                     }
                 }
             },

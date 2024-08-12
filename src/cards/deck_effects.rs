@@ -1,4 +1,6 @@
-use crate::state::State;
+use crate::{state::State, utils::number_between};
+
+use super::{make_card, CardName, CardType, MasterCard};
 
 impl State {
     pub fn upgrade_card_in_deck(&mut self, card_id: uuid::Uuid) {
@@ -25,5 +27,39 @@ impl State {
             }
             None => panic!("No card with that ID exists!"),
         }
+    }
+
+    pub fn transform_card_in_deck(&mut self, card_id: uuid::Uuid) {
+        let mut index = None;
+        for (i, card) in self.main_deck.iter().enumerate() {
+            if card.id == card_id {
+                index = Some(i);
+            }
+        }
+        match index {
+            Some(i) => {
+                let card = self.main_deck.remove(i);
+                // TODO: Treat colorless cards correctly here
+                let new_card = if card.card().get_type() == CardType::Curse {
+                    let curses = CardName::transform_curses();
+                    let i = number_between(0, curses.len() - 1);
+                    curses[i]
+                } else {
+                    let cards = CardName::transform_cards(self.character);
+                    let i = number_between(0, cards.len() - 1);
+                    cards[i]
+                };
+                let new_card = make_card(new_card, false);
+                self.add_to_deck(new_card);
+            }
+            None => panic!("No card with that ID exists!"),
+        }
+    }
+
+    pub fn add_to_deck(&mut self, card: MasterCard) {
+        // TODO: The eggs
+        // TODO: Periapt
+        // TODO: Omamori
+        self.main_deck.push(card);
     }
 }

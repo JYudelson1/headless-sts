@@ -40,7 +40,7 @@ impl State {
         match choice {
             RestChoice::Skip => (),
             RestChoice::Smith => {
-                self.visible_screen = VisibleStates::UpgradeCardScreen
+                self.visible_screen = VisibleStates::UpgradeCardScreen(1)
             },
             RestChoice::Rest => {
                 let mut amt_to_heal = self.max_health.0 as f32 * 0.3;
@@ -52,7 +52,7 @@ impl State {
                 self.to_map();
             },
             RestChoice::Toke => {
-                self.visible_screen = VisibleStates::RemoveCardScreen
+                self.visible_screen = VisibleStates::RemoveCardScreen(1)
             },
             RestChoice::TakeRubyKey => self.keys.add_key(Key::Ruby),
             RestChoice::Lift => self.relics.increase_girya(),

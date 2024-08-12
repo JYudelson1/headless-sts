@@ -1,5 +1,3 @@
-// TODO: Figure out whether to have different blessings if you die early
-
 use crate::{
     cardrewardrng::CombatType,
     cards::make_card,
@@ -150,11 +148,13 @@ impl State {
         match blessing {
             NeowsBlessing::First(bless) => match bless {
                 crate::screens::FirstBlessing::Remove => {
-                    self.visible_screen = VisibleStates::RemoveCardScreen;
+                    self.visible_screen = VisibleStates::RemoveCardScreen(1);
                 }
-                crate::screens::FirstBlessing::Transform => todo!(),
+                crate::screens::FirstBlessing::Transform => {
+                    self.visible_screen = VisibleStates::TransformCardScreen(1);
+                }
                 crate::screens::FirstBlessing::Upgrade => {
-                    self.visible_screen = VisibleStates::UpgradeCardScreen;
+                    self.visible_screen = VisibleStates::UpgradeCardScreen(1);
                 }
                 crate::screens::FirstBlessing::ChooseClassCard => {
                     let card_reward = self.card_rng.get_noncombat_choice(3, Act::Act1, self.character);
@@ -188,8 +188,12 @@ impl State {
             },
             NeowsBlessing::Third(bless) => {
                 match bless.upside {
-                    crate::screens::ThirdUpside::Remove2 => todo!(),
-                    crate::screens::ThirdUpside::Transform2 => todo!(),
+                    crate::screens::ThirdUpside::Remove2 => {
+                        self.visible_screen = VisibleStates::RemoveCardScreen(2)
+                    }
+                    crate::screens::ThirdUpside::Transform2 => {
+                        self.visible_screen = VisibleStates::TransformCardScreen(2)
+                    }
                     crate::screens::ThirdUpside::Gold250 => self.gold += 250,
                     crate::screens::ThirdUpside::ChooseRareClassCard => todo!(),
                     crate::screens::ThirdUpside::ChooseRareColorless => todo!(),

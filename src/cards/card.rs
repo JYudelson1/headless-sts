@@ -155,6 +155,48 @@ impl CardName {
     fn watcher_rares() -> Vec<Self> {
         vec![]
     }
+
+    pub fn transform_cards(character: Character) -> Vec<Self> {
+        let cards = match character {
+            Character::Ironclad => vec![
+                Self::ironclad_commons(),
+                Self::ironclad_uncommons(),
+                Self::ironclad_rares(),
+            ],
+            Character::Silent => vec![
+                Self::silent_commons(),
+                Self::silent_uncommons(),
+                Self::silent_rares(),
+            ],
+            Character::Defect => vec![
+                Self::defect_commons(),
+                Self::defect_uncommons(),
+                Self::defect_rares(),
+            ],
+            Character::Watcher => vec![
+                Self::watcher_commons(),
+                Self::watcher_uncommons(),
+                Self::watcher_rares(),
+            ],
+        };
+
+        cards.concat()
+    }
+
+    pub fn transform_curses() -> Vec<Self> {
+        vec![
+            CardName::Clumsy,
+            CardName::Decay,
+            CardName::Doubt,
+            CardName::Injury,
+            CardName::Normality,
+            CardName::Pain,
+            CardName::Parasite,
+            CardName::Regret,
+            CardName::Shame,
+            CardName::Writhe,
+        ]
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
