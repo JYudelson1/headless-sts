@@ -1,6 +1,6 @@
 use crate::{
     cards::{CardName, CardType, Targets},
-    effects::{Debuff, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
+    effects::{Debuff, DurationDebuffs, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
     relics::Relic,
     screens::VisibleStates,
@@ -215,23 +215,45 @@ impl State {
         for i in (0..hand_size).rev() {
             //// Hold in hand effects:
             // TODO: Watcher retain cards
-            // Burn
             let card_name = self.get_combat().hand[i].card().name().clone();
-            if card_name == CardName::Burn {
-                self.damage_self(Number(2));
-                // Always discard burns, even if they retain
-                let combat = self.get_combat();
-                combat.discard.push(combat.hand.remove(i));
+            match card_name {
+                CardName::Burn => {
+                    let burn_is_upgraded = self.get_combat().hand[i].card().is_upgraded();
+                    match burn_is_upgraded {
+                        true => self.damage_self(Number(4)),
+                        false => self.damage_self(Number(2)),
+                    }
+                }
+                CardName::Decay => {
+                    self.damage_self(Number(2));
+                }
+                CardName::Doubt => {
+                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Weak, Number(1))))
+                }
+                CardName::Shame => {
+                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Frail, Number(1))))
+                }
+                CardName::Regret => {
+                    self.lose_hp(hand_size as u16);
+                }
+                _ => {
+                    // For any other card:
+                    // If the card is ethereal, exhaust it
+                    let combat = self.get_combat();
+                    if combat.hand[i].card().is_ethereal() {
+                        combat.exhaust.push(combat.hand.remove(i));
+                    } else if !combat.hand[i].card().retains() {
+                        // Else discard if not retained
+                        combat.discard.push(combat.hand.remove(i));
+                    }
+                    continue;
+                }
             }
-
-            //// If the card is ethereal, exhaust it
+            // Always discard burns and curses, even if they retain
             let combat = self.get_combat();
-            if combat.hand[i].card().is_ethereal() {
-                combat.exhaust.push(combat.hand.remove(i));
-            } else if !combat.hand[i].card().retains() {
-                // Else discard if not retained
-                combat.discard.push(combat.hand.remove(i));
-            }
+            combat.discard.push(combat.hand.remove(i));
+
+            
         }
     }
 }

@@ -1,7 +1,7 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
 
 #[derive(Debug)]
-pub struct Burn;
+pub struct Burn(pub bool);
 
 impl Card for Burn {
     fn name(&self) -> CardName {
@@ -24,14 +24,16 @@ impl Card for Burn {
         vec![]
     }
 
-    fn set_upgraded(&mut self, _: bool) {}
+    fn set_upgraded(&mut self, upgraded: bool) {
+        self.0 = upgraded
+    }
 
     fn can_be_upgraded(&self) -> bool {
-        false
+        !self.0
     }
 
     fn is_upgraded(&self) -> bool {
-        false
+        self.0
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
