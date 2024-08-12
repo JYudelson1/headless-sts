@@ -13,38 +13,42 @@ impl State {
             }
             Relic::OldCoin => self.gold += 300,
             Relic::WarPaint => {
-                // TODO
+                todo!()
             }
             Relic::Whetstone => {
-                // TODO
+                todo!()
             }
             Relic::BottledFlame => {
-                // TODO
+                todo!()
             }
             Relic::BottledLightning => {
-                // TODO
+                todo!()
             }
             Relic::BottledTornado => {
-                // TODO
+                todo!()
             }
             Relic::DollysMirror => {
-                // TODO
+                todo!()
             }
             Relic::Astrolabe => {
                 //TODO
             }
             Relic::PandorasBox => {
-                // TODO
+                todo!()
             }
             Relic::CallingBell => {
-                // TODO
+                todo!()
             }
             Relic::EmptyCage => {
-                // TODO
+                todo!()
             }
             Relic::TinyHouse => {
-                // TODO
+                todo!()
             }
+            Relic::Necronomicon => {
+                todo!()
+            }
+
             _ => (),
         }
         self.relics.add(relic);
