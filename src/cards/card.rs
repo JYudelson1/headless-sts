@@ -186,7 +186,6 @@ pub enum CardName {
     Normality,
     Pain,
     Parasite,
-    Pride,
     Regret,
     Shame,
     Writhe,

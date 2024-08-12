@@ -102,7 +102,6 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Normality => todo!(),
         CardName::Pain => todo!(),
         CardName::Parasite => todo!(),
-        CardName::Pride => todo!(),
         CardName::Regret => todo!(),
         CardName::Shame => todo!(),
         CardName::Writhe => todo!(),
