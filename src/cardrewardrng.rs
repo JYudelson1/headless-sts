@@ -82,6 +82,7 @@ impl CardRewardRng {
     ) -> Vec<CardReward> {
         let mut cards = vec![];
 
+        // TODO: Should check to make sure there are no duplicate cards
         for _ in 0..num_cards {
             cards.push(self.get_one_reward(combat_type, act, character));
         }
