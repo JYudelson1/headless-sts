@@ -242,7 +242,7 @@ pub enum Relic {
     Strawberry,             // IMPLEMENTED
     TheBoot,                // IMPLEMENTED
     TinyChest(u8),          // IMPLEMENTED
-    ToyOrnithopter,         // NOT IMPLEMENTED
+    ToyOrnithopter,         // IMPLEMENTED
     Vajra,                  // IMPLEMENTED
     WarPaint,               // NOT IMPLEMENTED
     Whetstone,              // NOT IMPLEMENTED

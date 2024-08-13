@@ -1,4 +1,4 @@
-use crate::{combat::Combat, effects::{Buff, IntensityBuffOrDebuff}, state::State, utils::Number};
+use crate::{combat::Combat, effects::{Buff, IntensityBuffOrDebuff}, relics::Relic, state::State, utils::Number};
 
 #[derive(Debug, Clone, Copy)]
 pub enum Potion {
@@ -63,6 +63,10 @@ impl State {
 
         if !potion_used {
             self.get_combat().use_combat_potion(potion)
+        }
+
+        if self.relics.contains(Relic::ToyOrnithopter) {
+            self.heal(5);
         }
     }
 
