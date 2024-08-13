@@ -13,4 +13,5 @@ pub mod looter;
 pub mod slaver_blue;
 pub mod slaver_red;
 pub mod spike_slime_l;
+pub mod spike_slime_m;
 pub mod spike_slime_s;

@@ -7,7 +7,7 @@ use super::{
     },
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm,
-        spike_slime_s::SpikeSlimeS,
+        spike_slime_m::SpikeSlimeM, spike_slime_s::SpikeSlimeS,
     },
     ConcreteEnemy, EnemyIntent, EnemyType,
 };
@@ -28,7 +28,7 @@ impl EnemyType {
             EnemyType::GreenLouse => todo!(),
             EnemyType::RedLouse => todo!(),
             EnemyType::AcidSlimeM => AcidSlimeM::new(ascension),
-            EnemyType::SpikeSlimeM => todo!(),
+            EnemyType::SpikeSlimeM => SpikeSlimeM::new(ascension),
             EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
             EnemyType::SpikeSlimeS => SpikeSlimeS::new(ascension),
             EnemyType::Lagavulin => Lagavulin::new(ascension),
