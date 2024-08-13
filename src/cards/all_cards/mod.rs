@@ -58,7 +58,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::FlameBarrier => todo!(),
         CardName::HemoKinesis => Rc::new(RefCell::new(ironclad::hemokinesis::HemoKinesis(upgraded))),
         CardName::InfernalBlade => todo!(),
-        CardName::Inflame => todo!(),
+        CardName::Inflame => Rc::new(RefCell::new(ironclad::inflame::Inflame(upgraded))),
         CardName::Intimidate => todo!(),
         CardName::Metallicize =>  Rc::new(RefCell::new(ironclad::metallicize::Metallicize(upgraded))),
         CardName::PowerThrough => todo!(),
