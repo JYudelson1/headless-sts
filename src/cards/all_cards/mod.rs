@@ -62,7 +62,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Intimidate => Rc::new(RefCell::new(ironclad::intimidate::Intimidate(upgraded))),
         CardName::Metallicize =>  Rc::new(RefCell::new(ironclad::metallicize::Metallicize(upgraded))),
         CardName::PowerThrough => Rc::new(RefCell::new(ironclad::powerthrough::PowerThrough(upgraded))),
-        CardName::Pummel => todo!(),
+        CardName::Pummel => Rc::new(RefCell::new(ironclad::pummel::Pummel(upgraded))),
         CardName::Rage => todo!(),
         CardName::Rampage => Rc::new(RefCell::new(ironclad::rampage::Rampage::new(upgraded))),
         CardName::RecklessCharge => todo!(),
