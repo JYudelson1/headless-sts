@@ -46,6 +46,7 @@ pub mod pummel;
 pub mod rage;
 pub mod rampage;
 pub mod reaper;
+pub mod recklesscharge;
 pub mod rupture;
 pub mod searingblow;
 pub mod seeingred;
