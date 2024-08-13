@@ -54,6 +54,7 @@ pub mod shrugitoff;
 pub mod swordboomerang;
 pub mod thunderclap;
 pub mod truegrit;
+pub mod twinstrike;
 pub mod uppercut;
 pub mod warcry;
 pub mod whirlwind;
