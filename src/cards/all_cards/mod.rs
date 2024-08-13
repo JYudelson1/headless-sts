@@ -45,7 +45,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::WildStrike => Rc::new(RefCell::new(ironclad::wildstrike::WildStrike(upgraded))),
         CardName::BattleTrance => Rc::new(RefCell::new(ironclad::battletrance::BattleTrance(upgraded))),
         CardName::BloodForBlood => todo!(),
-        CardName::BurningPact => todo!(),
+        CardName::BurningPact => Rc::new(RefCell::new(ironclad::burningpact::BurningPact(upgraded))),
         CardName::Combust => todo!(),
         CardName::DarkEmbrace => Rc::new(RefCell::new(ironclad::darkembrace::DarkEmbrace(upgraded))),
         CardName::Disarm => todo!(),

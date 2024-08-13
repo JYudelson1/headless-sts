@@ -9,6 +9,7 @@ pub mod bloodletting;
 pub mod bludgeon;
 pub mod bodyslam;
 pub mod brutality;
+pub mod burningpact;
 pub mod carnage;
 pub mod clash;
 pub mod cleave;
