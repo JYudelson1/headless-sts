@@ -1,5 +1,5 @@
 use crate::{
-    cards::{CardName, CardType, MasterCard, Targets},
+    cards::{make_card, CardName, CardType, MasterCard, Targets},
     effects::{Debuff, DurationDebuffs, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
     relics::Relic,
@@ -408,5 +408,18 @@ impl Combat {
         }
         // TODO: Necronomicurse goes here
         self.exhaust.push(card);
+    }
+
+    pub fn create_card_in_hand(&mut self, card: MasterCard) {
+        if self.hand.len() == 10 {
+            self.discard.push(card)
+        } else {
+            self.hand.push(card)
+        }
+    }
+
+    pub fn create_fresh_card_in_hand(&mut self, card: CardName, upgraded: bool) {
+        let card = make_card(card, upgraded);
+        self.create_card_in_hand(card);
     }
 }

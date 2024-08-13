@@ -66,6 +66,10 @@ impl State {
                 let block = self.get_combat().self_block;
                 self.get_combat().gain_block(block)
             },
+            CardActions::AddCardToHand(card) => {
+                self.get_combat().create_card_in_hand(card);
+            },
+            CardActions::AddFreshCardToHand((card, upgraded)) => self.get_combat().create_fresh_card_in_hand(card, upgraded),
         }
     }
 

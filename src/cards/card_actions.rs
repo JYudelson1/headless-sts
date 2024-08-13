@@ -1,6 +1,6 @@
 use crate::{effects::{Buff, Debuff}, utils::Number};
 
-use super::MasterCard;
+use super::{CardName, MasterCard};
 
 pub enum Targets {
     All,
@@ -24,6 +24,8 @@ pub enum CardActions {
     ExhaustRandomCard,
     ExhaustSelectedCard,
     ShuffleCardToPile((MasterCard, Pile)),
+    AddCardToHand(MasterCard),
+    AddFreshCardToHand((CardName, bool)),
     GainEnergy(u8),
     IncreaseMaxEnergy,
     DoubleBlock,
