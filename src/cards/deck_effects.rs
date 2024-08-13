@@ -75,11 +75,22 @@ impl State {
             }
             CardType::Status => (),
             CardType::Curse => {
-                // TODO: Periapt
-                // TODO: Omamori
+                // Omamori
+                if self.relics.try_use_omamori() {
+                    return;
+                }
+                // Periapt
+                if self.relics.contains(Relic::DarkstonePeriapt) {
+                    self.increase_max_hp(6);
+                }
             }
         }
-        
+
         self.main_deck.push(card);
+
+        // Ceramic Fish
+        if self.relics.contains(Relic::CeramicFish) {
+            self.gold += 9;
+        }
     }
 }

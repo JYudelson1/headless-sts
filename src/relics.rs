@@ -205,6 +205,20 @@ impl Relics {
             }
         }
     }
+
+    pub fn try_use_omamori(&mut self) -> bool {
+        for relic in &mut self.list {
+            if let Relic::Omamori(charges) = relic {
+                if *charges > 0 {
+                    *charges -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        false
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
@@ -223,7 +237,7 @@ pub enum Relic {
     BloodVial,              // IMPLEMENTED
     BronzeScales,           // PARTIALLY IMPLEMENTED
     CentennialPuzzle(bool), // NOT IMPLEMENTED
-    CeramicFish,            // NOT IMPLEMENTED
+    CeramicFish,            // IMPLEMENTED
     Dreamcatcher,           // NOT IMPLEMENTED
     HappyFlower(u8),        // NOT IMPLEMENTED
     JuzuBracelet,           // IMPLEMENTED
@@ -232,7 +246,7 @@ pub enum Relic {
     MealTicket,             // NOT IMPLEMENTED
     Nunchaku(u8),           // NOT IMPLEMENTED
     SmoothStone,            // IMPLEMENTED
-    Omamori(u8),            // NOT IMPLEMENTED
+    Omamori(u8),            // IMPLEMENTED
     Orichalcum,             // IMPLEMENTED
     PenNib(u8),             // NOT IMPLEMENTED
     PotionBelt,             // IMPLEMENTED
@@ -255,7 +269,7 @@ pub enum Relic {
     BottledFlame,      // NOT IMPLEMENTED
     BottledLightning,  // NOT IMPLEMENTED
     BottledTornado,    // NOT IMPLEMENTED
-    DarkstonePeriapt,  // NOT IMPLEMENTED
+    DarkstonePeriapt,  // IMPLEMENTED
     EternalFeather,    // NOT IMPLEMENTED
     FrozenEgg,         // IMPLEMENTED
     GremlinHorn,       // NOT IMPLEMENTED
