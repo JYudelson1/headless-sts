@@ -79,4 +79,9 @@ impl MasterCard {
     pub fn card_mut(&mut self) -> RefMut<dyn Card> {
         self.card.as_ref().borrow_mut()
     }
+
+    pub fn upgrade(&mut self) {
+        self.upgraded += 1;
+        self.card_mut().upgrade();
+    }
 }

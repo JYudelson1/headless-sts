@@ -1,4 +1,4 @@
-use crate::{state::State, utils::number_between};
+use crate::{relics::Relic, state::State, utils::number_between};
 
 use super::{make_card, CardName, CardType, MasterCard};
 
@@ -6,8 +6,7 @@ impl State {
     pub fn upgrade_card_in_deck(&mut self, card_id: uuid::Uuid) {
         for card in &mut self.main_deck {
             if card.id == card_id {
-                card.upgraded += 1;
-                card.card_mut().upgrade();
+                card.upgrade();
                 return;
             }
         }
@@ -56,10 +55,31 @@ impl State {
         }
     }
 
-    pub fn add_to_deck(&mut self, card: MasterCard) {
-        // TODO: The eggs
-        // TODO: Periapt
-        // TODO: Omamori
+    pub fn add_to_deck(&mut self, mut card: MasterCard) {
+        let card_type = card.card().get_type();
+        match card_type {
+            CardType::Attack => {
+                if self.relics.contains(Relic::MoltenEgg) {
+                    card.upgrade();
+                }
+            }
+            CardType::Power => {
+                if self.relics.contains(Relic::ToxicEgg) {
+                    card.upgrade();
+                }
+            }
+            CardType::Skill => {
+                if self.relics.contains(Relic::FrozenEgg) {
+                    card.upgrade();
+                }
+            }
+            CardType::Status => (),
+            CardType::Curse => {
+                // TODO: Periapt
+                // TODO: Omamori
+            }
+        }
+        
         self.main_deck.push(card);
     }
 }

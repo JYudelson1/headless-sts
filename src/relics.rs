@@ -257,7 +257,7 @@ pub enum Relic {
     BottledTornado,    // NOT IMPLEMENTED
     DarkstonePeriapt,  // NOT IMPLEMENTED
     EternalFeather,    // NOT IMPLEMENTED
-    FrozenEgg,         // NOT IMPLEMENTED
+    FrozenEgg,         // IMPLEMENTED
     GremlinHorn,       // NOT IMPLEMENTED
     HornCleat,         // NOT IMPLEMENTED
     InkBottle(u8),     // NOT IMPLEMENTED
@@ -266,7 +266,7 @@ pub enum Relic {
     Matryoshka(u8),    // NOT IMPLEMENTED
     MeatOnTheBone,     // NOT IMPLEMENTED
     MercuryHourglass,  // NOT IMPLEMENTED
-    MoltenEgg,         // NOT IMPLEMENTED
+    MoltenEgg,         // IMPLEMENTED
     MummifiedHand,     // NOT IMPLEMENTED
     OrnamentalFan(u8), // NOT IMPLEMENTED
     Pantograph,        // NOT IMPLEMENTED
@@ -277,7 +277,7 @@ pub enum Relic {
     StrikeDummy,       // NOT IMPLEMENTED
     Sundial(u8),       // NOT IMPLEMENTED
     TheCourier,        // NOT IMPLEMENTED
-    ToxicEgg,          // NOT IMPLEMENTED
+    ToxicEgg,          // IMPLEMENTED
     WhiteBeastStatue,  // NOT IMPLEMENTED
     PaperPhrog,        // IMPLEMENTED
     SelfFormingClay,   // NOT IMPLEMENTED
