@@ -1,3 +1,4 @@
+mod events;
 mod neow;
 mod rest;
 mod rewards;
@@ -57,7 +58,7 @@ impl State {
         );
 
         println!("Fighting {enemies:?}");
-        
+
         let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics, &self.main_deck);
         self.visible_screen = VisibleStates::Combat(combat);
 
