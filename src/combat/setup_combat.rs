@@ -13,7 +13,7 @@ pub fn get_enemies(
             match combat_type {
                 CombatType::Normal => {
                     // Easy fights for first three encounters
-                    if fights_this_act < 3 {
+                    if fights_this_act <= 3 {
                         act_1_easy_pool()
                     } else {
                         todo!()
