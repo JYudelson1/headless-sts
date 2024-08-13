@@ -86,6 +86,7 @@ impl State {
                         if let VisibleStates::CardReward(cards) = &self.visible_screen {
                             let card_reward = &cards[i];
                             let card = make_card(card_reward.card, card_reward.is_upgraded);
+                            println!("Obtained {:?}", card.card().name());
                             self.add_to_deck(card);
                         } else {
                             panic!("Making card choice not on CardReward screen!");
