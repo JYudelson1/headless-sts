@@ -226,184 +226,183 @@ pub enum Relic {
     Circlet,                // IMPLEMENTED
     BurningBlood,           // IMPLEMENTED
     RingOfSnake,            // IMPLEMENTED
-    CrackedCore,            // PARTIALLY IMPLEMENTED
-    PureWater,              // PARTIALLY IMPLEMENTED
-    Akabeko,                // NOT IMPLEMENTED
+    CrackedCore,            // TODO: PARTIALLY IMPLEMENTED
+    PureWater,              // TODO: PARTIALLY IMPLEMENTED
+    Akabeko,                // TODO: NOT IMPLEMENTED
     Anchor,                 // IMPLEMENTED
     AncientTeaSet(bool),    // IMPLEMENTED
-    ArtOfWar(bool),         // PARTIALLY IMPLEMENTED
+    ArtOfWar(bool),         // TODO: PARTIALLY IMPLEMENTED
     BagOfMarbles,           // IMPLEMENTED
     BagOfPrep,              // IMPLEMENTED
     BloodVial,              // IMPLEMENTED
-    BronzeScales,           // PARTIALLY IMPLEMENTED
-    CentennialPuzzle(bool), // NOT IMPLEMENTED
+    BronzeScales,           // TODO: PARTIALLY IMPLEMENTED
+    CentennialPuzzle(bool), // TODO: NOT IMPLEMENTED
     CeramicFish,            // IMPLEMENTED
-    Dreamcatcher,           // NOT IMPLEMENTED
-    HappyFlower(u8),        // NOT IMPLEMENTED
+    Dreamcatcher,           // TODO: NOT IMPLEMENTED
+    HappyFlower(u8),        // TODO: NOT IMPLEMENTED
     JuzuBracelet,           // IMPLEMENTED
     Lantern,                // IMPLEMENTED
-    MawBank(bool),          // NOT IMPLEMENTED
-    MealTicket,             // NOT IMPLEMENTED
-    Nunchaku(u8),           // NOT IMPLEMENTED
+    MawBank(bool),          // TODO: NOT IMPLEMENTED
+    MealTicket,             // TODO: NOT IMPLEMENTED
+    Nunchaku(u8),           // TODO: NOT IMPLEMENTED
     SmoothStone,            // IMPLEMENTED
     Omamori(u8),            // IMPLEMENTED
     Orichalcum,             // IMPLEMENTED
-    PenNib(u8),             // NOT IMPLEMENTED
+    PenNib(u8),             // TODO: NOT IMPLEMENTED
     PotionBelt,             // IMPLEMENTED
-    PreservedInsect,        // NOT IMPLEMENTED
-    RegalPillow,            // NOT IMPLEMENTED
-    SmilingMask,            // NOT IMPLEMENTED
+    PreservedInsect,        // TODO: NOT IMPLEMENTED
+    RegalPillow,            // TODO: NOT IMPLEMENTED
+    SmilingMask,            // TODO: NOT IMPLEMENTED
     Strawberry,             // IMPLEMENTED
     TheBoot,                // IMPLEMENTED
     TinyChest(u8),          // IMPLEMENTED
     ToyOrnithopter,         // IMPLEMENTED
     Vajra,                  // IMPLEMENTED
-    WarPaint,               // NOT IMPLEMENTED
-    Whetstone,              // NOT IMPLEMENTED
-    RedSkull,               // NOT IMPLEMENTED
-    SneckoSkull,            // NOT IMPLEMENTED
+    WarPaint,               // TODO: NOT IMPLEMENTED
+    Whetstone,              // TODO: NOT IMPLEMENTED
+    RedSkull,               // TODO: NOT IMPLEMENTED
+    SneckoSkull,            // TODO: NOT IMPLEMENTED
     DataDisk,               // IMPLEMENTED
-    Damaru,                 // NOT IMPLEMENTED
-    BlueCandle,             // NOT IMPLEMENTED
-    //TODO: Figure these out
-    BottledFlame,      // NOT IMPLEMENTED
-    BottledLightning,  // NOT IMPLEMENTED
-    BottledTornado,    // NOT IMPLEMENTED
-    DarkstonePeriapt,  // IMPLEMENTED
-    EternalFeather,    // NOT IMPLEMENTED
-    FrozenEgg,         // IMPLEMENTED
-    GremlinHorn,       // NOT IMPLEMENTED
-    HornCleat,         // NOT IMPLEMENTED
-    InkBottle(u8),     // NOT IMPLEMENTED
-    Kunai(u8),         // NOT IMPLEMENTED
-    LetterOpener(u8),  // NOT IMPLEMENTED
-    Matryoshka(u8),    // NOT IMPLEMENTED
-    MeatOnTheBone,     // NOT IMPLEMENTED
-    MercuryHourglass,  // NOT IMPLEMENTED
-    MoltenEgg,         // IMPLEMENTED
-    MummifiedHand,     // NOT IMPLEMENTED
-    OrnamentalFan(u8), // NOT IMPLEMENTED
-    Pantograph,        // IMPLEMENTED
-    Pear,              // IMPLEMENTED
-    QuestionCard,      // IMPLEMENTED
-    Shuriken(u8),      // NOT IMPLEMENTED
-    SingingBowl,       // NOT IMPLEMENTED
-    StrikeDummy,       // NOT IMPLEMENTED
-    Sundial(u8),       // NOT IMPLEMENTED
-    TheCourier,        // NOT IMPLEMENTED
-    ToxicEgg,          // IMPLEMENTED
-    WhiteBeastStatue,  // NOT IMPLEMENTED
-    PaperPhrog,        // IMPLEMENTED
-    SelfFormingClay,   // NOT IMPLEMENTED
-    NinjaScroll,       // PARTIALLY IMPLEMENTED
-    PaperKrane,        // IMPLEMENTED
-    GoldPlatedCables,  // NOT IMPLEMENTED
-    SymbioticVirus,    // PARTIALLY IMPLEMENTED
-    Duality,           // NOT IMPLEMENTED
-    TeardropLocket,    // NOT IMPLEMENTED
-    BirdFacedUrn,      // NOT IMPLEMENTED
-    Calipers,          // NOT IMPLEMENTED
-    CaptainsWheel,     // NOT IMPLEMENTED
-    DeadBranch,        // NOT IMPLEMENTED
-    DuVuDoll,          // NOT IMPLEMENTED
-    FossilizedHelix,   // NOT IMPLEMENTED
-    GamblersChip,      // NOT IMPLEMENTED
-    Ginger,            // IMPLEMENTED
-    Girya(u8),         // IMPLEMENTED
-    IceCream,          // IMPLEMENTED
-    IncenseBurner(u8), // NOT IMPLEMENTED
-    LizardTail(bool),  // NOT IMPLEMENTED
-    Mango,             // IMPLEMENTED
-    OldCoin,           // IMPLEMENTED
-    PeacePipe,         // PARTIALLY IMPLEMENTED
-    Pocketwatch(u8),   // NOT IMPLEMENTED
-    PrayerWheel,       // IMPLEMENTED
-    Shovel,            // NOT IMPLEMENTED
-    StoneCalendar,     // NOT IMPLEMENTED
-    ThreadAndNeedle,   // NOT IMPLEMENTED
-    Torii,             // NOT IMPLEMENTED
-    TungstenRod,       // IMPLEMENTED
-    Turnip,            // IMPLEMENTED
-    UnceasingTop,      // NOT IMPLEMENTED
-    WingBoots,         // NOT IMPLEMENTED
-    ChampionsBelt,     // NOT IMPLEMENTED
-    CharonsAshes,      // NOT IMPLEMENTED
-    MagicFlower,       // IMPLEMENTED
-    TheSpecimen,       // NOT IMPLEMENTED
-    Tingsha,           // NOT IMPLEMENTED
-    ToughBandages,     // NOT IMPLEMENTED
-    EmotionChip,       // NOT IMPLEMENTED
-    CloakClasp,        // NOT IMPLEMENTED
-    GoldenEye,         // NOT IMPLEMENTED
-    Cauldron,          // NOT IMPLEMENTED
-    ChemicalX,         // NOT IMPLEMENTED
-    ClockworkSouvenir, // NOT IMPLEMENTED
-    DollysMirror,      // NOT IMPLEMENTED
-    FrozenEye,         // NOT IMPLEMENTED
-    HandDrill,         // NOT IMPLEMENTED
-    LeesWaffle,        // IMPLEMENTED
-    MedKit,            // NOT IMPLEMENTED
-    MembershipCard,    // NOT IMPLEMENTED
+    Damaru,                 // TODO: NOT IMPLEMENTED
+    BlueCandle,             // TODO: NOT IMPLEMENTED
+    BottledFlame,           // TODO: NOT IMPLEMENTED
+    BottledLightning,       // TODO: NOT IMPLEMENTED
+    BottledTornado,         // TODO: NOT IMPLEMENTED
+    DarkstonePeriapt,       // IMPLEMENTED
+    EternalFeather,         // TODO: NOT IMPLEMENTED
+    FrozenEgg,              // IMPLEMENTED
+    GremlinHorn,            // TODO: NOT IMPLEMENTED
+    HornCleat,              // TODO: NOT IMPLEMENTED
+    InkBottle(u8),          // TODO: NOT IMPLEMENTED
+    Kunai(u8),              // TODO: NOT IMPLEMENTED
+    LetterOpener(u8),       // TODO: NOT IMPLEMENTED
+    Matryoshka(u8),         // TODO: NOT IMPLEMENTED
+    MeatOnTheBone,          // TODO: NOT IMPLEMENTED
+    MercuryHourglass,       // TODO: NOT IMPLEMENTED
+    MoltenEgg,              // IMPLEMENTED
+    MummifiedHand,          // TODO: NOT IMPLEMENTED
+    OrnamentalFan(u8),      // TODO: NOT IMPLEMENTED
+    Pantograph,             // IMPLEMENTED
+    Pear,                   // IMPLEMENTED
+    QuestionCard,           // IMPLEMENTED
+    Shuriken(u8),           // TODO: NOT IMPLEMENTED
+    SingingBowl,            // TODO: NOT IMPLEMENTED
+    StrikeDummy,            // TODO: NOT IMPLEMENTED
+    Sundial(u8),            // TODO: NOT IMPLEMENTED
+    TheCourier,             // TODO: NOT IMPLEMENTED
+    ToxicEgg,               // IMPLEMENTED
+    WhiteBeastStatue,       // TODO: NOT IMPLEMENTED
+    PaperPhrog,             // IMPLEMENTED
+    SelfFormingClay,        // TODO: NOT IMPLEMENTED
+    NinjaScroll,            // TODO: PARTIALLY IMPLEMENTED
+    PaperKrane,             // IMPLEMENTED
+    GoldPlatedCables,       // TODO: NOT IMPLEMENTED
+    SymbioticVirus,         // TODO: PARTIALLY IMPLEMENTED
+    Duality,                // TODO: NOT IMPLEMENTED
+    TeardropLocket,         // TODO: NOT IMPLEMENTED
+    BirdFacedUrn,           // TODO: NOT IMPLEMENTED
+    Calipers,               // TODO: NOT IMPLEMENTED
+    CaptainsWheel,          // TODO: NOT IMPLEMENTED
+    DeadBranch,             // TODO: NOT IMPLEMENTED
+    DuVuDoll,               // TODO: NOT IMPLEMENTED
+    FossilizedHelix,        // TODO: NOT IMPLEMENTED
+    GamblersChip,           // TODO: NOT IMPLEMENTED
+    Ginger,                 // IMPLEMENTED
+    Girya(u8),              // IMPLEMENTED
+    IceCream,               // IMPLEMENTED
+    IncenseBurner(u8),      // TODO: NOT IMPLEMENTED
+    LizardTail(bool),       // TODO: NOT IMPLEMENTED
+    Mango,                  // IMPLEMENTED
+    OldCoin,                // IMPLEMENTED
+    PeacePipe,              // TODO: PARTIALLY IMPLEMENTED
+    Pocketwatch(u8),        // TODO: NOT IMPLEMENTED
+    PrayerWheel,            // IMPLEMENTED
+    Shovel,                 // TODO: NOT IMPLEMENTED
+    StoneCalendar,          // TODO: NOT IMPLEMENTED
+    ThreadAndNeedle,        // TODO: NOT IMPLEMENTED
+    Torii,                  // TODO: NOT IMPLEMENTED
+    TungstenRod,            // IMPLEMENTED
+    Turnip,                 // IMPLEMENTED
+    UnceasingTop,           // TODO: NOT IMPLEMENTED
+    WingBoots,              // TODO: NOT IMPLEMENTED
+    ChampionsBelt,          // TODO: NOT IMPLEMENTED
+    CharonsAshes,           // TODO: NOT IMPLEMENTED
+    MagicFlower,            // IMPLEMENTED
+    TheSpecimen,            // TODO: NOT IMPLEMENTED
+    Tingsha,                // TODO: NOT IMPLEMENTED
+    ToughBandages,          // TODO: NOT IMPLEMENTED
+    EmotionChip,            // TODO: NOT IMPLEMENTED
+    CloakClasp,             // TODO: NOT IMPLEMENTED
+    GoldenEye,              // TODO: NOT IMPLEMENTED
+    Cauldron,               // TODO: NOT IMPLEMENTED
+    ChemicalX,              // TODO: NOT IMPLEMENTED
+    ClockworkSouvenir,      // TODO: NOT IMPLEMENTED
+    DollysMirror,           // TODO: NOT IMPLEMENTED
+    FrozenEye,              // TODO: NOT IMPLEMENTED
+    HandDrill,              // TODO: NOT IMPLEMENTED
+    LeesWaffle,             // IMPLEMENTED
+    MedKit,                 // TODO: NOT IMPLEMENTED
+    MembershipCard,         // TODO: NOT IMPLEMENTED
     // TODO: Figure out pellets
-    OrangePellets(bool, bool, bool), // NOT IMPLEMENTED
-    Orrery,                          // NOT IMPLEMENTED
-    PrismaticShard,                  // NOT IMPLEMENTED
-    SlingOfCourage,                  // NOT IMPLEMENTED
-    StrangeSpoon,                    // NOT IMPLEMENTED
-    Abacus,                          // NOT IMPLEMENTED
-    Toolkit,                         // NOT IMPLEMENTED
-    Brimstone,                       // NOT IMPLEMENTED
-    TwistedFunnel,                   // NOT IMPLEMENTED
-    RunicCapacitor,                  // PARTIALLY IMPLEMENTED
-    Melange,                         // NOT IMPLEMENTED
-    Astrolabe,                       // NOT IMPLEMENTED
-    BlackStar,                       // NOT IMPLEMENTED
+    OrangePellets(bool, bool, bool), // TODO: NOT IMPLEMENTED
+    Orrery,                          // TODO: NOT IMPLEMENTED
+    PrismaticShard,                  // TODO: NOT IMPLEMENTED
+    SlingOfCourage,                  // TODO: NOT IMPLEMENTED
+    StrangeSpoon,                    // TODO: NOT IMPLEMENTED
+    Abacus,                          // TODO: NOT IMPLEMENTED
+    Toolkit,                         // TODO: NOT IMPLEMENTED
+    Brimstone,                       // TODO: NOT IMPLEMENTED
+    TwistedFunnel,                   // TODO: NOT IMPLEMENTED
+    RunicCapacitor,                  // TODO: PARTIALLY IMPLEMENTED
+    Melange,                         // TODO: NOT IMPLEMENTED
+    Astrolabe,                       // TODO: NOT IMPLEMENTED
+    BlackStar,                       // TODO: NOT IMPLEMENTED
     BrokenCrown,                     // IMPLEMENTED
-    CallingBell,                     // NOT IMPLEMENTED
+    CallingBell,                     // TODO: NOT IMPLEMENTED
     CoffeeDripper,                   // IMPLEMENTED
-    CursedKey,                       // PARTIALLY IMPLEMENTED
-    Ectoplasm,                       // PARTIALLY IMPLEMENTED
-    EmptyCage,                       // NOT IMPLEMENTED
+    CursedKey,                       // TODO: PARTIALLY IMPLEMENTED
+    Ectoplasm,                       // TODO: PARTIALLY IMPLEMENTED
+    EmptyCage,                       // TODO: NOT IMPLEMENTED
     FusionHammer,                    // IMPLEMENTED
-    PandorasBox,                     // NOT IMPLEMENTED
-    PhilosophersStone,               // PARTIALLY IMPLEMENTED
-    RunicDome,                       // PARTIALLY IMPLEMENTED
+    PandorasBox,                     // TODO: NOT IMPLEMENTED
+    PhilosophersStone,               // TODO: PARTIALLY IMPLEMENTED
+    RunicDome,                       // TODO: PARTIALLY IMPLEMENTED
     RunicPyramid,                    // IMPLEMENTED
-    SacredBark,                      // NOT IMPLEMENTED
-    SlaversCollar,                   // PARTIALLY IMPLEMENTED
-    SneckoEye,                       // NOT IMPLEMENTED
-    Sozu,                            // PARTIALLY IMPLEMENTED
-    TinyHouse,                       // NOT IMPLEMENTED
-    VelvetChoker,                    // PARTIALLY IMPLEMENTED
-    MarkOfPain,                      // PARTIALLY IMPLEMENTED
+    SacredBark,                      // TODO: NOT IMPLEMENTED
+    SlaversCollar,                   // TODO: PARTIALLY IMPLEMENTED
+    SneckoEye,                       // TODO: NOT IMPLEMENTED
+    Sozu,                            // TODO: PARTIALLY IMPLEMENTED
+    TinyHouse,                       // TODO: NOT IMPLEMENTED
+    VelvetChoker,                    // TODO: PARTIALLY IMPLEMENTED
+    MarkOfPain,                      // TODO: PARTIALLY IMPLEMENTED
     BlackBlood,                      // IMPLEMENTED
-    RunicCube,                       // NOT IMPLEMENTED
-    RingOfTheSerpent,                // NOT IMPLEMENTED
-    WristBlade,                      // NOT IMPLEMENTED
-    HoveringKite(bool),              // NOT IMPLEMENTED
-    NuclearBattery,                  // PARTIALLY IMPLEMENTED
-    Inserter(bool),                  // NOT IMPLEMENTED
-    FrozenCore,                      // PARTIALLY IMPLEMENTED
-    HolyWater,                       // PARTIALLY IMPLEMENTED
-    VioletLotus,                     // NOT IMPLEMENTED
-    BloodyIdol,                      // NOT IMPLEMENTED
+    RunicCube,                       // TODO: NOT IMPLEMENTED
+    RingOfTheSerpent,                // TODO: NOT IMPLEMENTED
+    WristBlade,                      // TODO: NOT IMPLEMENTED
+    HoveringKite(bool),              // TODO: NOT IMPLEMENTED
+    NuclearBattery,                  // TODO: PARTIALLY IMPLEMENTED
+    Inserter(bool),                  // TODO: NOT IMPLEMENTED
+    FrozenCore,                      // TODO: PARTIALLY IMPLEMENTED
+    HolyWater,                       // TODO: PARTIALLY IMPLEMENTED
+    VioletLotus,                     // TODO: NOT IMPLEMENTED
+    BloodyIdol,                      // TODO: NOT IMPLEMENTED
     CultistHeadpiece,                // IMPLEMENTED
-    Enchiridion,                     // NOT IMPLEMENTED
-    ClericMask,                      // NOT IMPLEMENTED
-    GoldenIdol,                      // NOT IMPLEMENTED
-    GremlinVisage,                   // NOT IMPLEMENTED
+    Enchiridion,                     // TODO: NOT IMPLEMENTED
+    ClericMask,                      // TODO: NOT IMPLEMENTED
+    GoldenIdol,                      // TODO: NOT IMPLEMENTED
+    GremlinVisage,                   // TODO: NOT IMPLEMENTED
     MarkOfTheBloom,                  // IMPLEMENTED
-    MutagenicStrength,               // NOT IMPLEMENTED
-    NlothsGift,                      // NOT IMPLEMENTED
-    NlothsHungryFace(bool),          // NOT IMPLEMENTED
-    Necronomicon,                    // NOT IMPLEMENTED
-    NeowsLament(u8),                 // NOT IMPLEMENTED
-    NilrysCodex(u8),                 // NOT IMPLEMENTED
-    OddMushroom,                     // NOT IMPLEMENTED
+    MutagenicStrength,               // TODO: NOT IMPLEMENTED
+    NlothsGift,                      // TODO: NOT IMPLEMENTED
+    NlothsHungryFace(bool),          // TODO: NOT IMPLEMENTED
+    Necronomicon,                    // TODO: NOT IMPLEMENTED
+    NeowsLament(u8),                 // TODO: NOT IMPLEMENTED
+    NilrysCodex(u8),                 // TODO: NOT IMPLEMENTED
+    OddMushroom,                     // TODO: NOT IMPLEMENTED
     RedMask,                         // IMPLEMENTED
     SpiritPoop,                      // IMPLEMENTED
     SerpentHead,                     // IMPLEMENTED
-    WarpedTongs,                     // NOT IMPLEMENTED
+    WarpedTongs,                     // TODO: NOT IMPLEMENTED
 }
 
 impl Relic {
