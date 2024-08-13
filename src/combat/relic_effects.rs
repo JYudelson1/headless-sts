@@ -79,6 +79,7 @@ impl Combat {
             Relic::BronzeScales => self.self_effects.apply_buff(Buff::Intensity((IntensityBuffs::Thorns, Number(3)))),
             Relic::Lantern => self.current_energy += 1,
             Relic::SmoothStone => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Dexterity, Number(1)))),
+            Relic::Vajra => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(1)))),
             Relic::NinjaScroll => todo!(),    // Add 3 shivs to hand
             Relic::RunicCapacitor => todo!(), // Add 3 orb slots
             Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(*amt as i16)))),

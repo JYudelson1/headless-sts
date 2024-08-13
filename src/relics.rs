@@ -243,7 +243,7 @@ pub enum Relic {
     TheBoot,                // IMPLEMENTED
     TinyChest(u8),          // IMPLEMENTED
     ToyOrnithopter,         // NOT IMPLEMENTED
-    Vajra,                  // NOT IMPLEMENTED
+    Vajra,                  // IMPLEMENTED
     WarPaint,               // NOT IMPLEMENTED
     Whetstone,              // NOT IMPLEMENTED
     RedSkull,               // NOT IMPLEMENTED
