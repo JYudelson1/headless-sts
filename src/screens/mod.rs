@@ -111,6 +111,10 @@ impl State {
             RoomType::Boss => {
                 // Reset easy/hard encounter pool
                 self.fights_this_act = 0;
+                // Panto Heal
+                if self.relics.contains(Relic::Pantograph) {
+                    self.heal(25);
+                }
                 todo!()
             },
         }

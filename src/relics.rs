@@ -283,7 +283,7 @@ pub enum Relic {
     MoltenEgg,         // IMPLEMENTED
     MummifiedHand,     // NOT IMPLEMENTED
     OrnamentalFan(u8), // NOT IMPLEMENTED
-    Pantograph,        // NOT IMPLEMENTED
+    Pantograph,        // IMPLEMENTED
     Pear,              // IMPLEMENTED
     QuestionCard,      // IMPLEMENTED
     Shuriken(u8),      // NOT IMPLEMENTED
