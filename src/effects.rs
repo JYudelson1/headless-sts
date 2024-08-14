@@ -115,6 +115,10 @@ impl Effects {
             .copied()
     }
 
+    pub fn trigger_curl_up(&mut self) -> Option<Number> {
+        self.intensity_buffs.remove(&IntensityBuffs::CurlUp)
+    }
+
     pub fn apply_buff(&mut self, buff: Buff) {
         match buff {
             Buff::Basic((buff, amt)) => {
@@ -308,6 +312,7 @@ pub enum IntensityBuffs {
     Artifact,
     FeelNoPain,
     DarkEmbrace,
+    CurlUp,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]

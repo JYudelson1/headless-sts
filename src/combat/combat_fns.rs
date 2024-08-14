@@ -98,16 +98,19 @@ impl State {
         self.maybe_end_combat();
     }
 
-    fn direct_damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+    // Returns true if the enemy was damaged
+    fn direct_damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) -> bool {
         let combat = self.get_combat();
         let enemy = &mut combat.enemies[enemy_index.0];
 
         if amt < enemy.current_block.0 as u16 {
             enemy.current_block -= Number(amt as i16);
+            return false;
         } else {
             amt -= enemy.current_block.0 as u16;
             enemy.current_block = Number(0);
-            self.enemy_lose_hp(enemy_index, amt)
+            self.enemy_lose_hp(enemy_index, amt);
+            return true;
         }
 
     }
@@ -126,7 +129,15 @@ impl State {
     pub fn attack_damage_enemy(&mut self, enemy_index: EnemyIndex, amt: u16) {
         // TODO: Check for thorns
 
-        self.direct_damage_enemy(enemy_index, amt);
+        if self.direct_damage_enemy(enemy_index, amt) {
+            // TODO: Real curl up triggers after card, not multi-attack
+            let combat = self.get_combat();
+            let enemy = &mut combat.enemies[enemy_index.0];
+            if let Some(block_amt) = enemy.effects.trigger_curl_up() {
+                enemy.current_block += block_amt;
+            }
+            // TODO: Malleable here
+        }
     }
 
     pub fn damage_enemy(
