@@ -105,6 +105,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Regret => Rc::new(RefCell::new(shared::regret::Regret)),
         CardName::Shame => Rc::new(RefCell::new(shared::shame::Shame)),
         CardName::Writhe => todo!(),
+        CardName::Apparition => Rc::new(RefCell::new(shared::apparition::Apparition(upgraded))),
     };
     MasterCard {
         card,

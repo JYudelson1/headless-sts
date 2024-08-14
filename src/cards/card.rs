@@ -302,4 +302,5 @@ pub enum CardName {
     LimitBreak,
     Offering,
     Reaper,
+    Apparition,
 }

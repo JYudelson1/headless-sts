@@ -24,3 +24,6 @@ pub mod shame;
 pub mod writhe;
 
 // TODO: Colorless
+
+// TODO: Special
+pub mod apparition;
