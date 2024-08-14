@@ -6,8 +6,9 @@ use super::{
         sentries::{SentryA, SentryB},
     },
     normal::{
-        acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist, jawworm::JawWorm,
-        spike_slime_m::SpikeSlimeM, spike_slime_s::SpikeSlimeS,
+        acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist,
+        greenlouse::GreenLouse, jawworm::JawWorm, redlouse::RedLouse, spike_slime_m::SpikeSlimeM,
+        spike_slime_s::SpikeSlimeS,
     },
     ConcreteEnemy, EnemyIntent, EnemyType,
 };
@@ -25,8 +26,8 @@ impl EnemyType {
         match self {
             EnemyType::JawWorm => JawWorm::new(ascension),
             EnemyType::Cultist => Cultist::new(ascension),
-            EnemyType::GreenLouse => todo!(),
-            EnemyType::RedLouse => todo!(),
+            EnemyType::GreenLouse => GreenLouse::new(ascension),
+            EnemyType::RedLouse => RedLouse::new(ascension),
             EnemyType::AcidSlimeM => AcidSlimeM::new(ascension),
             EnemyType::SpikeSlimeM => SpikeSlimeM::new(ascension),
             EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
