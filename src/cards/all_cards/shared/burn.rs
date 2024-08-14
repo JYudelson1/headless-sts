@@ -20,10 +20,6 @@ impl Card for Burn {
         true
     }
 
-    fn play(&mut self) -> Vec<CardActions> {
-        vec![]
-    }
-
     fn set_upgraded(&mut self, upgraded: bool) {
         self.0 = upgraded
     }

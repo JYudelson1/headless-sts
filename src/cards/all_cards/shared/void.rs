@@ -20,10 +20,6 @@ impl Card for Void {
         true
     }
 
-    fn play(&mut self) -> Vec<CardActions> {
-        vec![]
-    }
-
     fn set_upgraded(&mut self, _: bool) {}
 
     fn can_be_upgraded(&self) -> bool {
