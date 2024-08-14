@@ -107,9 +107,9 @@ impl State {
         } else {
             amt -= enemy.current_block.0 as u16;
             enemy.current_block = Number(0);
+            self.enemy_lose_hp(enemy_index, amt)
         }
 
-        self.enemy_lose_hp(enemy_index, amt)
     }
 
     pub fn direct_damage_all_enemies(&mut self, amt: u16) {
