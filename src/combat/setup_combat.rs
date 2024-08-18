@@ -1,5 +1,8 @@
+use std::vec;
+
 use crate::{cardrewardrng::CombatType, enemies::EnemyType, utils::{number_between, Act}};
 
+use rand::distributions::Distribution;
 use rand::prelude::SliceRandom;
 
 pub fn get_enemies(
@@ -57,6 +60,98 @@ fn act_1_easy_pool() -> Vec<EnemyType> {
     ];
 
     possible_fights.choose(&mut rand::thread_rng()).unwrap().clone()
+}
+
+fn act_1_hard_pool() -> Vec<EnemyType> {
+    let lice = vec![EnemyType::GreenLouse, EnemyType::RedLouse];
+
+    let mut exo_thugs = vec![[
+        EnemyType::GreenLouse,
+        EnemyType::RedLouse,
+        EnemyType::AcidSlimeM,
+        EnemyType::SpikeSlimeM,
+    ]
+    .choose(&mut rand::thread_rng())
+    .unwrap()
+    .clone()];
+    exo_thugs.push(
+        [
+            EnemyType::SlaverBlue,
+            EnemyType::SlaverRed,
+            EnemyType::Looter,
+            EnemyType::Cultist,
+        ]
+        .choose(&mut rand::thread_rng())
+        .unwrap()
+        .clone(),
+    );
+
+    let mut exo_wildlife = vec![[EnemyType::FungusBeast, EnemyType::JawWorm]
+        .choose(&mut rand::thread_rng())
+        .unwrap()
+        .clone()];
+    exo_wildlife.push(
+        [
+            EnemyType::SlaverBlue,
+            EnemyType::SlaverRed,
+            EnemyType::Looter,
+            EnemyType::Cultist,
+        ]
+        .choose(&mut rand::thread_rng())
+        .unwrap()
+        .clone(),
+    );
+
+    let possible_fights: Vec<Vec<EnemyType>> = vec![
+        // Gremlin Gang
+        vec![
+            EnemyType::GremlinMad,
+            EnemyType::GremlinMad,
+            EnemyType::GremlinSneaky,
+            EnemyType::GremlinSneaky,
+            EnemyType::GremlinFat,
+            EnemyType::GremlinFat,
+            EnemyType::GremlinWizard,
+            EnemyType::GremlinShield,
+        ]
+        .choose_multiple(&mut rand::thread_rng(), 4)
+        .cloned()
+        .collect(),
+        // Large Slime
+        vec![EnemyType::AcidSlimeL, EnemyType::SpikeSlimeL]
+            .choose_multiple(&mut rand::thread_rng(), 1)
+            .cloned()
+            .collect(),
+        // Lots of slimes
+        vec![
+            EnemyType::SpikeSlimeS,
+            EnemyType::SpikeSlimeS,
+            EnemyType::SpikeSlimeS,
+            EnemyType::AcidSlimeS,
+            EnemyType::AcidSlimeS,
+        ],
+        // Blue Slaver
+        vec![EnemyType::SlaverBlue],
+        // Red Slaver
+        vec![EnemyType::SlaverRed],
+        // 3 Louses
+        vec![
+            lice.choose(&mut rand::thread_rng()).unwrap().clone(),
+            lice.choose(&mut rand::thread_rng()).unwrap().clone(),
+            lice.choose(&mut rand::thread_rng()).unwrap().clone(),
+        ],
+        // 2 Fungi
+        vec![EnemyType::FungusBeast, EnemyType::FungusBeast],
+        // Exordium Thugs
+        exo_thugs,
+        // Exordium Wildlife
+        exo_wildlife,
+        // Looter
+        vec![EnemyType::Looter],
+    ];
+    let weights = vec![625, 1225, 625, 1225, 625, 1225, 1225, 9375, 9375, 1225];
+    let dist = rand::distributions::WeightedIndex::new(&weights).unwrap();
+    possible_fights[dist.sample(&mut rand::thread_rng())].clone()
 }
 
 fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
