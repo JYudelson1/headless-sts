@@ -21,7 +21,7 @@ impl Card for Pummel {
     }
 
     fn targets(&self) -> bool {
-        false
+        true
     }
 
     fn can_be_upgraded(&self) -> bool {
