@@ -56,7 +56,7 @@ impl State {
                     Pile::Draw => &mut self.get_combat().deck,
                     Pile::Discard => &mut self.get_combat().discard,
                 };
-                let index = number_between(0, pile.len() - 1);
+                let index = number_between(0, pile.len());
                 pile.insert(index, card);
             },
             CardActions::ApplyDebuff(debuff) => {
@@ -88,7 +88,7 @@ impl State {
         // Find the card
         let mut card = self.get_combat().hand.remove(card_index.0);
         // DEBUG
-        //println!("Playing {:?}", card.card().name());
+        println!("Playing {:?}", card.card().name());
         // If the card costs too much, it cannot be played
         let cost = card.card().get_cost();
         assert!(cost <= self.get_combat().current_energy);
