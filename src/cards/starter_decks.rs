@@ -4,16 +4,16 @@ use super::MasterCard;
 
 fn starter_ironclad() -> Vec<MasterCard> {
     vec![
-        make_card(CardName::Strike, false),
-        make_card(CardName::Strike, false),
-        make_card(CardName::Strike, false),
-        make_card(CardName::Strike, false),
-        make_card(CardName::Strike, false),
-        make_card(CardName::Defend, false),
-        make_card(CardName::Defend, false),
-        make_card(CardName::Defend, false),
-        make_card(CardName::Defend, false),
-        make_card(CardName::Bash, false),
+        make_card(CardName::Strike, false).unwrap(),
+        make_card(CardName::Strike, false).unwrap(),
+        make_card(CardName::Strike, false).unwrap(),
+        make_card(CardName::Strike, false).unwrap(),
+        make_card(CardName::Strike, false).unwrap(),
+        make_card(CardName::Defend, false).unwrap(),
+        make_card(CardName::Defend, false).unwrap(),
+        make_card(CardName::Defend, false).unwrap(),
+        make_card(CardName::Defend, false).unwrap(),
+        make_card(CardName::Bash, false).unwrap(),
     ]
 }
 fn starter_silent() -> Vec<MasterCard> {

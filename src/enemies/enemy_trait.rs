@@ -1,5 +1,7 @@
 use std::fmt::Debug;
 
+use crate::utils::NotImplemented;
+
 use super::{
     elites::{
         lagavulin::Lagavulin,
@@ -22,34 +24,34 @@ pub trait Enemy: Debug {
 }
 
 impl EnemyType {
-    pub fn new(&self, ascension: u8) -> ConcreteEnemy {
+    pub fn new(&self, ascension: u8) -> Result<ConcreteEnemy, NotImplemented> {
         match self {
-            EnemyType::JawWorm => JawWorm::new(ascension),
-            EnemyType::Cultist => Cultist::new(ascension),
-            EnemyType::GreenLouse => GreenLouse::new(ascension),
-            EnemyType::RedLouse => RedLouse::new(ascension),
-            EnemyType::AcidSlimeM => AcidSlimeM::new(ascension),
-            EnemyType::SpikeSlimeM => SpikeSlimeM::new(ascension),
-            EnemyType::AcidSlimeS => AcidSlimeS::new(ascension),
-            EnemyType::SpikeSlimeS => SpikeSlimeS::new(ascension),
-            EnemyType::Lagavulin => Lagavulin::new(ascension),
-            EnemyType::AcidSlimeL => todo!(),
-            EnemyType::SpikeSlimeL => todo!(),
-            EnemyType::Looter => todo!(),
-            EnemyType::FungusBeast => todo!(),
-            EnemyType::GremlinFat => todo!(),
-            EnemyType::GremlinSneaky => todo!(),
-            EnemyType::GremlinMad => todo!(),
-            EnemyType::GremlinShield => todo!(),
-            EnemyType::GremlinWizard => todo!(),
-            EnemyType::SlaverBlue => todo!(),
-            EnemyType::SlaverRed => todo!(),
-            EnemyType::GremlinNob => todo!(),
-            EnemyType::SentryA => SentryA::new(ascension),
-            EnemyType::SentryB => SentryB::new(ascension),
-            EnemyType::Hexaghost => todo!(),
-            EnemyType::TheGuardian => todo!(),
-            EnemyType::SlimeBoss => todo!(),
+            EnemyType::JawWorm => Ok(JawWorm::new(ascension)),
+            EnemyType::Cultist => Ok(Cultist::new(ascension)),
+            EnemyType::GreenLouse => Ok(GreenLouse::new(ascension)),
+            EnemyType::RedLouse => Ok(RedLouse::new(ascension)),
+            EnemyType::AcidSlimeM => Ok(AcidSlimeM::new(ascension)),
+            EnemyType::SpikeSlimeM => Ok(SpikeSlimeM::new(ascension)),
+            EnemyType::AcidSlimeS => Ok(AcidSlimeS::new(ascension)),
+            EnemyType::SpikeSlimeS => Ok(SpikeSlimeS::new(ascension)),
+            EnemyType::Lagavulin => Ok(Lagavulin::new(ascension)),
+            EnemyType::AcidSlimeL => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::SpikeSlimeL => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::Looter => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::FungusBeast => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinFat => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinSneaky => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinMad => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinShield => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinWizard => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::SlaverBlue => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::SlaverRed => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinNob => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::SentryA => Ok(SentryA::new(ascension)),
+            EnemyType::SentryB => Ok(SentryB::new(ascension)),
+            EnemyType::Hexaghost => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::TheGuardian => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::SlimeBoss => Err(NotImplemented::Enemy(self.clone())),
         }
     }
 }

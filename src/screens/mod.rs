@@ -18,7 +18,7 @@ use crate::{
     question_rng::QuestionMark,
     relics::Relic,
     state::State,
-    utils::Key,
+    utils::{Key, NotImplemented},
 };
 
 #[derive(Debug)]
@@ -46,7 +46,7 @@ impl State {
         self.visible_screen = VisibleStates::Map(self.map.clone());
     }
 
-    fn to_combat(&mut self, combat_type: CombatType) {
+    fn to_combat(&mut self, combat_type: CombatType) -> Result<(), NotImplemented> {
         // Reset Relics for combat
         self.relics.reset_start_of_combat();
         // Get the enemies
@@ -59,10 +59,18 @@ impl State {
 
         println!("Fighting {enemies:?}");
 
-        let combat = Combat::new(enemies, combat_type, self.ascension, &self.relics, &self.main_deck);
-        self.visible_screen = VisibleStates::Combat(combat);
+        let combat = Combat::new(
+            enemies,
+            combat_type,
+            self.ascension,
+            &self.relics,
+            &self.main_deck,
+        );
+        self.visible_screen = VisibleStates::Combat(combat?);
 
         self.start_combat_turn();
+
+        Ok(())
     }
 
     fn to_treasure(&mut self) {
@@ -79,7 +87,7 @@ impl State {
         self.relics.turn_on_tea_set();
     }
 
-    fn to_question_mark(&mut self) {
+    fn to_question_mark(&mut self) -> Result<(), NotImplemented> {
         // Serpent head
         if self.relics.contains(Relic::SerpentHead) {
             self.gold += 50;
@@ -87,9 +95,9 @@ impl State {
 
         match self.question_rng.get_question_mark(&mut self.relics) {
             QuestionMark::NormalFight => self.to_combat(CombatType::Normal),
-            QuestionMark::TreasureRoom => self.to_treasure(),
-            QuestionMark::Shop => todo!(),
-            QuestionMark::Event => todo!(),
+            QuestionMark::TreasureRoom => Ok(self.to_treasure()),
+            QuestionMark::Shop => Err(NotImplemented::Shop),
+            QuestionMark::Event => Err(NotImplemented::Shop),
         }
     }
 
@@ -97,16 +105,16 @@ impl State {
         self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
     }
 
-    pub fn _go_to_new_room(&mut self, room: RoomType) {
+    pub fn _go_to_new_room(&mut self, room: RoomType) -> Result<(), NotImplemented> {
         match room {
             RoomType::Monster => {
                 self.fights_this_act += 1;
-                self.to_combat(CombatType::Normal);
+                self.to_combat(CombatType::Normal)?
             },
-            RoomType::Event => self.to_question_mark(),
-            RoomType::Elite => self.to_combat(CombatType::Elite),
+            RoomType::Event => self.to_question_mark()?,
+            RoomType::Elite => self.to_combat(CombatType::Elite)?,
             RoomType::Rest => self.to_rest(),
-            RoomType::Merchant => todo!(),
+            RoomType::Merchant => Err(NotImplemented::Shop)?,
             RoomType::Treasure => self.to_treasure(),
             RoomType::Boss => {
                 // Reset easy/hard encounter pool
@@ -117,8 +125,10 @@ impl State {
                 }
                 todo!()
             },
-        }
+        };
         // TODO: Activate maw bank
+
+        Ok(())
     }
 
     pub fn get_actions(&self) -> Vec<Action> {

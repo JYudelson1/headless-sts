@@ -33,7 +33,7 @@ impl Card for WildStrike {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        let wound = make_card(CardName::Wound, false);
+        let wound = make_card(CardName::Wound, false).unwrap();
         vec![
             CardActions::Damage((Number(17), Targets::One)),
             CardActions::ShuffleCardToPile((wound, Pile::Draw)),
@@ -41,7 +41,7 @@ impl Card for WildStrike {
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        let wound = make_card(CardName::Wound, false);
+        let wound = make_card(CardName::Wound, false).unwrap();
         vec![
             CardActions::Damage((Number(12), Targets::One)),
             CardActions::ShuffleCardToPile((wound, Pile::Draw)),

@@ -60,7 +60,7 @@ pub enum EnemyIntent {
     Multiple(Vec<EnemyIntent>),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum EnemyType {
     JawWorm,
     GreenLouse,

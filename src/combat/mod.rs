@@ -15,7 +15,7 @@ use crate::{
     relics::{Relic, Relics},
     screens::VisibleStates,
     state::State,
-    utils::Number,
+    utils::{NotImplemented, Number},
 };
 
 use rand::seq::SliceRandom;
@@ -42,7 +42,7 @@ impl Combat {
         ascension: u8,
         relics: &Relics,
         deck: &Vec<MasterCard>,
-    ) -> Self {
+    ) -> Result<Self, NotImplemented> {
         let mut max_energy = 3;
 
         if relics.contains(Relic::BrokenCrown) {
@@ -79,17 +79,18 @@ impl Combat {
             max_energy += 1;
         }
 
-        let enemies = enemies
-            .iter()
-            .map(|enemy_type| enemy_type.new(ascension))
-            .collect();
+        let mut concrete_enemies = vec![];
+        for enemy in enemies {
+            let concrete_enemy = enemy.new(ascension)?;
+            concrete_enemies.push(concrete_enemy);
+        }
 
         let mut deck = deck.clone();
         deck.shuffle(&mut rand::thread_rng());
 
-        Self {
+        let combat = Self {
             self_effects: Effects::new(),
-            enemies,
+            enemies: concrete_enemies,
             turn: 0,
             self_block: Number(0),
             max_energy,
@@ -99,7 +100,9 @@ impl Combat {
             discard: vec![],
             exhaust: vec![],
             deck
-        }
+        };
+
+        Ok(combat)
     }
 
     pub fn has_relic(&self, relic: &Relic) -> bool {

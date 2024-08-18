@@ -42,7 +42,7 @@ impl Card for Anger {
         vec![
             CardActions::Damage((Number(8), Targets::One)),
             CardActions::ShuffleCardToPile((
-                make_card(self.name(), self.is_upgraded()),
+                make_card(self.name(), self.is_upgraded()).unwrap(),
                 Pile::Discard,
             )),
         ]
@@ -52,7 +52,7 @@ impl Card for Anger {
         vec![
             CardActions::Damage((Number(6), Targets::One)),
             CardActions::ShuffleCardToPile((
-                make_card(self.name(), self.is_upgraded()),
+                make_card(self.name(), self.is_upgraded()).unwrap(),
                 Pile::Discard,
             )),
         ]

@@ -6,12 +6,14 @@ mod watcher;
 
 use std::{cell::RefCell, rc::Rc};
 
+use crate::utils::NotImplemented;
+
 use super::{
     card_trait::{Card, MasterCard},
     CardName,
 };
 
-pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
+pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplemented> {
     let card: Rc<RefCell<dyn Card>> = match name {
         CardName::Strike => Rc::new(RefCell::new(shared::strike::Strike(upgraded))),
         CardName::Defend => Rc::new(RefCell::new(shared::defend::Defend(upgraded))),
@@ -107,9 +109,9 @@ pub fn make_card(name: CardName, upgraded: bool) -> MasterCard {
         CardName::Writhe => todo!(),
         CardName::Apparition => Rc::new(RefCell::new(shared::apparition::Apparition(upgraded))),
     };
-    MasterCard {
+    Ok(MasterCard {
         card,
         id: uuid::Uuid::new_v4(),
         upgraded: if upgraded {1} else {0},
-    }
+    })
 }

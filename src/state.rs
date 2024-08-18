@@ -8,7 +8,7 @@ use crate::{
     question_rng::QuestionMarkRng,
     relics::Relics,
     screens::VisibleStates,
-    utils::{Act, Character, Keys, Number},
+    utils::{Act, Character, Keys, Number, StillPlaying},
 };
 
 #[derive(Debug)]
@@ -27,7 +27,7 @@ pub struct State {
     pub relics: Relics,
     pub main_deck: Vec<MasterCard>,
     pub keys: Keys,
-    pub still_playing: bool,
+    pub still_playing: StillPlaying,
     pub question_rng: QuestionMarkRng,
     pub last_elite: Option<Elites>,
     pub fights_this_act: u8,
@@ -50,7 +50,7 @@ impl State {
             relics: Relics::new(character),
             main_deck: make_starter_deck(character),
             keys: Keys::new(),
-            still_playing: true,
+            still_playing: StillPlaying::Playing,
             question_rng: QuestionMarkRng::new(),
             last_elite: None,
             fights_this_act: 0,
@@ -62,10 +62,14 @@ impl State {
 
         match action {
             Action::PlayUntargetedCard(index) => {
-                self.play_card(index, None);
+                if let Err(error) = self.play_card(index, None){
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
             },
             Action::PlayTargetedCard((index, enemy)) => {
-                self.play_card(index, Some(enemy));
+                if let Err(error) = self.play_card(index, Some(enemy)) {
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
             },
             Action::CollectReward(choice) => {
                 match choice {
@@ -81,19 +85,28 @@ impl State {
                     // Or a dreamcatcher card reward
                     // Maybe they should be seperate actions??
                     // TODO: When skipping, should send back to reward screen
-                    CardRewardChoice::Skip => (),
+                    CardRewardChoice::Skip => self.to_map(),
                     CardRewardChoice::CardRewardIndex(i) => {
                         if let VisibleStates::CardReward(cards) = &self.visible_screen {
                             let card_reward = &cards[i];
                             let card = make_card(card_reward.card, card_reward.is_upgraded);
-                            println!("Obtained {:?}", card.card().name());
-                            self.add_to_deck(card);
+                            match card {
+                                Ok(card) => {
+                                    println!("Obtained {:?}", card.card().name());
+                                    self.add_to_deck(card);
+                                    self.to_map();
+                                },
+                                Err(error) => {
+                                    self.still_playing = StillPlaying::NotImplementedError(error)
+                                },
+                            }
+                            
                         } else {
                             panic!("Making card choice not on CardReward screen!");
                         }
                     },
                 }
-                self.to_map();
+                
             },
             Action::EndTurn => self.end_turn(),
             Action::TraverseMap(node_x) => {
@@ -107,16 +120,23 @@ impl State {
                 self.map.go_to_room(node);
 
                 // Change the screen
-                self._go_to_new_room(room_type);
+                if let Err(error) = self._go_to_new_room(room_type) {
+                    self.still_playing = StillPlaying::NotImplementedError(error);
+                }
             },
             Action::MakeNeowChoice(index) => {
                 if let VisibleStates::Neow(blessings) = self.visible_screen {
                     let blessing = blessings[index];
-                    self._apply_neow_blessing(blessing);
-
-                    if matches!(self.visible_screen, VisibleStates::Neow(_)) {
-                        self.to_map();
+                
+                    if let Err(error) = self._apply_neow_blessing(blessing) {
+                        self.still_playing = StillPlaying::NotImplementedError(error)
+                    } else {
+                        // TODO: Is this matches redundant?
+                        if matches!(self.visible_screen, VisibleStates::Neow(_)) {
+                            self.to_map();
+                        }
                     }
+
                 }
             }
             Action::MakeRestChoice(choice) => self.apply_rest_choice(choice),
@@ -141,7 +161,10 @@ impl State {
                 }
             },
             Action::Transform(id) => {
-                self.transform_card_in_deck(id);
+                if let Err(error) = self.transform_card_in_deck(id){
+                    self.still_playing = StillPlaying::NotImplementedError(error);
+                    return;
+                }
                 if let VisibleStates::TransformCardScreen(amt_to_transform) = &mut self.visible_screen {
                     if *amt_to_transform == 1 {
                         self.to_map();

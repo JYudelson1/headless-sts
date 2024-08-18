@@ -6,6 +6,8 @@ use std::{
 
 use rand::Rng;
 
+use crate::{cards::CardName, enemies::EnemyType, relics::Relic, screens::NeowsBlessing};
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord)]
 pub struct Number(pub i16);
 
@@ -114,4 +116,21 @@ where
         end: TryInto::<i128>::try_into(max).unwrap() + 1,
     };
     TryInto::<T>::try_into(rand::thread_rng().gen_range(range)).unwrap()
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+pub enum NotImplemented {
+    Enemy(EnemyType),
+    Event,
+    Shop,
+    Card(CardName),
+    Relic(Relic),
+    Neow(NeowsBlessing),
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+pub enum StillPlaying {
+    Playing,
+    Dead,
+    NotImplementedError(NotImplemented),
 }

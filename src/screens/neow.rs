@@ -5,12 +5,12 @@ use crate::{
     cards::{make_card, CardName},
     relics::Relic,
     state::State,
-    utils::{number_between, Act, Character, Number},
+    utils::{number_between, Act, Character, NotImplemented, Number},
 };
 
 use super::VisibleStates;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum FirstBlessing {
     Remove,
     Transform,
@@ -35,7 +35,7 @@ impl FirstBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum SecondBlessing {
     MaxHP,
     NeowsLament,
@@ -58,7 +58,7 @@ impl SecondBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum ThirdUpside {
     Remove2,
     Transform2,
@@ -83,7 +83,7 @@ impl ThirdUpside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum ThirdDownside {
     LoseMaxHealth,
     RandomCurse,
@@ -104,7 +104,7 @@ impl ThirdDownside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct ThirdBlessing {
     pub upside: ThirdUpside,
     pub downside: ThirdDownside,
@@ -129,7 +129,7 @@ impl ThirdBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum NeowsBlessing {
     First(FirstBlessing),
     Second(SecondBlessing),
@@ -146,7 +146,7 @@ pub fn get_neow_blessings() -> [NeowsBlessing; 4]{
 }
 
 impl State {
-    pub fn _apply_neow_blessing(&mut self, blessing: NeowsBlessing) {
+    pub fn _apply_neow_blessing(&mut self, blessing: NeowsBlessing) -> Result<(), NotImplemented> {
         match blessing {
             NeowsBlessing::First(bless) => match bless {
                 crate::screens::FirstBlessing::Remove => {
@@ -162,10 +162,10 @@ impl State {
                     let card_reward = self.card_rng.get_noncombat_choice(3, Act::Act1, self.character);
                     self.visible_screen = VisibleStates::CardReward(card_reward);
                 },
-                crate::screens::FirstBlessing::ChooseUncommonColorless => todo!(),
+                crate::screens::FirstBlessing::ChooseUncommonColorless => Err(NotImplemented::Neow(blessing))?,
                 crate::screens::FirstBlessing::RandomRare => {
                     let rare = self.card_rng.get_rewards(1, CombatType::Boss, &Act::Act3, self.character)[0].card;
-                    self.main_deck.push(make_card(rare, false));
+                    self.main_deck.push(make_card(rare, false)?);
                 },
             },
             NeowsBlessing::Second(bless) => match bless {
@@ -186,7 +186,7 @@ impl State {
                     self.relics.add(relic)
                 }
                 crate::screens::SecondBlessing::Gold100 => self.gold += 100,
-                crate::screens::SecondBlessing::Random3Potions => todo!(),
+                crate::screens::SecondBlessing::Random3Potions => Err(NotImplemented::Neow(blessing))?,
             },
             NeowsBlessing::Third(bless) => {
                 match bless.upside {
@@ -199,9 +199,9 @@ impl State {
                     crate::screens::ThirdUpside::Gold250 => self.gold += 250,
                     crate::screens::ThirdUpside::ChooseRareClassCard => {
                         let rares = self.card_rng.get_rewards(3, CombatType::Boss, &Act::Act3, self.character)[0].card;
-                        self.main_deck.push(make_card(rares, false));
+                        self.main_deck.push(make_card(rares, false)?);
                     },
-                    crate::screens::ThirdUpside::ChooseRareColorless => todo!(),
+                    crate::screens::ThirdUpside::ChooseRareColorless => Err(NotImplemented::Neow(blessing))?,
                     crate::screens::ThirdUpside::BigMaxHP => {
                         let amt = match self.character {
                             Character::Ironclad => 16,
@@ -229,7 +229,7 @@ impl State {
                     crate::screens::ThirdDownside::RandomCurse => {
                         let curses = CardName::transform_curses();
                         let curse = curses.choose(&mut rand::thread_rng());
-                        let card = make_card(*curse.unwrap(), false);
+                        let card = make_card(*curse.unwrap(), false)?;
                         self.add_to_deck(card);
                     }
                     crate::screens::ThirdDownside::TakeDamage => {
@@ -245,5 +245,7 @@ impl State {
                 self.relics.add(relic);
             }
         }
+
+        Ok(())
     }
 }

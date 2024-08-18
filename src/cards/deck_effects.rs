@@ -1,4 +1,4 @@
-use crate::{relics::Relic, state::State, utils::number_between};
+use crate::{relics::Relic, state::State, utils::{number_between, NotImplemented}};
 
 use super::{make_card, CardName, CardType, MasterCard};
 
@@ -28,7 +28,7 @@ impl State {
         }
     }
 
-    pub fn transform_card_in_deck(&mut self, card_id: uuid::Uuid) {
+    pub fn transform_card_in_deck(&mut self, card_id: uuid::Uuid) -> Result<(), NotImplemented> {
         let mut index = None;
         for (i, card) in self.main_deck.iter().enumerate() {
             if card.id == card_id {
@@ -48,11 +48,12 @@ impl State {
                     let i = number_between(0, cards.len() - 1);
                     cards[i]
                 };
-                let new_card = make_card(new_card, false);
+                let new_card = make_card(new_card, false)?;
                 self.add_to_deck(new_card);
             }
             None => panic!("No card with that ID exists!"),
         }
+        Ok(())
     }
 
     pub fn add_to_deck(&mut self, mut card: MasterCard) {

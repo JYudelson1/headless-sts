@@ -61,7 +61,7 @@ impl State {
                     Pile::Draw => &mut self.get_combat().deck,
                     Pile::Discard => &mut self.get_combat().discard,
                 };
-                let card = make_card(card, upgraded);
+                let card = make_card(card, upgraded).expect("Enemies can only insert status cards, which have already been implemented");
                 let index = number_between(0, pile.len() - 1);
                 pile.insert(index, card);
             }

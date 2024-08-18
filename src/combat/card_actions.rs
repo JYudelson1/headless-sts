@@ -1,7 +1,11 @@
-use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, Number}};
+use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, NotImplemented, Number}};
 
 impl State {
-    pub fn process_action(&mut self, action: CardActions, target: Option<EnemyIndex>) {
+    pub fn process_action(
+        &mut self,
+        action: CardActions,
+        target: Option<EnemyIndex>,
+    ) -> Result<(), NotImplemented> {
         match action {
             CardActions::Damage((amt, target_type)) => {
                 self.damage_enemy(amt, target_type, target);
@@ -69,13 +73,22 @@ impl State {
             CardActions::AddCardToHand(card) => {
                 self.get_combat().create_card_in_hand(card);
             },
-            CardActions::AddFreshCardToHand((card, upgraded)) => self.get_combat().create_fresh_card_in_hand(card, upgraded),
+            CardActions::AddFreshCardToHand((card, upgraded)) => self.get_combat().create_fresh_card_in_hand(card, upgraded)?,
         }
+
+        Ok(())
     }
 
-    pub fn play_card(&mut self, card_index: CardIndex, target: Option<EnemyIndex>) {
+    pub fn play_card(
+        &mut self,
+        card_index: CardIndex,
+        target: Option<EnemyIndex>,
+    ) -> Result<(), NotImplemented> {
+        //println!("state of combat: {:#?}", self.get_combat());
         // Find the card
         let mut card = self.get_combat().hand.remove(card_index.0);
+        // DEBUG
+        println!("Playing {:?}", card.card().name());
         // If the card costs too much, it cannot be played
         let cost = card.card().get_cost();
         assert!(cost <= self.get_combat().current_energy);
@@ -84,10 +97,10 @@ impl State {
         // Apply every card action in order
         let actions = card.card_mut().play();
         for action in actions {
-            self.process_action(action, target);
+            self.process_action(action, target)?;
             // Stop early if the combat finished
             if !self.is_in_combat() {
-                return;
+                return Ok(());
             }
         }
         // 
@@ -110,5 +123,7 @@ impl State {
         // TODO: Pocketwatch
         // TODO: Pen Nib
         // TODO: Others???
+
+        Ok(())
     }
 }

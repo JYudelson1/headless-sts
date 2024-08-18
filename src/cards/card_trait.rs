@@ -54,7 +54,7 @@ pub trait Card: Debug {
     }
 
     fn duplicate(&self) -> MasterCard {
-        make_card(self.name(), self.is_upgraded())
+        make_card(self.name(), self.is_upgraded()).expect("Card must be implemented to suplicate")
     }
 }
 

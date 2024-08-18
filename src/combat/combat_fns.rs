@@ -5,7 +5,7 @@ use crate::{
     relics::Relic,
     screens::VisibleStates,
     state::State,
-    utils::{number_between, Number},
+    utils::{number_between, NotImplemented, Number, StillPlaying},
 };
 
 use super::Combat;
@@ -54,7 +54,7 @@ impl State {
             // TODO: Check for fairy in a bottle
             // TODO: Show that you lose
             println!("Player is dead!");
-            self.still_playing = false;
+            self.still_playing = StillPlaying::Dead;
         } else {
             self.current_health -= amt;
         }
@@ -431,8 +431,13 @@ impl Combat {
         }
     }
 
-    pub fn create_fresh_card_in_hand(&mut self, card: CardName, upgraded: bool) {
-        let card = make_card(card, upgraded);
+    pub fn create_fresh_card_in_hand(
+        &mut self,
+        card: CardName,
+        upgraded: bool,
+    ) -> Result<(), NotImplemented> {
+        let card = make_card(card, upgraded)?;
         self.create_card_in_hand(card);
+        Ok(())
     }
 }

@@ -33,7 +33,7 @@ impl Card for RecklessCharge {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        let dazed = make_card(CardName::Dazed, false);
+        let dazed = make_card(CardName::Dazed, false).unwrap();
         vec![
             CardActions::Damage((Number(10), Targets::One)),
             CardActions::ShuffleCardToPile((dazed, Pile::Draw)),
@@ -41,7 +41,7 @@ impl Card for RecklessCharge {
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        let dazed = make_card(CardName::Dazed, false);
+        let dazed = make_card(CardName::Dazed, false).unwrap();
         vec![
             CardActions::Damage((Number(7), Targets::One)),
             CardActions::ShuffleCardToPile((dazed, Pile::Draw)),
