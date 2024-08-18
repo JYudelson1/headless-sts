@@ -127,13 +127,6 @@ impl State {
 
         // TODO: Do effects that change strength/dex/focus here
 
-        // Start of combat relics
-        if turn == 1 {
-            self.start_turn_1_effects();
-        }
-        // Other start turn relic effects
-        self.start_every_turn_effects();
-
         // TODO: Start of turn power effects
 
         // Set energy equal to max
@@ -144,9 +137,16 @@ impl State {
         } else {
             combat.current_energy = combat.max_energy;
         }
-        
+
+        // Start of combat relics
+        if turn == 1 {
+            self.start_turn_1_effects();
+        }
+        // Other start turn relic effects
+        self.start_every_turn_effects();
 
         // Draw 5 cards
+        let combat = self.get_combat();
         combat.draw(5);
     }
 
