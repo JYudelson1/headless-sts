@@ -19,7 +19,7 @@ pub fn get_enemies(
                     if fights_this_act <= 3 {
                         act_1_easy_pool()
                     } else {
-                        todo!()
+                        act_1_hard_pool()
                     }
                 }
                 CombatType::Elite => act_1_elite(last_elite),
