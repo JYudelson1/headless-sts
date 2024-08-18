@@ -197,7 +197,10 @@ impl State {
                         self.visible_screen = VisibleStates::TransformCardScreen(2)
                     }
                     crate::screens::ThirdUpside::Gold250 => self.gold += 250,
-                    crate::screens::ThirdUpside::ChooseRareClassCard => todo!(),
+                    crate::screens::ThirdUpside::ChooseRareClassCard => {
+                        let rares = self.card_rng.get_rewards(3, CombatType::Boss, &Act::Act3, self.character)[0].card;
+                        self.main_deck.push(make_card(rares, false));
+                    },
                     crate::screens::ThirdUpside::ChooseRareColorless => todo!(),
                     crate::screens::ThirdUpside::BigMaxHP => {
                         let amt = match self.character {
