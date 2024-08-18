@@ -53,7 +53,7 @@ impl State {
             // TODO: Check for lizard tail
             // TODO: Check for fairy in a bottle
             // TODO: Show that you lose
-            println!("Player is dead!");
+            //println!("Player is dead!");
             self.still_playing = StillPlaying::Dead;
         } else {
             self.current_health -= amt;

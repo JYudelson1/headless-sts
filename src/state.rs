@@ -92,7 +92,7 @@ impl State {
                             let card = make_card(card_reward.card, card_reward.is_upgraded);
                             match card {
                                 Ok(card) => {
-                                    println!("Obtained {:?}", card.card().name());
+                                    //println!("Obtained {:?}", card.card().name());
                                     self.add_to_deck(card);
                                     self.to_map();
                                 },

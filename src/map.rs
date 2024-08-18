@@ -189,10 +189,10 @@ impl Map {
         };
 
         map.make_paths(ascension);
-        println!("first:\n{map}");
+        //println!("first:\n{map}");
 
         map.remove_redundant_floor_1();
-        println!("After remove redundant:\n{map}");
+        //println!("After remove redundant:\n{map}");
 
         for _ in 0..15 {
             if !map.fix_rooms(ascension) {
@@ -200,7 +200,7 @@ impl Map {
             }
         }
         if map.fix_rooms(ascension) {
-            println!("Original map doesn't work, retrying...");
+            //println!("Original map doesn't work, retrying...");
             return Self::new(act, ascension);
         }
 

@@ -57,7 +57,7 @@ impl State {
             self.fights_this_act,
         );
 
-        println!("Fighting {enemies:?}");
+        //println!("Fighting {enemies:?}");
 
         let combat = Combat::new(
             enemies,
