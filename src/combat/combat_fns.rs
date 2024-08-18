@@ -168,7 +168,7 @@ impl State {
                 let enemy_index = number_between(0, enemies.len() - 1);
                 let enemy = &enemies[enemy_index];
                 let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
-                damages.push((target.unwrap(), total_damage.0 as u16))
+                damages.push((EnemyIndex(enemy_index), total_damage.0 as u16))
             },
         }
 
