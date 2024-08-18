@@ -131,12 +131,14 @@ impl State {
 
         if self.direct_damage_enemy(enemy_index, amt) {
             // TODO: Real curl up triggers after card, not multi-attack
-            let combat = self.get_combat();
-            let enemy = &mut combat.enemies[enemy_index.0];
-            if let Some(block_amt) = enemy.effects.trigger_curl_up() {
-                enemy.current_block += block_amt;
-            }
+            if let VisibleStates::Combat(combat) = &mut self.visible_screen {
+                let enemy = &mut combat.enemies[enemy_index.0];
+                if let Some(block_amt) = enemy.effects.trigger_curl_up() {
+                    enemy.current_block += block_amt;
+                }
             // TODO: Malleable here
+            }
+            
         }
     }
 
