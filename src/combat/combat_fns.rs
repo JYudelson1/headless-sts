@@ -174,6 +174,9 @@ impl State {
 
         for (enemy_index, amt) in damages {
             self.attack_damage_enemy(enemy_index, amt);
+            if !self.is_in_combat() {
+                return;
+            }
         }
     }
 
