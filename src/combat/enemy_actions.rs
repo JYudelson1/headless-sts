@@ -62,7 +62,7 @@ impl State {
                     Pile::Discard => &mut self.get_combat().discard,
                 };
                 let card = make_card(card, upgraded).expect("Enemies can only insert status cards, which have already been implemented");
-                let index = number_between(0, pile.len() - 1);
+                let index = number_between(0, pile.len());
                 pile.insert(index, card);
             }
             EnemyIntent::Multiple(intents) => {
