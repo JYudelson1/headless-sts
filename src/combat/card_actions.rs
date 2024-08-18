@@ -28,7 +28,7 @@ impl State {
             }
             CardActions::Draw(amt) => self.get_combat().draw(amt),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
-            CardActions::UpgradeACardInHand => todo!(),
+            CardActions::UpgradeACardInHand => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::UpgradeAllCardsInHand => {
                 for card in &mut self.get_combat().hand {
                     // Upgrade the inner card without upgrading the MasterCard
@@ -45,7 +45,7 @@ impl State {
                 let card = self.get_combat().hand.remove(i);
                 self.get_combat().exhaust_card(card);
             },
-            CardActions::ExhaustSelectedCard => todo!(),
+            CardActions::ExhaustSelectedCard => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::ApplyBuff(buff) => {
                 // TODO: Are there relics or powers that interact here?
                 self.get_combat().self_effects.apply_buff(buff);
@@ -88,7 +88,7 @@ impl State {
         // Find the card
         let mut card = self.get_combat().hand.remove(card_index.0);
         // DEBUG
-        println!("Playing {:?}", card.card().name());
+        //println!("Playing {:?}", card.card().name());
         // If the card costs too much, it cannot be played
         let cost = card.card().get_cost();
         assert!(cost <= self.get_combat().current_energy);

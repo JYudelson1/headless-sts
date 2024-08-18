@@ -126,6 +126,8 @@ pub enum NotImplemented {
     Card(CardName),
     Relic(Relic),
     Neow(NeowsBlessing),
+    ChoosingFromHand,
+    ChoosingTreasure,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]

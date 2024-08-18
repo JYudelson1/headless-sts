@@ -73,11 +73,13 @@ impl State {
         Ok(())
     }
 
-    fn to_treasure(&mut self) {
+    fn to_treasure(&mut self) -> Result<(), NotImplemented> {
         let has_sapphire_key = self.keys.has_key(&Key::Sapphire);
         let chest = Chest::new_random(has_sapphire_key, &mut self.relics);
 
-        self.visible_screen = VisibleStates::Treasure(chest);
+        // TODO: Uncomment when I have chest pickup logic figured out
+        //self.visible_screen = VisibleStates::Treasure(chest);
+        Err(NotImplemented::ChoosingTreasure)
     }
 
     fn to_rest(&mut self) {
@@ -95,7 +97,7 @@ impl State {
 
         match self.question_rng.get_question_mark(&mut self.relics) {
             QuestionMark::NormalFight => self.to_combat(CombatType::Normal),
-            QuestionMark::TreasureRoom => Ok(self.to_treasure()),
+            QuestionMark::TreasureRoom => self.to_treasure(),
             QuestionMark::Shop => Err(NotImplemented::Shop),
             QuestionMark::Event => Err(NotImplemented::Shop),
         }
@@ -115,7 +117,7 @@ impl State {
             RoomType::Elite => self.to_combat(CombatType::Elite)?,
             RoomType::Rest => self.to_rest(),
             RoomType::Merchant => Err(NotImplemented::Shop)?,
-            RoomType::Treasure => self.to_treasure(),
+            RoomType::Treasure => self.to_treasure()?,
             RoomType::Boss => {
                 // Reset easy/hard encounter pool
                 self.fights_this_act = 0;
