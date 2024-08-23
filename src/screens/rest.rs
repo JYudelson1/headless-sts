@@ -5,7 +5,7 @@ use crate::{
     utils::Key,
 };
 
-use super::VisibleStates;
+use super::{rewards::Reward, shop::random_relic, RewardsScreen, VisibleStates};
 
 impl State {
     pub fn get_rest_actions(&self) -> Vec<Action> {
@@ -56,7 +56,10 @@ impl State {
             },
             RestChoice::TakeRubyKey => self.keys.add_key(Key::Ruby),
             RestChoice::Lift => self.relics.increase_girya(),
-            RestChoice::Dig => todo!(),
+            RestChoice::Dig => {
+                let relic = random_relic(&mut self.relics).0;
+                self.visible_screen = VisibleStates::Reward(RewardsScreen(vec![Reward::Relic(relic)]));
+            },
         }
     }
 }
