@@ -156,8 +156,8 @@ impl Map {
     pub fn go_to_room(&mut self, room: RoomNode) {
         // TODO: Figure out how to represent bosses
         match self.current {
-            Some(room) => {
-                for next_room in room.get_next(self.paths) {
+            Some(current_room) => {
+                for next_room in current_room.get_next(self.paths) {
                     if next_room == room {
                         self.current = Some(next_room);
                         return;
