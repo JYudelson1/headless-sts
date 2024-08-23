@@ -31,6 +31,8 @@ impl Enemy for Lagavulin {
         if self.intent_cycle == 3 {
             self.intent = Lagavulin::siphon_soul(ascension);
             self.intent_cycle = 0;
+        } else {
+            self.intent = Lagavulin::attack(ascension);
         }
     }
 
