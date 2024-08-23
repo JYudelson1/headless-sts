@@ -383,13 +383,23 @@ impl Map {
     }
 
     pub fn get_room(&self, room: RoomNode) -> Option<RoomType> {
-        self.rooms[room.floor][room.x]
+        if room.floor == 15 {
+            Some(RoomType::Boss)
+        } else {
+            self.rooms[room.floor][room.x]
+        }
     }
 
     pub fn next_rooms(&self) -> Vec<RoomNode> {
         // TODO: Account for winged boots
         if let Some(current) = self.current {
-            current.get_next(self.paths)
+            // If at the boss, only give x = 0 
+            if current.floor == 14 {
+                vec![RoomNode { floor: 15, x: 0 }]
+            } else {
+                current.get_next(self.paths)
+            }
+            
         } else {
             let mut starters = vec![];
             for x in 0..7 {

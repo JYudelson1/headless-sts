@@ -21,7 +21,7 @@ use crate::{
     question_rng::QuestionMark,
     relics::Relic,
     state::State,
-    utils::{Key, NotImplemented},
+    utils::{Act, Key, NotImplemented},
 };
 
 #[derive(Debug)]
@@ -155,7 +155,13 @@ impl State {
                 if self.relics.contains(Relic::Pantograph) {
                     self.heal(25);
                 }
-                todo!("Hit the boss room!")
+                // Reset events for next act
+                if self.act == Act::Act1 {
+                    self.event_pool.next_act(Act::Act2);
+                } else if self.act == Act::Act2 {
+                    self.event_pool.next_act(Act::Act3);
+                }
+                self.to_combat(CombatType::Boss)?
             },
         };
         // TODO: Activate maw bank

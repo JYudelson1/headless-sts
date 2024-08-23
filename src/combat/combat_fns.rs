@@ -55,6 +55,12 @@ impl State {
             // TODO: Show that you lose
             //println!("Player is dead!");
             self.still_playing = StillPlaying::Dead(self.map.current_floor());
+            // if self.map.current_floor() > 10 {
+            //     println!("Made it to floor {}", self.map.current_floor());
+            //     println!("Deck: {:?}", self.main_deck);
+            //     println!("relics: {:?}", self.relics.list);
+            //     println!("{}", self.map);
+            // }
         } else {
             self.current_health -= amt;
         }

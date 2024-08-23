@@ -23,7 +23,7 @@ pub fn get_enemies(
                     }
                 }
                 CombatType::Elite => act_1_elite(last_elite),
-                CombatType::Boss => todo!(),
+                CombatType::Boss => act_1_boss(),
             }
         }
         Act::Act2 => match combat_type {
