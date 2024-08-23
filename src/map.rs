@@ -96,6 +96,9 @@ impl RoomNode {
     }
 
     pub fn get_next(&self, paths: [[bool; 19]; 14]) -> Vec<RoomNode> {
+        if self.floor == 14 {
+            return vec![RoomNode { floor: 15, x: 0 }];
+        }
         let floor_paths = paths[self.floor];
         let mut next = vec![];
 
