@@ -55,7 +55,23 @@ impl Wares {
             wares.push(Self::Card((card, price)));
         }
         // Colorless Cards
-        let uncommon_colorless = CardName::colorless_uncommons().choose(&mut rand::thread_rng()).unwrap();
+        let uncommon_colorless = *CardName::colorless_uncommons()
+            .choose(&mut rand::thread_rng())
+            .unwrap();
+        let mut price = number_between(81, 99);
+        if ascension >= 16 {
+            price = (price as f32 * 1.1).floor() as u32;
+        }
+        wares.push(Self::Card((uncommon_colorless, price)));
+
+        let uncommon_rare = *CardName::colorless_rares()
+            .choose(&mut rand::thread_rng())
+            .unwrap();
+        let mut price = number_between(162, 198);
+        if ascension >= 16 {
+            price = (price as f32 * 1.1).floor() as u32;
+        }
+        wares.push(Self::Card((uncommon_rare, price)));
 
         // Relics
         // First two relics are random, last is shop
@@ -79,6 +95,7 @@ impl Wares {
         wares.push(Wares::Relic((relics.random_shop(), shop_relic_price)));
 
         // Potions
+        // TODO: Potions
 
         // Membership card discount
         if relics.contains(Relic::MembershipCard) {
