@@ -22,7 +22,6 @@ pub struct State {
     pub max_health: Number,
     pub current_health: u16,
     pub gold: u32,
-    pub current_floor: u8,
     pub character: Character,
     pub relics: Relics,
     pub main_deck: Vec<MasterCard>,
@@ -47,7 +46,6 @@ impl State {
             max_health: Number(80),
             current_health: if ascension >= 6 { 72 } else { 80 },
             gold: 99,
-            current_floor: 0,
             character,
             relics: Relics::new(character),
             main_deck: make_starter_deck(character),
@@ -121,7 +119,6 @@ impl State {
                 let room_type = self.map.get_room(node).expect("Options should all be real rooms");
 
                 // Update map location
-                self.current_floor += 1;
                 self.map.go_to_room(node);
 
                 // Change the screen
@@ -189,6 +186,8 @@ impl State {
                     self.still_playing = StillPlaying::NotImplementedError(error)
                 }
             },
+            Action::TakeRelicLeave(relic) => {self.collect_relic(relic); self.to_map() },
+            Action::TakeKeyLeave(key) => { self.keys.add_key(key); self.to_map() },
         }
 
     }

@@ -9,7 +9,7 @@ pub use events::*;
 pub use neow::*;
 pub use rewards::{CardReward, RewardsScreen};
 pub use shop::Wares;
-use treasure::Chest;
+use treasure::{Chest, ChestRelicType};
 
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
@@ -31,7 +31,7 @@ pub enum VisibleStates {
     Neow([NeowsBlessing; 4]),
     Map(Map),
     Combat(Combat),
-    Treasure(Chest),
+    Treasure(ChestRelicType),
     Rest,
     Shop(Vec<Wares>),
     RemoveCardScreen(usize),
@@ -82,9 +82,12 @@ impl State {
         let has_sapphire_key = self.keys.has_key(&Key::Sapphire);
         let chest = Chest::new_random(has_sapphire_key, &mut self.relics);
 
-        // TODO: Uncomment when I have chest pickup logic figured out
-        //self.visible_screen = VisibleStates::Treasure(chest);
-        Err(NotImplemented::ChoosingTreasure)
+        // Auto pickup the gold
+        self.gold += chest.gold;
+
+        self.visible_screen = VisibleStates::Treasure(chest.relic);
+
+        Ok(())
     }
 
     fn to_rest(&mut self) {
@@ -209,7 +212,19 @@ impl State {
                     }
                 }
             }
-            VisibleStates::Treasure(_) => todo!(),
+            VisibleStates::Treasure(chest) => {
+                actions.push(Action::LeaveShop);
+                match chest {
+                    ChestRelicType::None => (),
+                    ChestRelicType::Relic(relic) => {
+                        actions.push(Action::TakeRelicLeave(relic.clone()));
+                    },
+                    ChestRelicType::RelicOrKey(relic) => {
+                        actions.push(Action::TakeRelicLeave(relic.clone()));
+                        actions.push(Action::TakeKeyLeave(Key::Sapphire))
+                    },
+                }
+            },
             VisibleStates::Rest => {
                 actions.append(&mut self.get_rest_actions());
             }

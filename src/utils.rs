@@ -134,7 +134,7 @@ pub enum NotImplemented {
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum StillPlaying {
     Playing,
-    Dead(u8),
+    Dead(i8),
     NotImplementedError(NotImplemented),
 }
 

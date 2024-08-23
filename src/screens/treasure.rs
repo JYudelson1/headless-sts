@@ -2,9 +2,9 @@ use crate::{relics::{Relic, Relics}, utils::number_between};
 
 #[derive(Debug)]
 pub struct Chest {
-    gold: u32,
+    pub gold: u32,
     size: ChestType,
-    relic: ChestRelicType,
+    pub relic: ChestRelicType,
 }
 
 impl Chest {

@@ -437,6 +437,13 @@ impl Map {
             }
         }
     }
+
+    pub fn current_floor(&self) -> i8 {
+        match self.current {
+            Some(node) => node.floor as i8,
+            None => -1,
+        }
+    }
 }
 
 impl Display for Map {

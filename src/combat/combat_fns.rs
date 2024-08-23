@@ -54,7 +54,7 @@ impl State {
             // TODO: Check for fairy in a bottle
             // TODO: Show that you lose
             //println!("Player is dead!");
-            self.still_playing = StillPlaying::Dead(self.current_floor);
+            self.still_playing = StillPlaying::Dead(self.map.current_floor());
         } else {
             self.current_health -= amt;
         }
