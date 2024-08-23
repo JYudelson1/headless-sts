@@ -31,6 +31,9 @@ impl Card for WildStrike {
     fn is_upgraded(&self) -> bool {
         self.0
     }
+    fn is_a_strike(&self) -> bool {
+        true
+    }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         let wound = make_card(CardName::Wound, false).unwrap();

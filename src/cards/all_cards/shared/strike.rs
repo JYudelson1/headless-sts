@@ -37,6 +37,10 @@ impl Card for Strike {
         self.0
     }
 
+    fn is_a_strike(&self) -> bool {
+        true
+    }
+
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         vec![CardActions::Damage((Number(9), Targets::One))]
     }

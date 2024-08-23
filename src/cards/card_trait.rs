@@ -41,6 +41,9 @@ pub trait Card: Debug {
     fn can_be_removed(&self) -> bool {
         true
     }
+    fn is_a_strike(&self) -> bool {
+        false
+    }
 
     fn play_upgraded(&mut self) -> Vec<CardActions>;
     fn play_unupgraded(&mut self) -> Vec<CardActions>;
