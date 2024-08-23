@@ -22,6 +22,10 @@ impl Card for Rampage {
         CardName::Rampage
     }
 
+    fn reset(&mut self) {
+        self.extra_damage = Number(0)
+    }
+
     fn get_type(&self) -> CardType {
         CardType::Attack
     }
