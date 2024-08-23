@@ -243,7 +243,7 @@ pub enum Relic {
     JuzuBracelet,           // IMPLEMENTED
     Lantern,                // IMPLEMENTED
     MawBank(bool),          // TODO: NOT IMPLEMENTED
-    MealTicket,             // TODO: NOT IMPLEMENTED
+    MealTicket,             // IMPLEMENTED
     Nunchaku(u8),           // TODO: NOT IMPLEMENTED
     SmoothStone,            // IMPLEMENTED
     Omamori(u8),            // IMPLEMENTED
@@ -252,7 +252,7 @@ pub enum Relic {
     PotionBelt,             // IMPLEMENTED
     PreservedInsect,        // TODO: NOT IMPLEMENTED
     RegalPillow,            // TODO: NOT IMPLEMENTED
-    SmilingMask,            // TODO: NOT IMPLEMENTED
+    SmilingMask,            // IMPLEMENTED
     Strawberry,             // IMPLEMENTED
     TheBoot,                // IMPLEMENTED
     TinyChest(u8),          // IMPLEMENTED

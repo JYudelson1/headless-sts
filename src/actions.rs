@@ -1,6 +1,6 @@
 use uuid::Uuid;
 
-use crate::{cards::CardIndex, enemies::EnemyIndex};
+use crate::{cards::CardIndex, enemies::EnemyIndex, screens::Wares};
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub enum Action {
@@ -15,6 +15,8 @@ pub enum Action {
     Upgrade(Uuid),
     Remove(Uuid),
     Transform(Uuid),
+    Purchase(Wares),
+    LeaveShop,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

@@ -31,6 +31,7 @@ pub struct State {
     pub question_rng: QuestionMarkRng,
     pub last_elite: Option<Elites>,
     pub fights_this_act: u8,
+    pub card_removes_bought: u8,
 }
 
 impl State {
@@ -54,6 +55,7 @@ impl State {
             question_rng: QuestionMarkRng::new(),
             last_elite: None,
             fights_this_act: 0,
+            card_removes_bought: 0,
         }
     }
 
@@ -173,6 +175,12 @@ impl State {
                     }
                 }
             }
+            Action::Purchase(ware) => {
+                if let Err(error) = self.buy_wares(ware) {
+                    self.still_playing = StillPlaying::NotImplementedError(error);
+                }
+            },
+            Action::LeaveShop => self.to_map(),
         }
 
     }

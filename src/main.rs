@@ -35,15 +35,13 @@ fn play_one_game() -> StillPlaying {
 
 fn main() {
     let mut results = HashMap::new();
-    for _ in 0..1000 {
+    for _ in 0..10000 {
         let res = play_one_game();
-        match results.get_mut(&res) {
-            Some(num) => *num += 1,
-            None => {
-                results.insert(res, 1);
-            }
-        }
+        *results.entry(res).or_insert(0) += 1;
     }
 
-    println!("{results:?}")
+    let mut res_vec: Vec<_> = results.iter().collect();
+    res_vec.sort_by(|a, b| b.1.cmp(a.1));
+
+    println!("{res_vec:#?}")
 }

@@ -1,6 +1,6 @@
 use crate::{combat::Combat, effects::{Buff, IntensityBuffOrDebuff}, relics::Relic, state::State, utils::Number};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Potion {
     BlockPotion,
     StrengthPotion,

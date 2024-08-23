@@ -2,10 +2,12 @@ mod events;
 mod neow;
 mod rest;
 mod rewards;
+mod shop;
 mod treasure;
 
 pub use neow::*;
 pub use rewards::{CardReward, RewardsScreen};
+pub use shop::Wares;
 use treasure::Chest;
 
 use crate::{
@@ -30,6 +32,7 @@ pub enum VisibleStates {
     Combat(Combat),
     Treasure(Chest),
     Rest,
+    Shop(Vec<Wares>),
     RemoveCardScreen(usize),
     UpgradeCardScreen(usize),
     TransformCardScreen(usize)
@@ -87,6 +90,16 @@ impl State {
 
         // Ancient tea set proc:
         self.relics.turn_on_tea_set();
+    }
+
+    fn to_shop(&mut self) {
+        // Meal ticket
+        if self.relics.contains(Relic::MealTicket) {
+            self.heal(15);
+        }
+        // Construct shop
+        let shop = Wares::new(&self.relics, self.card_removes_bought);
+        self.visible_screen = VisibleStates::Shop(shop)
     }
 
     fn to_question_mark(&mut self) -> Result<(), NotImplemented> {
@@ -205,6 +218,12 @@ impl State {
                     if card.card().can_be_removed() {
                         actions.push(Action::Transform(card.id));
                     }
+                }
+            },
+            VisibleStates::Shop(wares) => {
+                actions.push(Action::LeaveShop);
+                for ware in wares {
+                    actions.push(Action::Purchase(ware.clone()));
                 }
             },
         }
