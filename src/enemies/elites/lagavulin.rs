@@ -8,7 +8,7 @@ use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 #[derive(Debug)]
 pub struct Lagavulin {
     intent: EnemyIntent,
-    turn_num: u8,
+    turn_num: u16,
     intent_cycle: u8,
     awoken: bool,
 }
@@ -16,11 +16,15 @@ pub struct Lagavulin {
 impl Enemy for Lagavulin {
     fn next_intent(&mut self, ascension: u8) {
         self.turn_num += 1;
-        if !self.awoken && (self.turn_num == 3 || self.intent == EnemyIntent::Stun) {
-            self.intent = Lagavulin::attack(ascension);
-            self.intent_cycle = 1;
-            self.awoken = true;
-            return;
+        if !self.awoken {
+            if self.turn_num == 3 || self.intent == EnemyIntent::Stun {
+                self.intent = Lagavulin::attack(ascension);
+                self.intent_cycle = 1;
+                self.awoken = true;
+                return;
+            } else {
+                return
+            }
         }
         self.intent_cycle += 1;
 

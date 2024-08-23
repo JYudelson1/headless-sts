@@ -26,6 +26,7 @@ fn play_one_game() -> StillPlaying {
     while state.still_playing == StillPlaying::Playing {
         let mut actions = state.get_actions();
         actions.shuffle(&mut rand::thread_rng());
+        //println!("Actions: {actions:?}");
         let random_action = &actions[0];
         //println!("Action: {random_action:?}");
         state.apply_action(random_action.clone());
@@ -35,7 +36,7 @@ fn play_one_game() -> StillPlaying {
 
 fn main() {
     let mut results = HashMap::new();
-    for _ in 0..10000 {
+    for _ in lazy_pbar::pbar(0..10_000) {
         let res = play_one_game();
         *results.entry(res).or_insert(0) += 1;
     }

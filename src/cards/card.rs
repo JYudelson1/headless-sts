@@ -156,6 +156,14 @@ impl CardName {
         vec![]
     }
 
+    pub fn colorless_uncommons() -> Vec<Self> {
+        vec![]
+    }
+
+    pub fn colorless_rares() -> Vec<Self> {
+        vec![]
+    }
+
     pub fn transform_cards(character: Character) -> Vec<Self> {
         let cards = match character {
             Character::Ironclad => vec![
@@ -303,4 +311,39 @@ pub enum CardName {
     Offering,
     Reaper,
     Apparition,
+    BandageUp,
+    Blind,
+    DarkShackles,
+    DeepBreath,
+    Discovery,
+    DramaticEntrance,
+    Enlightenment,
+    Finesse,
+    FlashOfSteel,
+    Forethought,
+    GoodInstincts,
+    Impatience,
+    JackOfAllTrades,
+    Madness,
+    MindBlast,
+    Panacea,
+    PanicButton,
+    Purity,
+    SwiftStrike,
+    Trip,
+    Apotheosis,
+    Chrysalis,
+    HandOfGreed,
+    Magnetism,
+    MasterOfStrategy,
+    Mayhem,
+    Metamorphosis,
+    Panache,
+    SadisticNature,
+    SecretTechnique,
+    SecretWeapon,
+    TheBomb,
+    ThinkingAhead,
+    Transmutation,
+    Violence,
 }

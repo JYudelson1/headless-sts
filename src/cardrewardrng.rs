@@ -103,20 +103,33 @@ impl CardRewardRng {
         cards
     }
 
-    pub fn get_noncombat_choice(
+    pub fn get_noncombat_card_choice(
         &mut self,
         num_cards: usize,
-        act: Act,
         character: Character,
     ) -> Vec<CardReward> {
         // This doesn't take the offset into account
         let inner = self.0;
 
-        let mut cards = vec![];
+        let mut cards: Vec<CardReward> = vec![];
 
         for _ in 0..num_cards {
             self.0 = 0.0;
-            cards.push(self.get_one_reward(CombatType::Normal, &act, character));
+            // This ensures we don't get dupes
+            let new_card = loop {
+                let  maybe_card = self.get_one_reward(CombatType::Normal, &Act::Act1, character);
+                let mut usable = true;
+                for card in cards.iter() {
+                    if card.card == maybe_card.card {
+                        usable = false;
+                        break;
+                    }
+                }
+                if usable {
+                    break maybe_card;
+                }
+            };
+            cards.push(new_card);
         }
 
         self.0 = inner;

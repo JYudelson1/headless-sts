@@ -342,7 +342,7 @@ pub enum Relic {
     HandDrill,              // TODO: NOT IMPLEMENTED
     LeesWaffle,             // IMPLEMENTED
     MedKit,                 // TODO: NOT IMPLEMENTED
-    MembershipCard,         // TODO: NOT IMPLEMENTED
+    MembershipCard,         // IMPLEMENTED
     // TODO: Figure out pellets
     OrangePellets(bool, bool, bool), // TODO: NOT IMPLEMENTED
     Orrery,                          // TODO: NOT IMPLEMENTED

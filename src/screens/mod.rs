@@ -98,7 +98,7 @@ impl State {
             self.heal(15);
         }
         // Construct shop
-        let shop = Wares::new(&self.relics, self.card_removes_bought);
+        let shop = Wares::new(&mut self.relics, self.card_removes_bought, self.character, self.ascension)?;
         self.visible_screen = VisibleStates::Shop(shop);
 
         Ok(())

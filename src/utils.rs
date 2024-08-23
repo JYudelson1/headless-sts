@@ -136,3 +136,12 @@ pub enum StillPlaying {
     Dead,
     NotImplementedError(NotImplemented),
 }
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+pub enum Rarity {
+    Basic,
+    Common,
+    Uncommon,
+    Rare,
+    Other,
+}
