@@ -99,6 +99,12 @@ impl Effects {
         self.intensity_buffs.get(&IntensityBuffs::Rage).copied()
     }
 
+    pub fn spore_cloud(&self) -> Option<Number> {
+        self.intensity_buffs
+            .get(&IntensityBuffs::SporeCloud)
+            .copied()
+    }
+
     fn get_ritual(&self) -> Number {
         match self.intensity_buffs.get(&IntensityBuffs::Ritual) {
             Some(amt) => *amt,
@@ -320,6 +326,7 @@ pub enum IntensityBuffs {
     DarkEmbrace,
     CurlUp,
     Rage,
+    SporeCloud,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]

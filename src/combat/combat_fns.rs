@@ -55,12 +55,12 @@ impl State {
             // TODO: Show that you lose
             //println!("Player is dead!");
             self.still_playing = StillPlaying::Dead(self.map.current_floor());
-            if self.map.current_floor() > 10 {
-                println!("Made it to floor {}", self.map.current_floor());
-                println!("Deck: {:?}", self.main_deck);
-                println!("relics: {:?}", self.relics.list);
-                println!("{}", self.map);
-            }
+            // if self.map.current_floor() > 10 {
+            //     println!("Made it to floor {}", self.map.current_floor());
+            //     println!("Deck: {:?}", self.main_deck);
+            //     println!("relics: {:?}", self.relics.list);
+            //     println!("{}", self.map);
+            // }
         } else {
             self.current_health -= amt;
         }
@@ -89,6 +89,7 @@ impl State {
         mut amt: u16,
     ) -> Result<(), NotImplemented> {
         let has_the_boot = self.relics.contains(Relic::TheBoot);
+        let relics = &self.relics.clone();
         let combat = self.get_combat();
         let enemy = &mut combat.enemies[enemy_index.0];
         if enemy.effects.is_intangible() {
@@ -104,6 +105,10 @@ impl State {
             enemy.lost_hp();
         } else {
             enemy.current_hp = 0;
+            // Activate spore cloud (fungi beast)
+            if let Some(spore_cloud) = enemy.effects.spore_cloud() {
+                self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Vulnerable, spore_cloud)), relics);
+            }
         }
         self.maybe_end_combat()
     }
