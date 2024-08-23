@@ -23,7 +23,7 @@ pub trait Card: Debug {
     fn can_be_upgraded(&self) -> bool;
     fn is_upgraded(&self) -> bool;
 
-    fn is_playable(&self) -> bool {
+    fn is_playable(&self, hand: &Vec<MasterCard>) -> bool {
         true
     }
     fn targets(&self) -> bool {

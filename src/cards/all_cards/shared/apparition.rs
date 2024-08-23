@@ -1,5 +1,5 @@
 use crate::{
-    cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName},
+    cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName, MasterCard},
     effects::{Buff, DurationBuffs},
     utils::Number,
 };
@@ -16,7 +16,7 @@ impl Card for Apparition {
         CardType::Skill
     }
 
-    fn is_playable(&self) -> bool {
+    fn is_playable(&self, _: &Vec<MasterCard>) -> bool {
         true
     }
 

@@ -197,7 +197,7 @@ impl State {
                 // TODO: Relics
                 // TODO: Medkit, Blue Candle
                 for (i, card) in combat.hand.iter().enumerate() {
-                    if !card.card().is_playable() { continue }
+                    if !card.card().is_playable(&combat.hand) { continue }
                     if card.card().get_cost() > combat.current_energy { continue }
                     // Targeted cards are added for each possible target
                     if card.card().targets() {

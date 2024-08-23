@@ -195,11 +195,17 @@ impl State {
     pub fn debuff_enemy(
         &mut self,
         debuff: Debuff,
-        target_type: Targets,
+        mut target_type: Targets,
         enemy_index: Option<EnemyIndex>,
     ) {
         // TODO: Effects that alter debuffs
         // TODO: Champion's belt
+
+        if target_type == Targets::One && enemy_index.is_none() {
+            // Presumably this is a targeted card randomly played
+            target_type = Targets::Random;
+        }
+
         let num_enemies = self.get_combat().enemies.len();
         match target_type {
             Targets::All => {

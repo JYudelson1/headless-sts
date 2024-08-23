@@ -1,4 +1,4 @@
-use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
+use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName, MasterCard};
 
 #[derive(Debug)]
 pub struct Clumsy;
@@ -12,7 +12,7 @@ impl Card for Clumsy {
         CardType::Curse
     }
 
-    fn is_playable(&self) -> bool {
+    fn is_playable(&self, _: &Vec<MasterCard>) -> bool {
         false
     }
 
