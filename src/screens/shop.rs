@@ -38,6 +38,15 @@ impl Wares {
 
         wares
     }
+
+    pub fn cost(&self) -> u32 {
+        match self {
+            Wares::Card((_, cost)) => *cost,
+            Wares::Relic((_, cost)) => *cost,
+            Wares::Potion((_, cost)) => *cost,
+            Wares::Removal(cost) => *cost,
+        }
+    }
 }
 
 impl State {

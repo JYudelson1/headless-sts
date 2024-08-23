@@ -92,14 +92,16 @@ impl State {
         self.relics.turn_on_tea_set();
     }
 
-    fn to_shop(&mut self) {
+    fn to_shop(&mut self) -> Result<(), NotImplemented> {
         // Meal ticket
         if self.relics.contains(Relic::MealTicket) {
             self.heal(15);
         }
         // Construct shop
         let shop = Wares::new(&self.relics, self.card_removes_bought);
-        self.visible_screen = VisibleStates::Shop(shop)
+        self.visible_screen = VisibleStates::Shop(shop);
+
+        Ok(())
     }
 
     fn to_question_mark(&mut self) -> Result<(), NotImplemented> {
@@ -111,8 +113,8 @@ impl State {
         match self.question_rng.get_question_mark(&mut self.relics) {
             QuestionMark::NormalFight => self.to_combat(CombatType::Normal),
             QuestionMark::TreasureRoom => self.to_treasure(),
-            QuestionMark::Shop => Err(NotImplemented::Shop),
-            QuestionMark::Event => Err(NotImplemented::Shop),
+            QuestionMark::Shop => self.to_shop(),
+            QuestionMark::Event => Err(NotImplemented::Event),
         }
     }
 
@@ -129,7 +131,7 @@ impl State {
             RoomType::Event => self.to_question_mark()?,
             RoomType::Elite => self.to_combat(CombatType::Elite)?,
             RoomType::Rest => self.to_rest(),
-            RoomType::Merchant => Err(NotImplemented::Shop)?,
+            RoomType::Merchant => self.to_shop()?,
             RoomType::Treasure => self.to_treasure()?,
             RoomType::Boss => {
                 // Reset easy/hard encounter pool
@@ -223,7 +225,9 @@ impl State {
             VisibleStates::Shop(wares) => {
                 actions.push(Action::LeaveShop);
                 for ware in wares {
-                    actions.push(Action::Purchase(ware.clone()));
+                    if self.gold >= ware.cost() {
+                        actions.push(Action::Purchase(ware.clone()));
+                    }
                 }
             },
         }
