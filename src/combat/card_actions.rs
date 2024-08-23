@@ -1,4 +1,4 @@
-use crate::{cards::{CardActions, CardIndex, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, NotImplemented, Number}};
+use crate::{cards::{CardActions, CardIndex, CardType, MasterCard, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, NotImplemented, Number}};
 
 impl State {
     pub fn process_action(
@@ -88,13 +88,9 @@ impl State {
                 // Take the top card
                 let mut card = combat.deck.remove(0);
                 // Play it
-                let actions = card.card_mut().play();
-                for action in actions {
-                    self.process_action(action, target)?;
-                    // Stop early if the combat finished
-                    if !self.is_in_combat() {
-                        return Ok(());
-                    }
+                self.play_card_effects(&mut card, None)?;
+                if !self.is_in_combat() {
+                    return Ok(());
                 }
                 // Exhaust the card
                 let combat = self.get_combat();
@@ -105,7 +101,7 @@ impl State {
         Ok(())
     }
 
-    pub fn play_card(
+    pub fn play_card_from_hand(
         &mut self,
         card_index: CardIndex,
         target: Option<EnemyIndex>,
@@ -120,6 +116,29 @@ impl State {
         assert!(cost <= self.get_combat().current_energy);
         // Lose that amount of energy
         self.get_combat().current_energy -= cost;
+
+        // Actually play the card
+        self.play_card_effects(&mut card, target)?;
+
+        // Then if the card exhausts, move it to exhaust pile
+        // Otherwise, move it to the discard
+        if !self.is_in_combat() {
+            return Ok(());
+        }
+        if card.card().exhausts() {
+            self.get_combat().exhaust_card(card);
+        } else {
+            self.get_combat().discard.push(card);
+        }
+
+        Ok(())
+    }
+
+    fn play_card_effects(
+        &mut self,
+        card: &mut MasterCard,
+        target: Option<EnemyIndex>,
+    ) -> Result<(), NotImplemented> {
         // Apply every card action in order
         let actions = card.card_mut().play();
         for action in actions {
@@ -129,19 +148,11 @@ impl State {
                 return Ok(());
             }
         }
-        // 
-        // TODO: Apply card double-play effects
+        //// TODO: Apply card double-play effects
         // TODO: Echo form
         // TODO: Necronomicon
-        // Then if the card exhausts, move it to exhaust pile
-        // Otherwise, move it to the discard
-        if card.card().exhausts() {
-            self.get_combat().exhaust_card(card);
-        } else {
-            self.get_combat().discard.push(card);
-        }
 
-        // TODO: Relic effects
+        //// TODO: Relic effects
         // TODO: Art of war
         // TODO: Shuriken
         // TODO: Kunai
@@ -149,6 +160,14 @@ impl State {
         // TODO: Pocketwatch
         // TODO: Pen Nib
         // TODO: Others???
+
+        //// Power effects
+        // Rage
+        if let Some(rage) = self.get_combat().self_effects.rage() {
+            if card.card().get_type() == CardType::Attack {
+                self.get_combat().gain_block(rage);
+            }
+        }
 
         Ok(())
     }

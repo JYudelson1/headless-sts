@@ -96,6 +96,10 @@ impl Effects {
         self.intensity_buffs.get(&IntensityBuffs::Evolve).copied()
     }
 
+    pub fn rage(&self) -> Option<Number> {
+        self.intensity_buffs.get(&IntensityBuffs::Rage).copied()
+    }
+
     fn get_ritual(&self) -> Number {
         match self.intensity_buffs.get(&IntensityBuffs::Ritual) {
             Some(amt) => *amt,
@@ -241,6 +245,9 @@ impl Effects {
         )));
 
         // TODO: Apply basics up/down effects
+
+        // Lose all Rage
+        self.intensity_buffs.remove(&IntensityBuffs::Rage);
     }
 
     pub fn cleanse_debuffs(&mut self) {
@@ -313,6 +320,7 @@ pub enum IntensityBuffs {
     FeelNoPain,
     DarkEmbrace,
     CurlUp,
+    Rage,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]

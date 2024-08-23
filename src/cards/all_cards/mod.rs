@@ -65,7 +65,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::Metallicize =>  Rc::new(RefCell::new(ironclad::metallicize::Metallicize(upgraded))),
         CardName::PowerThrough => Rc::new(RefCell::new(ironclad::powerthrough::PowerThrough(upgraded))),
         CardName::Pummel => Rc::new(RefCell::new(ironclad::pummel::Pummel(upgraded))),
-        CardName::Rage => Err(NotImplemented::Card(name))?,
+        CardName::Rage => Rc::new(RefCell::new(ironclad::rage::Rage(upgraded))),
         CardName::Rampage => Rc::new(RefCell::new(ironclad::rampage::Rampage::new(upgraded))),
         CardName::RecklessCharge => Rc::new(RefCell::new(ironclad::recklesscharge::RecklessCharge(upgraded))),
         CardName::Rupture => Err(NotImplemented::Card(name))?,

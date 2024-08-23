@@ -64,12 +64,12 @@ impl State {
 
         match action {
             Action::PlayUntargetedCard(index) => {
-                if let Err(error) = self.play_card(index, None){
+                if let Err(error) = self.play_card_from_hand(index, None){
                     self.still_playing = StillPlaying::NotImplementedError(error)
                 }
             },
             Action::PlayTargetedCard((index, enemy)) => {
-                if let Err(error) = self.play_card(index, Some(enemy)) {
+                if let Err(error) = self.play_card_from_hand(index, Some(enemy)) {
                     self.still_playing = StillPlaying::NotImplementedError(error)
                 }
             },

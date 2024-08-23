@@ -80,7 +80,7 @@ impl EventsPool {
 
     pub fn random(&mut self) -> Events {
         let item = self.0.iter().next().unwrap().clone();
-        self.0.remove(&item);
+        //self.0.remove(&item);
         item
     }
 }
