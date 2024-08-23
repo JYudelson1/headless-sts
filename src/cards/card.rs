@@ -157,11 +157,47 @@ impl CardName {
     }
 
     pub fn colorless_uncommons() -> Vec<Self> {
-        vec![]
+        vec![
+            Self::BandageUp,
+            Self::Blind,
+            Self::DarkShackles,
+            Self::DeepBreath,
+            Self::Discovery,
+            Self::DramaticEntrance,
+            Self::Enlightenment,
+            Self::Finesse,
+            Self::FlashOfSteel,
+            Self::Forethought,
+            Self::GoodInstincts,
+            Self::Impatience,
+            Self::JackOfAllTrades,
+            Self::Madness,
+            Self::MindBlast,
+            Self::Panacea,
+            Self::PanicButton,
+            Self::Purity,
+            Self::SwiftStrike,
+            Self::Trip]
     }
 
     pub fn colorless_rares() -> Vec<Self> {
-        vec![]
+        vec![
+            Self::Apotheosis,
+            Self::Chrysalis,
+            Self::HandOfGreed,
+            Self::Magnetism,
+            Self::MasterOfStrategy,
+            Self::Mayhem,
+            Self::Metamorphosis,
+            Self::Panache,
+            Self::SadisticNature,
+            Self::SecretTechnique,
+            Self::SecretWeapon,
+            Self::TheBomb,
+            Self::ThinkingAhead,
+            Self::Transmutation,
+            Self::Violence,
+        ]
     }
 
     pub fn transform_cards(character: Character) -> Vec<Self> {
