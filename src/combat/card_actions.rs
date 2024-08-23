@@ -41,6 +41,7 @@ impl State {
             },
             CardActions::GainTempStrength(_) => todo!(),
             CardActions::ExhaustRandomCard => {
+                if self.get_combat().hand.len() == 0 { return Ok(())}
                 let i = number_between(0, self.get_combat().hand.len() - 1);
                 let card = self.get_combat().hand.remove(i);
                 self.get_combat().exhaust_card(card);
