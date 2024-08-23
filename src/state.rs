@@ -121,6 +121,7 @@ impl State {
                 let room_type = self.map.get_room(node).expect("Options should all be real rooms");
 
                 // Update map location
+                self.current_floor += 1;
                 self.map.go_to_room(node);
 
                 // Change the screen
