@@ -179,7 +179,7 @@ impl State {
                         Character::Defect => 7,
                         Character::Watcher => 7,
                     };
-                    self.max_health += Number(amt);
+                    self.increase_max_hp(amt);
                 }
                 SecondBlessing::NeowsLament => {
                     self.relics.add(Relic::NeowsLament(3))
@@ -206,7 +206,7 @@ impl State {
                     },
                     ThirdUpside::ChooseRareColorless => {
                         let rewards = CardName::colorless_rares().choose_multiple(&mut rand::thread_rng(), 3).map(|name| CardReward { card: *name, is_upgraded: false }).collect();
-                    self.visible_screen = VisibleStates::CardReward(rewards);
+                        self.visible_screen = VisibleStates::CardReward(rewards);
                     },
                     ThirdUpside::BigMaxHP => {
                         let amt = match self.character {
@@ -215,7 +215,7 @@ impl State {
                             Character::Defect => 14,
                             Character::Watcher => 14,
                         };
-                        self.max_health += Number(amt);
+                        self.increase_max_hp(amt);
                     },
                 }
 

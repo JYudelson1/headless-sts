@@ -6,9 +6,9 @@ use std::{
 
 use rand::Rng;
 
-use crate::{cards::CardName, enemies::EnemyType, relics::Relic, screens::NeowsBlessing};
+use crate::{cards::CardName, enemies::EnemyType, relics::Relic, screens::{EventAction, Events, NeowsBlessing}};
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash)]
 pub struct Number(pub i16);
 
 impl Number {
@@ -62,7 +62,7 @@ impl Sub for Number {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Act {
     Act1,
     Act2,
@@ -118,19 +118,20 @@ where
     TryInto::<T>::try_into(rand::thread_rng().gen_range(range)).unwrap()
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum NotImplemented {
     Enemy(EnemyType),
-    Event,
+    Event(Events),
     Shop,
     Card(CardName),
     Relic(Relic),
     Neow(NeowsBlessing),
     ChoosingFromHand,
     ChoosingTreasure,
+    EventAction(EventAction),
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum StillPlaying {
     Playing,
     Dead,

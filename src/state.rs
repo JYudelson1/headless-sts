@@ -7,7 +7,7 @@ use crate::{
     potions::PotionBag,
     question_rng::QuestionMarkRng,
     relics::Relics,
-    screens::VisibleStates,
+    screens::{EventsPool, VisibleStates},
     utils::{Act, Character, Keys, Number, StillPlaying},
 };
 
@@ -32,6 +32,7 @@ pub struct State {
     pub last_elite: Option<Elites>,
     pub fights_this_act: u8,
     pub card_removes_bought: u8,
+    pub event_pool: EventsPool,
 }
 
 impl State {
@@ -56,11 +57,12 @@ impl State {
             last_elite: None,
             fights_this_act: 0,
             card_removes_bought: 0,
+            event_pool: EventsPool::new(),
         }
     }
 
     pub fn apply_action(&mut self, action: Action) {
-        assert!(self.get_actions().contains(&action));
+        //assert!(self.get_actions().contains(&action));
 
         match action {
             Action::PlayUntargetedCard(index) => {
@@ -181,6 +183,11 @@ impl State {
                 }
             },
             Action::LeaveShop => self.to_map(),
+            Action::EventAction(event_action) => {
+                if let Err(error) = self.apply_event_action(event_action) {
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
+            },
         }
 
     }

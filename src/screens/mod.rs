@@ -5,6 +5,7 @@ mod rewards;
 mod shop;
 mod treasure;
 
+pub use events::*;
 pub use neow::*;
 pub use rewards::{CardReward, RewardsScreen};
 pub use shop::Wares;
@@ -35,7 +36,8 @@ pub enum VisibleStates {
     Shop(Vec<Wares>),
     RemoveCardScreen(usize),
     UpgradeCardScreen(usize),
-    TransformCardScreen(usize)
+    TransformCardScreen(usize),
+    Event(Events)
 }
 
 impl VisibleStates {
@@ -104,6 +106,16 @@ impl State {
         Ok(())
     }
 
+    fn to_event(&mut self) -> Result<(), NotImplemented> {
+        // TODO: Ssserpent head
+
+        // Get the event
+        let event = self.event_pool.random();
+        self.visible_screen = VisibleStates::Event(event);
+
+        Ok(())
+    }
+
     fn to_question_mark(&mut self) -> Result<(), NotImplemented> {
         // Serpent head
         if self.relics.contains(Relic::SerpentHead) {
@@ -114,7 +126,7 @@ impl State {
             QuestionMark::NormalFight => self.to_combat(CombatType::Normal),
             QuestionMark::TreasureRoom => self.to_treasure(),
             QuestionMark::Shop => self.to_shop(),
-            QuestionMark::Event => Err(NotImplemented::Event),
+            QuestionMark::Event => self.to_event(),
         }
     }
 
@@ -148,7 +160,7 @@ impl State {
         Ok(())
     }
 
-    pub fn get_actions(&self) -> Vec<Action> {
+    pub fn get_actions(&self) -> Result<Vec<Action>, NotImplemented> {
         let mut actions = vec![];
         match &self.visible_screen {
             VisibleStates::Reward(rewards) => {
@@ -230,8 +242,13 @@ impl State {
                     }
                 }
             },
+            VisibleStates::Event(event) => {
+                for action in event.actions(&self)? {
+                    actions.push(Action::EventAction(action));
+                }
+            },
         }
 
-        actions
+        Ok(actions)
     }
 }

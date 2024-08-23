@@ -204,7 +204,7 @@ fn get_five_class_cards(character: Character) -> Result<Vec<(CardName, Rarity)>,
     Ok(cards)
 }
 
-fn random_relic(relics: &mut Relics) -> (Relic, Rarity) {
+pub fn random_relic(relics: &mut Relics) -> (Relic, Rarity) {
     let random = random::<f32>();
 
     let rarity = if random < 0.5 {
