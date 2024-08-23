@@ -40,7 +40,7 @@ impl Combat {
         enemies: Vec<EnemyType>,
         combat_type: CombatType,
         ascension: u8,
-        relics: &Relics,
+        relics: &mut Relics,
         deck: &Vec<MasterCard>,
     ) -> Result<Self, NotImplemented> {
         let mut max_energy = 3;
@@ -83,6 +83,13 @@ impl Combat {
         for enemy in enemies {
             let concrete_enemy = enemy.new(ascension)?;
             concrete_enemies.push(concrete_enemy);
+        }
+
+        // Neow's lament
+        if relics.trigger_neow() {
+            for enemy in &mut concrete_enemies {
+                enemy.current_hp = 1;
+            }
         }
 
         let mut deck = deck.clone();

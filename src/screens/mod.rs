@@ -68,7 +68,7 @@ impl State {
             enemies,
             combat_type,
             self.ascension,
-            &self.relics,
+            &mut self.relics,
             &self.main_deck,
         );
         self.visible_screen = VisibleStates::Combat(combat?);

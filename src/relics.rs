@@ -219,6 +219,20 @@ impl Relics {
         }
         false
     }
+
+    pub fn trigger_neow(&mut self) -> bool {
+        for relic in &mut self.list {
+            if let Relic::NeowsLament(charges) = relic {
+                if *charges > 0 {
+                    *charges -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        false
+    }
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
@@ -396,7 +410,7 @@ pub enum Relic {
     NlothsGift,                      // TODO: NOT IMPLEMENTED
     NlothsHungryFace(bool),          // TODO: NOT IMPLEMENTED
     Necronomicon,                    // TODO: NOT IMPLEMENTED
-    NeowsLament(u8),                 // TODO: NOT IMPLEMENTED
+    NeowsLament(u8),                 // IMPLEMENTED
     NilrysCodex(u8),                 // TODO: NOT IMPLEMENTED
     OddMushroom,                     // TODO: NOT IMPLEMENTED
     RedMask,                         // IMPLEMENTED
