@@ -4,6 +4,7 @@ pub use event_pools::{Events, EventsPool};
 pub mod event_effects;
 
 mod big_fish;
+mod scrap_ooze;
 mod serpent;
 
 use crate::{state::State, utils::NotImplemented};
@@ -17,7 +18,7 @@ impl Events {
             Events::GoldenIdol => Err(NotImplemented::Event(self.clone()))?,     // TODO
             Events::HypnotizingColoredMushrooms => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::LivingWall => Err(NotImplemented::Event(self.clone()))?, // TODO
-            Events::ScrapOoze => Err(NotImplemented::Event(self.clone()))?,  // TODO
+            Events::ScrapOoze(amt) => scrap_ooze::actions(state, *amt),  // TODO
             Events::ShiningLight => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::TheCleric => Err(NotImplemented::Event(self.clone()))?,  // TODO
             Events::TheSsssserpent => serpent::actions(state),

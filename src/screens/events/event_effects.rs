@@ -1,9 +1,11 @@
 use crate::{
     cards::{make_card, CardName},
-    screens::shop::random_relic,
+    screens::{shop::random_relic, VisibleStates},
     state::State,
     utils::NotImplemented,
 };
+
+use super::Events;
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum EventAction {
@@ -14,6 +16,9 @@ pub enum EventAction {
     Leave,
     Multiple(Vec<EventAction>),
     GainGold(u32),
+    LoseHp(u16),
+    ChanceForAction((Box<EventAction>, u8, Option<Box<EventAction>>)),
+    GoToScrapOoze(usize),
 }
 
 impl State {
@@ -37,6 +42,21 @@ impl State {
                 self.add_to_deck(card);
             }
             EventAction::GainGold(amt) => self.gold += amt,
+            EventAction::LoseHp(amt) => self.lose_hp(amt),
+            EventAction::ChanceForAction((action, prob, otherwise)) => {
+                let prob = prob as f32 / 100.0;
+                if rand::random::<f32>() < prob {
+                    self.apply_event_action(action.as_ref().clone())?
+                } else {
+                    if let Some(other) = otherwise {
+                        self.apply_event_action(other.as_ref().clone())?
+                    }
+                }
+            },
+            EventAction::GoToScrapOoze(amt) => {
+                self.visible_screen = VisibleStates::Event(Events::ScrapOoze(amt));
+                return Ok(())
+            },
         }
 
         // By default, every action results in going back to the map
