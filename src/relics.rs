@@ -328,10 +328,10 @@ pub enum Relic {
     LizardTail(bool),       // TODO: NOT IMPLEMENTED
     Mango,                  // IMPLEMENTED
     OldCoin,                // IMPLEMENTED
-    PeacePipe,              // TODO: PARTIALLY IMPLEMENTED
+    PeacePipe,              // IMPLEMENTED
     Pocketwatch(u8),        // TODO: NOT IMPLEMENTED
     PrayerWheel,            // IMPLEMENTED
-    Shovel,                 // TODO: NOT IMPLEMENTED
+    Shovel,                 // IMPLEMENTED
     StoneCalendar,          // TODO: NOT IMPLEMENTED
     ThreadAndNeedle,        // TODO: NOT IMPLEMENTED
     Torii,                  // TODO: NOT IMPLEMENTED
