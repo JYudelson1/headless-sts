@@ -1,6 +1,6 @@
 use crate::utils::{number_between, Character};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Relics {
     pub list: Vec<Relic>,
     common_pool: Vec<Relic>,
@@ -361,7 +361,7 @@ pub enum Relic {
     OrangePellets(bool, bool, bool), // TODO: NOT IMPLEMENTED
     Orrery,                          // TODO: NOT IMPLEMENTED
     PrismaticShard,                  // TODO: NOT IMPLEMENTED
-    SlingOfCourage,                  // TODO: NOT IMPLEMENTED
+    SlingOfCourage,                  // IMPLEMENTED
     StrangeSpoon,                    // TODO: NOT IMPLEMENTED
     Abacus,                          // TODO: NOT IMPLEMENTED
     Toolkit,                         // TODO: NOT IMPLEMENTED

@@ -2,7 +2,7 @@ use crate::{
     cards::{make_card, CardName, CardType, MasterCard, Targets},
     effects::{Debuff, DurationDebuffs, Effects, OneTurnBoolDebuffs, PermanentBoolBuffs},
     enemies::EnemyIndex,
-    relics::Relic,
+    relics::{Relic, Relics},
     screens::VisibleStates,
     state::State,
     utils::{number_between, NotImplemented, Number, StillPlaying},
@@ -55,12 +55,12 @@ impl State {
             // TODO: Show that you lose
             //println!("Player is dead!");
             self.still_playing = StillPlaying::Dead(self.map.current_floor());
-            // if self.map.current_floor() > 10 {
-            //     println!("Made it to floor {}", self.map.current_floor());
-            //     println!("Deck: {:?}", self.main_deck);
-            //     println!("relics: {:?}", self.relics.list);
-            //     println!("{}", self.map);
-            // }
+            if self.map.current_floor() > 10 {
+                println!("Made it to floor {}", self.map.current_floor());
+                println!("Deck: {:?}", self.main_deck);
+                println!("relics: {:?}", self.relics.list);
+                println!("{}", self.map);
+            }
         } else {
             self.current_health -= amt;
         }
@@ -169,6 +169,7 @@ impl State {
         mut target_type: Targets,
         target: Option<EnemyIndex>,
     ) -> Result<(), NotImplemented> {
+        let relics = &self.relics.clone();
         let self_effects = &self.get_combat().self_effects.clone();
         let enemies = &self.get_combat().enemies;
         let mut damages: Vec<(EnemyIndex, u16)> = vec![];
@@ -182,19 +183,19 @@ impl State {
             Targets::All => {
                 // Calculate damage and apply it for each enemy individually, in order
                 for (i, enemy) in enemies.iter().enumerate() {
-                    let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                    let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt, relics);
                     damages.push((EnemyIndex(i), total_damage.0 as u16))
                 }
             }
             Targets::One => {
                 let enemy = &enemies[target.unwrap().0];
-                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt, relics);
                 damages.push((target.unwrap(), total_damage.0 as u16))
             }
             Targets::Random => {
                 let enemy_index = number_between(0, enemies.len() - 1);
                 let enemy = &enemies[enemy_index];
-                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt);
+                let total_damage = calculate_damage(self_effects, &enemy.effects, damage_amt, relics);
                 damages.push((EnemyIndex(enemy_index), total_damage.0 as u16))
             },
         }
@@ -210,9 +211,11 @@ impl State {
     }
 
     fn debuff_one_enemy(&mut self, debuff: Debuff, enemy_index: EnemyIndex) {
+        let relics = &self.relics.clone();
         let combat = self.get_combat();
         let enemy = &mut combat.enemies[enemy_index.0];
-        enemy.effects.apply_debuff(debuff);
+
+        enemy.effects.apply_debuff(debuff, relics);
     }
 
     pub fn debuff_enemy(
@@ -281,10 +284,12 @@ impl State {
                     self.damage_self(Number(2));
                 }
                 CardName::Doubt => {
-                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Weak, Number(1))))
+                    let relics = &self.relics.clone();
+                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Weak, Number(1))), relics)
                 }
                 CardName::Shame => {
-                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Frail, Number(1))))
+                    let relics = &self.relics.clone();
+                    self.get_combat().self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Frail, Number(1))), relics)
                 }
                 CardName::Regret => {
                     self.lose_hp(hand_size as u16);
@@ -310,26 +315,48 @@ impl State {
             
         }
     }
+
+    pub fn block_goes_away(&mut self) {
+        // Barricade
+        if self
+            .get_combat()
+            .self_effects
+            .permanent_bool_buffs
+            .contains(&PermanentBoolBuffs::Barricade)
+        {
+            return;
+        }
+
+        // Calipers
+        let has_calipers = self.relics.contains(Relic::Calipers);
+        let block = &mut self.get_combat().self_block;
+        if has_calipers && block.0 > 15 {
+            *block -= Number(15)
+        } else {
+            *block = Number(0)
+        }
+    }
 }
 
 pub fn calculate_damage(
     source_effects: &Effects,
     target_effects: &Effects,
     damage: Number,
+    relics: &Relics,
 ) -> Number {
     let mut damage = damage.0 as f32;
     // Factor in strength
     damage += source_effects.get_strength().0 as f32;
     // Factor in vulnerability
     if target_effects.is_vulnerable() {
-        match source_effects.relevant_relics.contains(&Relic::PaperPhrog) {
+        match relics.contains(Relic::PaperPhrog) {
             true => damage *= 1.75,
             false => damage *= 1.5,
         }
     }
     // Factor in weakness
     if source_effects.is_weak() {
-        match target_effects.relevant_relics.contains(&Relic::PaperKrane) {
+        match relics.contains(Relic::PaperKrane) {
             true => damage *= 0.6,
             false => damage *= 0.75,
         }
@@ -404,20 +431,6 @@ impl Combat {
         self.self_block += amt;
         // TODO: Block effects
         // TODO: Juggernaut
-    }
-
-    pub fn block_goes_away(&mut self) {
-        // Barricade
-        if self.self_effects.permanent_bool_buffs.contains(&PermanentBoolBuffs::Barricade) {
-            return;
-        }
-
-        // Calipers
-        if self.has_relic(&Relic::Calipers) && self.self_block.0 > 15 {
-            self.self_block -= Number(15)
-        } else {
-            self.self_block = Number(0)
-        }
     }
 
     fn enemy_loses_block(&mut self, enemy_index: EnemyIndex) {

@@ -71,7 +71,8 @@ impl State {
                 }
             }
             EnemyIntent::Debuff(debuff) => {
-                self.get_combat().self_effects.apply_debuff(debuff);
+                let relics = &self.relics.clone();
+                self.get_combat().self_effects.apply_debuff(debuff, relics);
             },
         }
     } 
@@ -83,12 +84,13 @@ impl State {
     }
 
     pub fn enemy_attack(&mut self, damage_intent: Number, enemy_index: EnemyIndex) {
+        let relics = &self.relics.clone();
         let self_effects = &self.get_combat().self_effects.clone();
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
 
         // TODO: Check for thorns on self
 
-        let real_damage = calculate_damage(&enemy.effects, self_effects, damage_intent);
+        let real_damage = calculate_damage(&enemy.effects, self_effects, damage_intent, relics);
 
         self.damage_self(real_damage);
     }

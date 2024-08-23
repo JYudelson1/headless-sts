@@ -1,6 +1,7 @@
 use crate::{
+    cardrewardrng::CombatType,
     effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs},
-    relics::Relic,
+    relics::{Relic, Relics},
     screens::VisibleStates,
     state::State,
     utils::Number,
@@ -15,8 +16,9 @@ impl State {
             // E.G. If symbiotic virus was obtained before nuclear battery, you should
             // channel 1 dark and then 1 plasma. If they were obtained in the opposite order,
             // you should channel them in the opposite order
+            let relics = self.relics.clone();
             for relic in &mut self.relics.list {
-                combat._start_of_combat_relic(relic);
+                combat._start_of_combat_relic(relic, &relics);
             }
             // Blood vial requires healing, which accesses state (to check for magic flower)
             if self.relics.contains(Relic::BloodVial) {
@@ -40,15 +42,8 @@ impl State {
 }
 
 impl Combat {
-    fn _start_of_combat_relic(&mut self, relic: &mut Relic) {
+    fn _start_of_combat_relic(&mut self, relic: &mut Relic, relics: &Relics) {
         match relic {
-            Relic::PaperPhrog => self.add_relic(Relic::PaperPhrog),
-            Relic::PaperKrane => self.add_relic(Relic::PaperKrane),
-            Relic::Ginger => self.add_relic(Relic::Ginger),
-            Relic::Turnip => self.add_relic(Relic::Turnip),
-            Relic::Calipers => self.add_relic(Relic::Calipers),
-            Relic::RunicPyramid => self.add_relic(Relic::RunicPyramid),
-            Relic::TheBoot => self.add_relic(Relic::TheBoot),
             Relic::CrackedCore => todo!(),    // Channel 1 lightning
             Relic::SymbioticVirus => todo!(), // Channel 1 dark
             Relic::NuclearBattery => todo!(), // Channel 1 plasma
@@ -59,13 +54,13 @@ impl Combat {
             Relic::BagOfMarbles => {
                 let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, Number(1)));
                 for enemy in &mut self.enemies {
-                    enemy.effects.apply_debuff(debuff);
+                    enemy.effects.apply_debuff(debuff, relics);
                 }
             }
             Relic::RedMask => {
                 let debuff = Debuff::Duration((DurationDebuffs::Weak, Number(1)));
                 for enemy in &mut self.enemies {
-                    enemy.effects.apply_debuff(debuff);
+                    enemy.effects.apply_debuff(debuff, relics);
                 }
             }
             Relic::DataDisk => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Focus, Number(1)))),
@@ -80,6 +75,11 @@ impl Combat {
             Relic::Lantern => self.current_energy += 1,
             Relic::SmoothStone => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Dexterity, Number(1)))),
             Relic::Vajra => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(1)))),
+            Relic::SlingOfCourage => {
+                if self.combat_type == CombatType::Elite {
+                    self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(2))))
+                }
+            },
             Relic::NinjaScroll => todo!(),    // Add 3 shivs to hand
             Relic::RunicCapacitor => todo!(), // Add 3 orb slots
             Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(*amt as i16)))),

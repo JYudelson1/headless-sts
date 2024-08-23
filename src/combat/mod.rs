@@ -112,14 +112,6 @@ impl Combat {
         Ok(combat)
     }
 
-    pub fn has_relic(&self, relic: &Relic) -> bool {
-        self.self_effects.relevant_relics.contains(relic)
-    }
-
-    pub fn add_relic(&mut self, relic: Relic) {
-        self.self_effects.relevant_relics.insert(relic);
-    }
-
     pub fn num_enemies(&self) -> usize {
         self.enemies.len()
     }
@@ -133,7 +125,7 @@ impl State {
 
         // Lose all block
         // Except with calipers
-        self.get_combat().block_goes_away();
+        self.block_goes_away();
 
         // TODO: Do effects that change strength/dex/focus here
 

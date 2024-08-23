@@ -62,7 +62,8 @@ impl State {
             },
             CardActions::ApplyDebuff(debuff) => {
                 // TODO: Are there relics or powers that interact here?
-                self.get_combat().self_effects.apply_debuff(debuff);
+                let relics = self.relics.clone();
+                self.get_combat().self_effects.apply_debuff(debuff, &relics);
             },
             CardActions::IncreaseMaxEnergy => {
                 self.get_combat().max_energy += 1

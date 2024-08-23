@@ -3,7 +3,7 @@ use std::{
     hash::Hash,
 };
 
-use crate::{relics::Relic, utils::Number};
+use crate::{relics::{Relic, Relics}, utils::Number};
 
 #[derive(Clone, Debug, Default)]
 pub struct Effects {
@@ -20,7 +20,6 @@ pub struct Effects {
     // A lot of relics have only-in-combat effects
     // It makes sense to hand that info over to combat so we don't often need
     //  to work with the full state
-    pub relevant_relics: HashSet<Relic>,
 }
 
 impl Effects {
@@ -162,7 +161,7 @@ impl Effects {
         out
     }
 
-    pub fn apply_debuff(&mut self, debuff: Debuff) {
+    pub fn apply_debuff(&mut self, debuff: Debuff, relics: &Relics) {
         // TODO: artifact stuff
         match debuff {
             Debuff::Basic((debuff, amt)) => {
@@ -191,7 +190,7 @@ impl Effects {
             Debuff::Duration((debuff, length)) => match debuff {
                 DurationDebuffs::Weak => {
                     // Ginger: cannot gain weak
-                    if !self.relevant_relics.contains(&Relic::Ginger) {
+                    if !relics.contains(Relic::Ginger) {
                         if !self.use_artifact() {
                             add_to_map(&mut self.duration_debuffs, DurationDebuffs::Weak, length)
                         }
@@ -204,7 +203,7 @@ impl Effects {
                 },
                 DurationDebuffs::Frail => {
                     // Turnip: cannot gain frail
-                    if !self.relevant_relics.contains(&Relic::Turnip) {
+                    if !relics.contains(Relic::Turnip) {
                         if !self.use_artifact() {
                             add_to_map(&mut self.duration_debuffs, DurationDebuffs::Frail, length)
                         }
