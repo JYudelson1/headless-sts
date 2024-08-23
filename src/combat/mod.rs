@@ -180,7 +180,7 @@ impl State {
         }
     }
 
-    pub fn end_turn(&mut self) {
+    pub fn end_turn(&mut self) -> Result<(), NotImplemented> {
         // End of turn effects
         self.end_turn_effects();
         // Discard every card that doesn't retain
@@ -193,7 +193,7 @@ impl State {
         self.get_combat().self_effects.increment_turn();
 
         // Beginning of opponent's turn effects (e.g. poison)
-        self.begin_enemy_turn();
+        self.begin_enemy_turn()?;
 
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
@@ -204,6 +204,8 @@ impl State {
         // End of enemy turn effects (e.g. metallicize)
         self.get_combat().end_enemies_turn();
         // Start your next turn
-        self.start_combat_turn()
+        self.start_combat_turn();
+
+        Ok(())
     }
 }

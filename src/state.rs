@@ -110,7 +110,11 @@ impl State {
                 }
                 
             },
-            Action::EndTurn => self.end_turn(),
+            Action::EndTurn => {
+                if let Err(err) = self.end_turn() {
+                    self.still_playing = StillPlaying::NotImplementedError(err);
+                }
+            },
             Action::TraverseMap(node_x) => {
                 let node = RoomNode {
                     x: node_x as usize,

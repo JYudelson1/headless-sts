@@ -129,6 +129,7 @@ pub enum NotImplemented {
     ChoosingFromHand,
     ChoosingTreasure,
     EventAction(EventAction),
+    DefeatedBoss,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]

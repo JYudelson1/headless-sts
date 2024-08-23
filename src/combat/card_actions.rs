@@ -8,7 +8,7 @@ impl State {
     ) -> Result<(), NotImplemented> {
         match action {
             CardActions::Damage((amt, target_type)) => {
-                self.damage_enemy(amt, target_type, target);
+                self.damage_enemy(amt, target_type, target)?;
             }
             CardActions::ApplyVulnerable((amt, target_type)) => {
                 let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, amt));
@@ -37,7 +37,7 @@ impl State {
             },
             CardActions::BodySlam => {
                 let damage_amt = self.get_combat().self_block;
-                self.damage_enemy(damage_amt, Targets::One, target);
+                self.damage_enemy(damage_amt, Targets::One, target)?;
             },
             CardActions::GainTempStrength(_) => todo!(),
             CardActions::ExhaustRandomCard => {

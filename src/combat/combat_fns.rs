@@ -83,7 +83,11 @@ impl State {
         self.damage_self(amt)
     }
 
-    pub fn enemy_lose_hp(&mut self, enemy_index: EnemyIndex, mut amt: u16) {
+    pub fn enemy_lose_hp(
+        &mut self,
+        enemy_index: EnemyIndex,
+        mut amt: u16,
+    ) -> Result<(), NotImplemented> {
         let has_the_boot = self.relics.contains(Relic::TheBoot);
         let combat = self.get_combat();
         let enemy = &mut combat.enemies[enemy_index.0];
@@ -101,41 +105,52 @@ impl State {
         } else {
             enemy.current_hp = 0;
         }
-        self.maybe_end_combat();
+        self.maybe_end_combat()
     }
 
     // Returns true if the enemy was damaged
-    fn direct_damage_enemy(&mut self, enemy_index: EnemyIndex, mut amt: u16) -> bool {
+    fn direct_damage_enemy(
+        &mut self,
+        enemy_index: EnemyIndex,
+        mut amt: u16,
+    ) -> Result<bool, NotImplemented> {
         let combat = self.get_combat();
         let enemy = &mut combat.enemies[enemy_index.0];
 
         if amt < enemy.current_block.0 as u16 {
             enemy.current_block -= Number(amt as i16);
-            return false;
+            return Ok(false);
         } else {
             amt -= enemy.current_block.0 as u16;
             enemy.current_block = Number(0);
-            self.enemy_lose_hp(enemy_index, amt);
-            return true;
+            self.enemy_lose_hp(enemy_index, amt)?;
+            return Ok(true);
         }
 
     }
 
-    pub fn direct_damage_all_enemies(&mut self, amt: u16) {
+    pub fn direct_damage_all_enemies(&mut self, amt: u16) -> Result<(), NotImplemented> {
         for enemy_index in 0..self.get_combat().enemies.len() {
-            self.direct_damage_enemy(EnemyIndex(enemy_index), amt);
+            self.direct_damage_enemy(EnemyIndex(enemy_index), amt)?;
         }
+
+        Ok(())
     }
 
-    pub fn direct_damage_random_enemy(&mut self, amt: u16) {
+    pub fn direct_damage_random_enemy(&mut self, amt: u16) -> Result<(), NotImplemented> {
         let index = number_between(0, self.get_combat().enemies.len() - 1);
-        self.direct_damage_enemy(EnemyIndex(index), amt);
+        self.direct_damage_enemy(EnemyIndex(index), amt)?;
+        Ok(())
     }
 
-    pub fn attack_damage_enemy(&mut self, enemy_index: EnemyIndex, amt: u16) {
+    pub fn attack_damage_enemy(
+        &mut self,
+        enemy_index: EnemyIndex,
+        amt: u16,
+    ) -> Result<(), NotImplemented> {
         // TODO: Check for thorns
 
-        if self.direct_damage_enemy(enemy_index, amt) {
+        if self.direct_damage_enemy(enemy_index, amt)? {
             // TODO: Real curl up triggers after card, not multi-attack
             if let VisibleStates::Combat(combat) = &mut self.visible_screen {
                 let enemy = &mut combat.enemies[enemy_index.0];
@@ -144,8 +159,8 @@ impl State {
                 }
             // TODO: Malleable here
             }
-            
         }
+        Ok(())
     }
 
     pub fn damage_enemy(
@@ -153,7 +168,7 @@ impl State {
         damage_amt: Number,
         mut target_type: Targets,
         target: Option<EnemyIndex>,
-    ) {
+    ) -> Result<(), NotImplemented> {
         let self_effects = &self.get_combat().self_effects.clone();
         let enemies = &self.get_combat().enemies;
         let mut damages: Vec<(EnemyIndex, u16)> = vec![];
@@ -185,11 +200,13 @@ impl State {
         }
 
         for (enemy_index, amt) in damages {
-            self.attack_damage_enemy(enemy_index, amt);
+            self.attack_damage_enemy(enemy_index, amt)?;
             if !self.is_in_combat() {
-                return;
+                return Ok(());
             }
         }
+
+        Ok(())
     }
 
     fn debuff_one_enemy(&mut self, debuff: Debuff, enemy_index: EnemyIndex) {
@@ -224,23 +241,25 @@ impl State {
         }
     }
 
-    fn begin_enemy_turn_effects(&mut self, enemy_index: EnemyIndex) {
+    fn begin_enemy_turn_effects(&mut self, enemy_index: EnemyIndex) -> Result<(), NotImplemented> {
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
         // Poison
         let poison = enemy.effects.get_poison();
         if poison.0 > 0 {
-            self.enemy_lose_hp(enemy_index, poison.0 as u16)
+            self.enemy_lose_hp(enemy_index, poison.0 as u16)?
         }
         // Increment the enemies effects
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
         enemy.effects.increment_turn();
+        Ok(())
     }
 
-    pub fn begin_enemy_turn(&mut self) {
+    pub fn begin_enemy_turn(&mut self) -> Result<(), NotImplemented> {
         let num_enemies = self.get_combat().num_enemies();
         for i in 0..num_enemies {
-            self.begin_enemy_turn_effects(EnemyIndex(i));
+            self.begin_enemy_turn_effects(EnemyIndex(i))?;
         }
+        Ok(())
     }
 
     pub fn discard_hand_end_of_turn(&mut self) {

@@ -1,4 +1,4 @@
-use crate::{relics::Relic, screens::VisibleStates, state::State};
+use crate::{relics::Relic, screens::VisibleStates, state::State, utils::NotImplemented};
 
 use super::Combat;
 
@@ -24,7 +24,7 @@ impl State {
         }
     }
 
-    pub fn maybe_end_combat(&mut self) {
+    pub fn maybe_end_combat(&mut self) -> Result<(), NotImplemented> {
         if let VisibleStates::Combat(combat) = &self.visible_screen {
             if combat.check_if_over() {
                 // Game effects
@@ -34,10 +34,12 @@ impl State {
                     card.reset_end_combat();
                 }
                 // Move to rewards screen
-                self.combat_finished()
+                self.combat_finished()?
             }
         } else {
             panic!("Should not try to end combat outside of combat!")
         }
+
+        Ok(())
     }
 }

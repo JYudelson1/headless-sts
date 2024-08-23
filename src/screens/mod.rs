@@ -133,8 +133,16 @@ impl State {
         }
     }
 
-    pub fn combat_finished(&mut self) {
-        self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
+    pub fn combat_finished(&mut self) -> Result<(), NotImplemented> {
+        let combat_type = self.get_combat().combat_type;
+
+        if combat_type != CombatType::Boss {
+            self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
+        } else {
+            Err(NotImplemented::DefeatedBoss)?
+        }
+
+        Ok(())
     }
 
     pub fn _go_to_new_room(&mut self, room: RoomType) -> Result<(), NotImplemented> {
