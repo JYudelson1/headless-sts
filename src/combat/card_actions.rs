@@ -75,6 +75,31 @@ impl State {
                 self.get_combat().create_card_in_hand(card);
             },
             CardActions::AddFreshCardToHand((card, upgraded)) => self.get_combat().create_fresh_card_in_hand(card, upgraded)?,
+            CardActions::Havoc => {
+                let combat = self.get_combat();
+                // Cannot havoc if all cards are in hand
+                if combat.deck.is_empty() && combat.discard.is_empty() {
+                    return Ok(());
+                }
+                // If draw pile is empty, reshuffle
+                if combat.deck.is_empty() {
+                    combat.reshuffle()
+                }
+                // Take the top card
+                let mut card = combat.deck.remove(0);
+                // Play it
+                let actions = card.card_mut().play();
+                for action in actions {
+                    self.process_action(action, target)?;
+                    // Stop early if the combat finished
+                    if !self.is_in_combat() {
+                        return Ok(());
+                    }
+                }
+                // Exhaust the card
+                let combat = self.get_combat();
+                combat.exhaust_card(card);
+            },
         }
 
         Ok(())

@@ -145,12 +145,18 @@ impl State {
     pub fn damage_enemy(
         &mut self,
         damage_amt: Number,
-        target_type: Targets,
+        mut target_type: Targets,
         target: Option<EnemyIndex>,
     ) {
         let self_effects = &self.get_combat().self_effects.clone();
         let enemies = &self.get_combat().enemies;
         let mut damages: Vec<(EnemyIndex, u16)> = vec![];
+
+        if target_type == Targets::One && target.is_none() {
+            // Presumably this is a targeted card randomly played
+            target_type = Targets::Random;
+        }
+
         match target_type {
             Targets::All => {
                 // Calculate damage and apply it for each enemy individually, in order

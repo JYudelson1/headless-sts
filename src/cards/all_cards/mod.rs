@@ -33,7 +33,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::Impervious => Rc::new(RefCell::new(ironclad::impervious::Impervious(upgraded))),
         CardName::Clash => Err(NotImplemented::Card(name))?,
         CardName::Flex => Err(NotImplemented::Card(name))?,
-        CardName::Havoc => Err(NotImplemented::Card(name))?,
+        CardName::Havoc => Rc::new(RefCell::new(ironclad::havoc::Havoc(upgraded))),
         CardName::Headbutt => Err(NotImplemented::Card(name))?,
         CardName::HeavyBlade => Err(NotImplemented::Card(name))?,
         CardName::IronWave => Rc::new(RefCell::new(ironclad::ironwave::IronWave(upgraded))),

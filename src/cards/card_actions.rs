@@ -2,6 +2,7 @@ use crate::{effects::{Buff, Debuff}, utils::Number};
 
 use super::{CardName, MasterCard};
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Targets {
     All,
     One,
@@ -29,6 +30,7 @@ pub enum CardActions {
     GainEnergy(u8),
     IncreaseMaxEnergy,
     DoubleBlock,
+    Havoc,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
