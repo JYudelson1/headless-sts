@@ -31,6 +31,7 @@ pub enum CardActions {
     IncreaseMaxEnergy,
     DoubleBlock,
     Havoc,
+    PerfectedStrike(Number),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

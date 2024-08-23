@@ -97,6 +97,27 @@ impl State {
                 let combat = self.get_combat();
                 combat.exhaust_card(card);
             },
+            CardActions::PerfectedStrike(amt) => {
+                let mut damage = Number(6);
+
+                for card in &self.get_combat().hand {
+                    if card.card().is_a_strike() {
+                        damage += amt;
+                    }
+                }
+                for card in &self.get_combat().discard {
+                    if card.card().is_a_strike() {
+                        damage += amt;
+                    }
+                }
+                for card in &self.get_combat().deck {
+                    if card.card().is_a_strike() {
+                        damage += amt;
+                    }
+                }
+
+                self.damage_enemy(damage, Targets::One, target)?;
+            },
         }
 
         Ok(())
