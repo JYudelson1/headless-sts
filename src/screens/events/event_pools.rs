@@ -87,36 +87,37 @@ impl EventsPool {
 
 const ACT_1_EVENTS: &[Events] = &[
     Events::BigFish,
-    Events::DeadAdventurer,
-    Events::FaceTrader,
-    Events::GoldenIdol,
-    Events::HypnotizingColoredMushrooms,
-    Events::LivingWall,
+    // TODO: Events::DeadAdventurer,
+    // TODO: Events::GoldenIdol,
+    // TODO: Events::HypnotizingColoredMushrooms,
+    // TODO: Events::LivingWall,
     Events::ScrapOoze(0),
-    Events::ShiningLight,
-    Events::TheCleric,
+    // TODO: Events::ShiningLight,
+    // TODO: Events::TheCleric,
     Events::TheSsssserpent,
-    Events::WorldOfGoop,
-    Events::WingStatue,
+    // TODO: Events::WorldOfGoop,
+    // TODO: Events::WingStatue,
 ];
 
 const ACT_2_EVENTS: &[Events] = &[]; //TODO!
 const ACT_3_EVENTS: &[Events] = &[]; //TODO!
-const ACT_1_AND_2_EVENTS: &[Events] = &[Events::FaceTrader];
+const ACT_1_AND_2_EVENTS: &[Events] = &[
+    //Events::FaceTrader
+];
 const ACT_2_AND_3_EVENTS: &[Events] = &[Events::DesignerInSpire];
 
 const SHARED_EVENTS: &[Events] = &[
-    Events::BonfireSpirits,
-    Events::Duplicator,
-    Events::GoldenShrine,
-    Events::Lab,
-    Events::MatchAndKeep,
-    Events::OminousForge,
+    // TODO: Events::BonfireSpirits,
+    // TODO: Events::Duplicator,
+    // TODO: Events::GoldenShrine,
+    // TODO: Events::Lab,
+    // TODO: Events::MatchAndKeep,
+    // TODO: Events::OminousForge,
     Events::Purifier,
-    Events::TheDivineFountain,
-    Events::TheWomanInBlue,
+    // TODO: Events::TheDivineFountain,
+    // TODO: Events::TheWomanInBlue,
     Events::Transmogrifier,
     Events::UpgradeShrine,
-    Events::WeMeetAgain,
-    Events::WheelofChange,
+    // TODO: Events::WeMeetAgain,
+    // TODO: Events::WheelofChange,
 ];

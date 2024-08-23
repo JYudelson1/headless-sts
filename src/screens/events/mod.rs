@@ -4,8 +4,11 @@ pub use event_pools::{Events, EventsPool};
 pub mod event_effects;
 
 mod big_fish;
+mod purifier;
 mod scrap_ooze;
 mod serpent;
+mod transmogrifier;
+mod upgrade_shrine;
 
 use crate::{state::State, utils::NotImplemented};
 
@@ -30,11 +33,11 @@ impl Events {
             Events::Lab => Err(NotImplemented::Event(self.clone()))?,         // TODO
             Events::MatchAndKeep => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::OminousForge => Err(NotImplemented::Event(self.clone()))?, // TODO
-            Events::Purifier => Err(NotImplemented::Event(self.clone()))?,    // TODO
+            Events::Purifier => purifier::actions(),    // TODO
             Events::TheDivineFountain => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::TheWomanInBlue => Err(NotImplemented::Event(self.clone()))?, // TODO
-            Events::Transmogrifier => Err(NotImplemented::Event(self.clone()))?, // TODO
-            Events::UpgradeShrine => Err(NotImplemented::Event(self.clone()))?, // TODO
+            Events::Transmogrifier => transmogrifier::actions(), // TODO
+            Events::UpgradeShrine => upgrade_shrine::actions(), // TODO
             Events::WeMeetAgain => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::WheelofChange => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::DesignerInSpire => Err(NotImplemented::Event(self.clone()))?, // TODO

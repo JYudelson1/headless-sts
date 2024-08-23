@@ -19,6 +19,9 @@ pub enum EventAction {
     LoseHp(u16),
     ChanceForAction((Box<EventAction>, u8, Option<Box<EventAction>>)),
     GoToScrapOoze(usize),
+    Remove,
+    Upgrade,
+    Transform,
 }
 
 impl State {
@@ -56,6 +59,18 @@ impl State {
             EventAction::GoToScrapOoze(amt) => {
                 self.visible_screen = VisibleStates::Event(Events::ScrapOoze(amt));
                 return Ok(())
+            },
+            EventAction::Remove => {
+                self.visible_screen = VisibleStates::RemoveCardScreen(1);
+                return Ok(());
+            },
+            EventAction::Upgrade => {
+                self.visible_screen = VisibleStates::UpgradeCardScreen(1);
+                return Ok(());
+            },
+            EventAction::Transform => {
+                self.visible_screen = VisibleStates::TransformCardScreen(1);
+                return Ok(());
             },
         }
 
