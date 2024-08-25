@@ -3,12 +3,13 @@ use rand::prelude::SliceRandom;
 use crate::{
     cardrewardrng::CombatType,
     cards::{make_card, CardName},
+    potions::Potion,
     relics::Relic,
     state::State,
     utils::{number_between, Act, Character, NotImplemented, Number},
 };
 
-use super::{CardReward, VisibleStates};
+use super::{rewards::Reward, CardReward, RewardsScreen, VisibleStates};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum FirstBlessing {
@@ -189,7 +190,10 @@ impl State {
                     self.relics.add(relic)
                 }
                 SecondBlessing::Gold100 => self.gold += 100,
-                SecondBlessing::Random3Potions => Err(NotImplemented::Neow(blessing))?,
+                SecondBlessing::Random3Potions => {
+                    let potions = (0..3).map(|_| Reward::Potion(Potion::random().0)).collect();
+                    self.visible_screen = VisibleStates::Reward(RewardsScreen(potions))
+                },
             },
             NeowsBlessing::Third(bless) => {
                 match bless.upside {
@@ -201,8 +205,8 @@ impl State {
                     }
                     ThirdUpside::Gold250 => self.gold += 250,
                     ThirdUpside::ChooseRareClassCard => {
-                        let rares = self.card_rng.get_rewards(3, CombatType::Boss, &Act::Act3, self.character)[0].card;
-                        self.main_deck.push(make_card(rares, false)?);
+                        let rares = self.card_rng.get_rewards(3, CombatType::Boss, &Act::Act3, self.character);
+                        self.visible_screen = VisibleStates::CardReward(rares);
                     },
                     ThirdUpside::ChooseRareColorless => {
                         let rewards = CardName::colorless_rares().choose_multiple(&mut rand::thread_rng(), 3).map(|name| CardReward { card: *name, is_upgraded: false }).collect();
