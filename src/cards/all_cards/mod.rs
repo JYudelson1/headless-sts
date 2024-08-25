@@ -53,7 +53,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::Disarm => Err(NotImplemented::Card(name))?,
         CardName::Dropkick => Err(NotImplemented::Card(name))?,
         CardName::DualWield => Err(NotImplemented::Card(name))?,
-        CardName::Entrench => Err(NotImplemented::Card(name))?,
+        CardName::Entrench => Rc::new(RefCell::new(ironclad::entrench::Entrench(upgraded))),
         CardName::Evolve => Rc::new(RefCell::new(ironclad::evolve::Evolve(upgraded))),
         CardName::FeelNoPain => Rc::new(RefCell::new(ironclad::feelnopain::FeelNoPain(upgraded))),
         CardName::FireBreathing => Err(NotImplemented::Card(name))?,
