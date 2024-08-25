@@ -4,7 +4,7 @@ pub mod potion_rng;
 
 use rand::{random, seq::SliceRandom, thread_rng};
 
-use crate::{enemies::EnemyIndex, relics::Relic, state::State, utils::NotImplemented};
+use crate::{enemies::EnemyIndex, relics::Relic, state::State, utils::{NotImplemented, Rarity}};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Potion {
@@ -124,16 +124,17 @@ impl Potion {
         }
     }
 
-    pub fn random() -> Self {
+    pub fn random() -> (Self, Rarity) {
         let x = random::<f32>();
-        let pool = if x < 0.65 {
-            COMMON
+        let (pool, rarity) = if x < 0.65 {
+            (COMMON, Rarity::Common)
         } else if x <= 0.9 {
-            UNCOMMON
+            (UNCOMMON, Rarity::Uncommon)
         } else {
-            RARE
+            (RARE, Rarity::Rare)
         };
-        *pool.choose(&mut thread_rng()).unwrap()
+        let potion = *pool.choose(&mut thread_rng()).unwrap();
+        (potion, rarity)
     }
 }
 impl State {

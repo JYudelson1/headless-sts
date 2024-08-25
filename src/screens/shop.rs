@@ -95,7 +95,19 @@ impl Wares {
         wares.push(Wares::Relic((relics.random_shop(), shop_relic_price)));
 
         // Potions
-        // TODO: Potions
+        for _ in 0..3 {
+            let (potion, rarity) = Potion::random();
+            let mut price = match rarity {
+                Rarity::Common => number_between(48, 52),
+                Rarity::Uncommon => number_between(72, 78),
+                Rarity::Rare => number_between(95, 105),
+                _ => unreachable!(),
+            };
+            if ascension >= 16 {
+                price = (price as f32 * 1.1).floor() as u32;
+            }
+            wares.push(Wares::Potion((potion, price)));
+        }
 
         // Membership card discount
         if relics.contains(Relic::MembershipCard) {

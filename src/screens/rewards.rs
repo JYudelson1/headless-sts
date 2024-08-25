@@ -38,7 +38,7 @@ impl State {
 
         // Potion Rng Logic
         if self.relics.contains(Relic::WhiteBeastStatue) || self.potion_rng.maybe_get_potion() {
-            rewards.push(Reward::Potion(Potion::random()));
+            rewards.push(Reward::Potion(Potion::random().0));
         }
 
         rewards.push(Reward::CardReward(combat_type));
