@@ -126,9 +126,9 @@ impl Potion {
 
     pub fn random() -> Self {
         let x = random::<f32>();
-        let pool = if x < 0.5 {
+        let pool = if x < 0.65 {
             COMMON
-        } else if x <= 0.83 {
+        } else if x <= 0.9 {
             UNCOMMON
         } else {
             RARE
