@@ -169,17 +169,13 @@ impl State {
         matches!(self.visible_screen, VisibleStates::Combat(_))
     }
 
-    pub fn end_turn_effects(&mut self) {
+    pub fn end_turn(&mut self) -> Result<CombatOver, NotImplemented> {
+        // End of turn relic effects
         if let VisibleStates::Combat(combat) = &mut self.visible_screen {
             for relic in &mut self.relics.list {
                 combat._end_of_turn_relic(relic);
             }
         }
-    }
-
-    pub fn end_turn(&mut self) -> Result<CombatOver, NotImplemented> {
-        // End of turn effects
-        self.end_turn_effects();
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
         let relics = &self.relics.clone();
