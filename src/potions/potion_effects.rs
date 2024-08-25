@@ -51,7 +51,7 @@ impl State {
             Potion::Duplication => Err(NotImplemented::Potion(potion))?,
             Potion::Elixer => Err(NotImplemented::Potion(potion))?,
             Potion::Energy => Err(NotImplemented::Potion(potion))?,
-            Potion::EntropicBrew => Err(NotImplemented::Potion(potion))?,
+            Potion::EntropicBrew => self.direct_damage_all_enemies(10)?,
             Potion::EssenceOfSteel => Err(NotImplemented::Potion(potion))?,
             Potion::Explosive => Err(NotImplemented::Potion(potion))?,
             Potion::FairyInABottle => Err(NotImplemented::Potion(potion))?,
