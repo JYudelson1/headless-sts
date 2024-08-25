@@ -28,6 +28,16 @@ impl State {
         }
     }
 
+    pub fn duplicate_card_in_deck(&mut self, card_id: uuid::Uuid) {
+        for card in &self.main_deck {
+            if card.id == card_id {
+                let dupe = card.card().duplicate();
+                self.add_to_deck(dupe);
+                return;
+            }
+        }
+    }
+
     pub fn transform_card_in_deck(&mut self, card_id: uuid::Uuid) -> Result<(), NotImplemented> {
         let mut index = None;
         for (i, card) in self.main_deck.iter().enumerate() {
