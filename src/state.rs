@@ -205,6 +205,7 @@ impl State {
                     self.still_playing = StillPlaying::NotImplementedError(error)
                 }
             },
+            Action::DiscardPotion(index) => self.discard_potion(index)
         }
 
     }

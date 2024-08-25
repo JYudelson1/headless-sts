@@ -22,6 +22,7 @@ pub enum Action {
     TakeKeyLeave(Key),
     UsePotionNoTargets(usize),
     UsePotionTargets((usize, EnemyIndex)),
+    DiscardPotion(usize),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

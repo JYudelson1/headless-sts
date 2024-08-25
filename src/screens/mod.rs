@@ -187,6 +187,11 @@ impl State {
 
     pub fn get_actions(&self) -> Result<Vec<Action>, NotImplemented> {
         let mut actions = vec![];
+        // Can always discard any potion
+        for i in 0..self.potions.potions.len() {
+            actions.push(Action::DiscardPotion(i))
+        }
+        // Screen-dependent actions
         match &self.visible_screen {
             VisibleStates::Reward(rewards) => {
                 actions.push(Action::CollectReward(RewardChoice::Skip));

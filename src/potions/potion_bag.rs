@@ -24,10 +24,6 @@ impl PotionBag {
         self.capacity += added_slots;
     }
 
-    pub fn len(&self) -> usize {
-        self.potions.len()
-    }
-
     pub fn remove_potion(&mut self, index: usize) -> Potion {
         self.potions.remove(index)
     }
