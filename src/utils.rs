@@ -126,7 +126,6 @@ pub enum NotImplemented {
     Event(Events),
     Card(CardName),
     Relic(Relic),
-    Neow(NeowsBlessing),
     ChoosingFromHand,
     EventAction(EventAction),
     DefeatedBoss,
