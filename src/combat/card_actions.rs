@@ -58,9 +58,11 @@ impl State {
             },
             CardActions::ChooseNCards((purpose, amt, next_actions)) => {
                 let cards = HashSet::from_iter(self.get_combat().hand.iter().map(|mc| mc.id).collect::<Vec<Uuid>>());
-                let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
-                if let VisibleStates::Combat(combat) = screen{
-                    self.visible_screen = VisibleStates::ChoosingCardInHand((combat, purpose, amt, cards, HashSet::new(), next_actions));
+                if cards.len() > 0 {
+                    let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
+                    if let VisibleStates::Combat(combat) = screen{
+                        self.visible_screen = VisibleStates::ChoosingCardInHand((combat, purpose, amt, cards, HashSet::new(), next_actions));
+                    }
                 }
                 
             },
