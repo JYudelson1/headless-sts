@@ -11,8 +11,8 @@ use super::{
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist,
         fungus_beast::FungusBeast, greenlouse::GreenLouse, gremlin_mad::GremlinFat,
-        jawworm::JawWorm, redlouse::RedLouse, spike_slime_m::SpikeSlimeM,
-        spike_slime_s::SpikeSlimeS,
+        gremlin_sneaky::GremlinSneaky, jawworm::JawWorm, redlouse::RedLouse,
+        spike_slime_m::SpikeSlimeM, spike_slime_s::SpikeSlimeS,
     },
     ConcreteEnemy, EnemyIntent, EnemyType,
 };
@@ -42,7 +42,7 @@ impl EnemyType {
             EnemyType::Looter => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::FungusBeast => Ok(FungusBeast::new(ascension)),
             EnemyType::GremlinFat => Ok(GremlinFat::new(ascension)),
-            EnemyType::GremlinSneaky => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinSneaky => Ok(GremlinSneaky::new(ascension)),
             EnemyType::GremlinMad => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinShield => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinWizard => Err(NotImplemented::Enemy(self.clone())),
