@@ -1,15 +1,15 @@
-use crate::{relics::Relic, screens::VisibleStates, state::State, utils::NotImplemented};
+use crate::{relics::Relic, state::State, utils::NotImplemented};
 
-use super::Combat;
+use super::{combat_fns::CombatOver, Combat};
 
 impl Combat {
-    pub fn check_if_over(&self) -> bool {
+    pub fn check_if_over(&self) -> CombatOver {
         for enemy in &self.enemies {
             if !enemy.is_dead() {
-                return false;
+                return CombatOver::No;
             }
         }
-        return true;
+        return CombatOver::Yes;
     }
 }
 
@@ -24,10 +24,9 @@ impl State {
         }
     }
 
-    pub fn maybe_end_combat(&mut self) -> Result<(), NotImplemented> {
-        if let VisibleStates::Combat(combat) = &self.visible_screen {
-            if combat.check_if_over() {
-                // Game effects
+    pub fn end_combat(&mut self) -> Result<(), NotImplemented> {
+        if self.is_in_combat() {
+            // Game effects
                 self.end_of_combat_effects();
                 // Undo temporary card effects
                 for card in &mut self.main_deck {
@@ -35,7 +34,6 @@ impl State {
                 }
                 // Move to rewards screen
                 self.combat_finished()?
-            }
         } else {
             panic!("Should not try to end combat outside of combat!")
         }

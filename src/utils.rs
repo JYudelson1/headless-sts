@@ -122,12 +122,10 @@ where
 pub enum NotImplemented {
     Enemy(EnemyType),
     Event(Events),
-    Shop,
     Card(CardName),
     Relic(Relic),
     Neow(NeowsBlessing),
     ChoosingFromHand,
-    ChoosingTreasure,
     EventAction(EventAction),
     DefeatedBoss,
     Potion(Potion),

@@ -4,7 +4,7 @@ pub mod potion_rng;
 
 use rand::{random, seq::SliceRandom, thread_rng};
 
-use crate::{enemies::EnemyIndex, relics::Relic, state::State, utils::{NotImplemented, Rarity}};
+use crate::{combat::CombatOver, enemies::EnemyIndex, relics::Relic, state::State, utils::{NotImplemented, Rarity}};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Potion {
@@ -142,18 +142,18 @@ impl State {
         &mut self,
         index: usize,
         target: Option<EnemyIndex>,
-    ) -> Result<(), NotImplemented> {
+    ) -> Result<CombatOver, NotImplemented> {
         let potion = self.potions.remove_potion(index);
-        match target {
+        let over = match target {
             Some(enemy) => self.use_targeted_potion(potion, enemy)?,
             None => self.use_untargeted_potion(potion)?,
-        }
+        };
 
         if self.relics.contains(Relic::ToyOrnithopter) {
             self.heal(5);
         }
 
-        Ok(())
+        Ok(over)
     }
 
     pub fn discard_potion(&mut self, index: usize) {

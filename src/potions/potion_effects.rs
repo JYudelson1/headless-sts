@@ -1,5 +1,6 @@
 use crate::{
     cards::Targets,
+    combat::CombatOver,
     effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs},
     enemies::EnemyIndex,
     state::State,
@@ -13,19 +14,26 @@ impl State {
         &mut self,
         potion: Potion,
         target: EnemyIndex,
-    ) -> Result<(), NotImplemented> {
+    ) -> Result<CombatOver, NotImplemented> {
+        let relics = self.relics.clone();
         match potion {
             Potion::Weak => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Weak, Number(3))), Targets::One, Some(target)),
             Potion::Fear => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Vulnerable, Number(3))), Targets::One, Some(target)),
-            Potion::Fire => {self.direct_damage_enemy(target, 20)?;},
+            Potion::Fire => {
+                let (_, over) = self.get_combat().direct_damage_enemy(target, 20, &relics)?;
+                if over == CombatOver::Yes {
+                    return Ok(CombatOver::Yes)
+                }
+            },
             _ => panic!("Should not be using {potion:?} here!")
         }
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 
-    pub fn use_untargeted_potion(&mut self, potion: Potion) -> Result<(), NotImplemented> {
+    pub fn use_untargeted_potion(&mut self, potion: Potion) -> Result<CombatOver, NotImplemented> {
         let mut combat = None;
+        let relics = self.relics.clone();
         if self.is_in_combat() {
             combat = Some(self.get_combat())
         }
@@ -51,9 +59,14 @@ impl State {
             Potion::Duplication => Err(NotImplemented::Potion(potion))?,
             Potion::Elixer => Err(NotImplemented::Potion(potion))?,
             Potion::Energy => Err(NotImplemented::Potion(potion))?,
-            Potion::EntropicBrew => self.direct_damage_all_enemies(10)?,
+            Potion::EntropicBrew => Err(NotImplemented::Potion(potion))?,
             Potion::EssenceOfSteel => Err(NotImplemented::Potion(potion))?,
-            Potion::Explosive => Err(NotImplemented::Potion(potion))?,
+            Potion::Explosive => {
+                let over = self.get_combat().direct_damage_all_enemies(10, &relics)?;
+                if over == CombatOver::Yes {
+                    return Ok(over)
+                }
+            },
             Potion::FairyInABottle => Err(NotImplemented::Potion(potion))?,
             Potion::Flex => Err(NotImplemented::Potion(potion))?,
             Potion::GamblersBrew => Err(NotImplemented::Potion(potion))?,
@@ -69,6 +82,6 @@ impl State {
             _ => panic!("Should not be using {potion:?} here!")
         }
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 }

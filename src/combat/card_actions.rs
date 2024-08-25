@@ -1,14 +1,19 @@
 use crate::{cards::{CardActions, CardIndex, CardType, MasterCard, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, NotImplemented, Number}};
 
+use super::CombatOver;
+
 impl State {
     pub fn process_action(
         &mut self,
         action: CardActions,
         target: Option<EnemyIndex>,
-    ) -> Result<(), NotImplemented> {
+    ) -> Result<CombatOver, NotImplemented> {
+        let relics = &self.relics.clone();
         match action {
             CardActions::Damage((amt, target_type)) => {
-                self.damage_enemy(amt, target_type, target)?;
+                let (over, hp_loss) = self.get_combat().damage_enemy(amt, target_type, target, relics)?;
+                self.lose_hp(hp_loss.0);
+                return Ok(over);
             }
             CardActions::ApplyVulnerable((amt, target_type)) => {
                 let debuff = Debuff::Duration((DurationDebuffs::Vulnerable, amt));
@@ -26,7 +31,7 @@ impl State {
                 }
                 self.get_combat().self_block += amt;
             }
-            CardActions::Draw(amt) => self.get_combat().draw(amt),
+            CardActions::Draw(amt) => return self.get_combat().draw(amt, relics),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
             CardActions::UpgradeACardInHand => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::UpgradeAllCardsInHand => {
@@ -37,13 +42,15 @@ impl State {
             },
             CardActions::BodySlam => {
                 let damage_amt = self.get_combat().self_block;
-                self.damage_enemy(damage_amt, Targets::One, target)?;
+                let (over, hp_loss) =  self.get_combat().damage_enemy(damage_amt, Targets::One, target, relics)?;
+                self.lose_hp(hp_loss.0);
+                return Ok(over);
             },
             CardActions::ExhaustRandomCard => {
-                if self.get_combat().hand.len() == 0 { return Ok(())}
+                if self.get_combat().hand.len() == 0 { return Ok(CombatOver::No)}
                 let i = number_between(0, self.get_combat().hand.len() - 1);
                 let card = self.get_combat().hand.remove(i);
-                self.get_combat().exhaust_card(card);
+                self.get_combat().exhaust_card(card, relics);
             },
             CardActions::ExhaustSelectedCard => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::ApplyBuff(buff) => {
@@ -79,7 +86,7 @@ impl State {
                 let combat = self.get_combat();
                 // Cannot havoc if all cards are in hand
                 if combat.deck.is_empty() && combat.discard.is_empty() {
-                    return Ok(());
+                    return Ok(CombatOver::No);
                 }
                 // If draw pile is empty, reshuffle
                 if combat.deck.is_empty() {
@@ -88,13 +95,12 @@ impl State {
                 // Take the top card
                 let mut card = combat.deck.remove(0);
                 // Play it
-                self.play_card_effects(&mut card, None)?;
-                if !self.is_in_combat() {
-                    return Ok(());
+                let over = self.play_card_effects(&mut card, None)?;
+                if over == CombatOver::Yes {
+                    return Ok(over)
                 }
                 // Exhaust the card
-                let combat = self.get_combat();
-                combat.exhaust_card(card);
+                self.get_combat().exhaust_card(card, relics);
             },
             CardActions::PerfectedStrike(amt) => {
                 let mut damage = Number(6);
@@ -115,18 +121,20 @@ impl State {
                     }
                 }
 
-                self.damage_enemy(damage, Targets::One, target)?;
+                let (over, hp_loss) = self.get_combat().damage_enemy(damage, Targets::One, target, relics)?;
+                self.lose_hp(hp_loss.0);
+                return Ok(over);
             },
         }
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 
     pub fn play_card_from_hand(
         &mut self,
         card_index: CardIndex,
         target: Option<EnemyIndex>,
-    ) -> Result<(), NotImplemented> {
+    ) -> Result<CombatOver, NotImplemented> {
         //println!("state of combat: {:#?}", self.get_combat());
         // Find the card
         let mut card = self.get_combat().hand.remove(card_index.0);
@@ -139,34 +147,35 @@ impl State {
         self.get_combat().current_energy -= cost;
 
         // Actually play the card
-        self.play_card_effects(&mut card, target)?;
+        let over = self.play_card_effects(&mut card, target)?;
+        if over == CombatOver::Yes {
+            return Ok(CombatOver::Yes);
+        }
 
         // Then if the card exhausts, move it to exhaust pile
         // Otherwise, move it to the discard
-        if !self.is_in_combat() {
-            return Ok(());
-        }
+        let relics = &self.relics.clone();
         if card.card().exhausts() {
-            self.get_combat().exhaust_card(card);
+            self.get_combat().exhaust_card(card, relics);
         } else {
             self.get_combat().discard.push(card);
         }
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 
     fn play_card_effects(
         &mut self,
         card: &mut MasterCard,
         target: Option<EnemyIndex>,
-    ) -> Result<(), NotImplemented> {
+    ) -> Result<CombatOver, NotImplemented> {
         // Apply every card action in order
         let actions = card.card_mut().play();
         for action in actions {
-            self.process_action(action, target)?;
+            let combat_over = self.process_action(action, target)?;
             // Stop early if the combat finished
-            if !self.is_in_combat() {
-                return Ok(());
+            if combat_over == CombatOver::Yes {
+                return Ok(CombatOver::Yes);
             }
         }
         //// TODO: Apply card double-play effects
@@ -190,6 +199,6 @@ impl State {
             }
         }
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 }

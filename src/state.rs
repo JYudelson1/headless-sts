@@ -2,13 +2,13 @@ use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CardRewardRng,
     cards::{make_card, make_starter_deck, MasterCard},
-    combat::Elites,
+    combat::{CombatOver, Elites},
     map::{Map, RoomNode},
     potions::{potion_bag::PotionBag, potion_rng::PotionRng},
     question_rng::QuestionMarkRng,
     relics::Relics,
     screens::{EventsPool, VisibleStates},
-    utils::{Act, Character, Keys, Number, StillPlaying},
+    utils::{Act, Character, Keys, NotImplemented, Number, StillPlaying},
 };
 
 #[derive(Debug)]
@@ -66,14 +66,12 @@ impl State {
 
         match action {
             Action::PlayUntargetedCard(index) => {
-                if let Err(error) = self.play_card_from_hand(index, None){
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                let possible_end = self.play_card_from_hand(index, None);
+                self.maybe_end_combat(possible_end);
             },
             Action::PlayTargetedCard((index, enemy)) => {
-                if let Err(error) = self.play_card_from_hand(index, Some(enemy)) {
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                let possible_end = self.play_card_from_hand(index, Some(enemy));
+                self.maybe_end_combat(possible_end);
             },
             Action::CollectReward(choice) => {
                 match choice {
@@ -195,18 +193,26 @@ impl State {
             Action::TakeRelicLeave(relic) => {self.collect_relic(relic); self.to_map() },
             Action::TakeKeyLeave(key) => { self.keys.add_key(key); self.to_map() },
             Action::UsePotionNoTargets(index) => {
-                if let Err(error) = self.use_potion(index, None) {
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                let possible_end = self.use_potion(index, None);
+                self.maybe_end_combat(possible_end)
             },
             Action::UsePotionTargets((index, enemy_index)) => {
-                
-                if let Err(error) = self.use_potion(index, Some(enemy_index)) {
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                let possible_end = self.use_potion(index, Some(enemy_index));
+                self.maybe_end_combat(possible_end)
             },
             Action::DiscardPotion(index) => self.discard_potion(index)
         }
+    }
 
+    fn maybe_end_combat(&mut self, possible_end: Result<CombatOver, NotImplemented>) {
+        match possible_end {
+            Ok(CombatOver::Yes) => {
+                if let Err(error) = self.end_combat() {
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
+            }
+            Ok(CombatOver::No) => (),
+            Err(error) => self.still_playing = StillPlaying::NotImplementedError(error),
+        }
     }
 }

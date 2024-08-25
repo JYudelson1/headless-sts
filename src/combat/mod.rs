@@ -5,6 +5,7 @@ mod relic_effects;
 mod setup_combat;
 mod end_of_combat;
 
+pub use combat_fns::CombatOver;
 pub use setup_combat::{get_enemies, Elites};
 
 use crate::{
@@ -125,7 +126,9 @@ impl State {
 
         // Lose all block
         // Except with calipers
-        self.block_goes_away();
+        let relics = &self.relics.clone();
+        let combat = self.get_combat();
+        combat.block_goes_away(relics);
 
         // Reset relics
         self.relics.reset_start_of_turn();
@@ -151,8 +154,7 @@ impl State {
         self.start_every_turn_effects();
 
         // Draw 5 cards
-        let combat = self.get_combat();
-        combat.draw(5);
+        self.get_combat().draw(5, &relics);
     }
 
     pub fn get_combat(&mut self) -> &mut Combat {
@@ -180,15 +182,16 @@ impl State {
         self.end_turn_effects();
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
-        if !self.relics.contains(Relic::RunicPyramid) {
-            self.discard_hand_end_of_turn();
-        }
+        let relics = &self.relics.clone();
+        let hp_loss = self.get_combat().discard_hand_end_of_turn(relics);
+        self.lose_hp(hp_loss.0);
 
         // All timed debuffs go down
         self.get_combat().self_effects.increment_turn();
 
         // Beginning of opponent's turn effects (e.g. poison)
-        self.begin_enemy_turn()?;
+        let relics = &self.relics.clone();
+        self.get_combat().begin_enemy_turn(relics)?;
 
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
