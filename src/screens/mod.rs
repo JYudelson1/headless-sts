@@ -17,8 +17,9 @@ use uuid::Uuid;
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CombatType,
-    cards::{CardActions, CardIndex, MasterCard},
+    cards::{CardActions, CardIndex, CardType, MasterCard},
     combat::{get_enemies, CardInHandPurpose, Combat},
+    effects::OneTurnBoolDebuffs,
     enemies::EnemyIndex,
     map::{Map, RoomType},
     question_rng::QuestionMark,
@@ -236,6 +237,9 @@ impl State {
                 // TODO: Medkit, Blue Candle
                 for (i, card) in combat.hand.iter().enumerate() {
                     if !card.card().is_playable(&combat.hand) { continue }
+                    // Entangled
+                    if card.card().get_type() == CardType::Attack && combat.self_effects.one_turn_bool_debuffs.contains(&OneTurnBoolDebuffs::Entangled) { continue;}
+                    // Energy costs
                     if card.card().get_cost() > combat.current_energy { continue }
                     // Targeted cards are added for each possible target
                     if card.card().targets() {

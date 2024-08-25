@@ -290,6 +290,7 @@ pub enum Debuff {
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub enum OneTurnBoolDebuffs {
     NoCardDraw,
+    Entangled,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
