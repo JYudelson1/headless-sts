@@ -249,7 +249,7 @@ pub enum Relic {
     BagOfMarbles,           // IMPLEMENTED
     BagOfPrep,              // IMPLEMENTED
     BloodVial,              // IMPLEMENTED
-    BronzeScales,           // TODO: PARTIALLY IMPLEMENTED
+    BronzeScales,           // IMPLEMENTED
     CentennialPuzzle(bool), // TODO: NOT IMPLEMENTED
     CeramicFish,            // IMPLEMENTED
     Dreamcatcher,           // TODO: NOT IMPLEMENTED
