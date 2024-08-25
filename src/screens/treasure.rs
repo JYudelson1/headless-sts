@@ -3,7 +3,6 @@ use crate::{relics::{Relic, Relics}, utils::number_between};
 #[derive(Debug)]
 pub struct Chest {
     pub gold: u32,
-    size: ChestType,
     pub relic: ChestRelicType,
 }
 
@@ -15,7 +14,7 @@ impl Chest {
         let rarity = size.get_relic_rarity();
         let relic = ChestRelicType::new_random(rarity, relics, has_sapphire_key);
 
-        Self { gold, size, relic }
+        Self { gold, relic }
     }
 }
 
