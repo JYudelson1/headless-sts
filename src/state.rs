@@ -215,7 +215,10 @@ impl State {
                     *left -= 1;
                     let _ = in_hand.remove(&id);
                     let _ = already_chosen.insert(id);
-                    change = true
+                    
+                    if *left == 0 || in_hand.len() == 0 {
+                        change = true
+                    }
                 }
                 if change {
                     let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
