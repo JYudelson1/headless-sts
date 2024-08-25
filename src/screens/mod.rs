@@ -60,6 +60,7 @@ impl State {
             combat_type,
             self.last_elite,
             self.fights_this_act,
+            self.map.boss
         );
 
         //println!("Fighting {enemies:?}");

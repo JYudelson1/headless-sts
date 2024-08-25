@@ -151,7 +151,7 @@ impl RoomNode {
 pub struct Map {
     paths: [[bool; 19]; 14],
     rooms: [[Option<RoomType>; 7]; 15],
-    boss: Boss,
+    pub boss: Boss,
     current: Option<RoomNode>,
 }
 

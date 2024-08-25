@@ -1,6 +1,6 @@
 use std::vec;
 
-use crate::{cardrewardrng::CombatType, enemies::EnemyType, utils::{number_between, Act}};
+use crate::{cardrewardrng::CombatType, enemies::EnemyType, map::{Act1Boss, Boss}, utils::{number_between, Act}};
 
 use rand::distributions::Distribution;
 use rand::prelude::SliceRandom;
@@ -10,6 +10,7 @@ pub fn get_enemies(
     combat_type: CombatType,
     last_elite: Option<Elites>,
     fights_this_act: u8,
+    boss: Boss,
 ) -> Vec<EnemyType> {
     match act {
         Act::Act1 => {
@@ -23,7 +24,7 @@ pub fn get_enemies(
                     }
                 }
                 CombatType::Elite => act_1_elite(last_elite),
-                CombatType::Boss => act_1_boss(),
+                CombatType::Boss => get_boss(boss),
             }
         }
         Act::Act2 => match combat_type {
@@ -173,14 +174,16 @@ fn act_1_elite(last_elite: Option<Elites>) -> Vec<EnemyType> {
     }
 }
 
-fn act_1_boss() -> Vec<EnemyType> {
-    let bosses = [
-        EnemyType::Hexaghost,
-        EnemyType::TheGuardian,
-        EnemyType::SlimeBoss,
-    ];
-    let boss = bosses[number_between(0, 2)];
-    vec![boss]
+fn get_boss(boss: Boss) -> Vec<EnemyType> {
+    match boss {
+        Boss::Act1(act1boss) => match act1boss {
+            Act1Boss::SlimeBoss => vec![EnemyType::SlimeBoss],
+            Act1Boss::Guardian => vec![EnemyType::TheGuardian],
+            Act1Boss::Hexaghost => vec![EnemyType::Hexaghost],
+        },
+        Boss::Act2(_act2boss) => todo!(),
+        Boss::Act3(_act3boss) => todo!(),
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
