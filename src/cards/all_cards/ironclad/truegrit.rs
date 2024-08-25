@@ -31,7 +31,7 @@ impl Card for TrueGrit {
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Block(Number(9)),
-            CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)),
+            CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1, None)),
         ]
     }
 

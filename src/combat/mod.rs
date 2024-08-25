@@ -160,10 +160,10 @@ impl State {
     }
 
     pub fn get_combat(&mut self) -> &mut Combat {
-        if let VisibleStates::Combat(combat) = &mut self.visible_screen {
-            combat
-        } else {
-            panic!("Cannot access combat from outside of combat!")
+        match &mut self.visible_screen {
+            VisibleStates::Combat(combat) => combat,
+            VisibleStates::ChoosingCardInHand((combat, _, _, _, _, _)) => combat,
+            _ => panic!("Cannot access combat from outside of combat!")
         }
     }
 

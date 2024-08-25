@@ -43,7 +43,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::ThunderClap => Rc::new(RefCell::new(ironclad::thunderclap::ThunderClap(upgraded))),
         CardName::TrueGrit => Rc::new(RefCell::new(ironclad::truegrit::TrueGrit(upgraded))),
         CardName::TwinStrike => Rc::new(RefCell::new(ironclad::twinstrike::TwinStrike(upgraded))),
-        CardName::WarCry => Err(NotImplemented::Card(name))?,
+        CardName::WarCry => Rc::new(RefCell::new(ironclad::warcry::WarCry(upgraded))),
         CardName::WildStrike => Rc::new(RefCell::new(ironclad::wildstrike::WildStrike(upgraded))),
         CardName::BattleTrance => Rc::new(RefCell::new(ironclad::battletrance::BattleTrance(upgraded))),
         CardName::BloodForBlood => Err(NotImplemented::Card(name))?,

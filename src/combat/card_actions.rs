@@ -56,11 +56,11 @@ impl State {
                 let card = self.get_combat().hand.remove(i);
                 return self.get_combat().exhaust_card(card, relics)
             },
-            CardActions::ChooseNCards((purpose, amt)) => {
+            CardActions::ChooseNCards((purpose, amt, next_actions)) => {
                 let cards = HashSet::from_iter(self.get_combat().hand.iter().map(|mc| mc.id).collect::<Vec<Uuid>>());
                 let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
                 if let VisibleStates::Combat(combat) = screen{
-                    self.visible_screen = VisibleStates::ChoosingCardInHand((combat, purpose, amt, cards, HashSet::new()));
+                    self.visible_screen = VisibleStates::ChoosingCardInHand((combat, purpose, amt, cards, HashSet::new(), next_actions));
                 }
                 
             },
@@ -184,19 +184,6 @@ impl State {
         card: &mut MasterCard,
         target: Option<EnemyIndex>,
     ) -> Result<CombatOver, NotImplemented> {
-        // Apply every card action in order
-        let actions = card.card_mut().play();
-        for action in actions {
-            let combat_over = self.process_action(action, target)?;
-            // Stop early if the combat finished
-            if combat_over == CombatOver::Yes {
-                return Ok(CombatOver::Yes);
-            }
-        }
-        //// TODO: Apply card double-play effects
-        // TODO: Echo form
-        // TODO: Necronomicon
-
         //// TODO: Relic effects
         // TODO: Art of war
         // TODO: Shuriken
@@ -213,6 +200,22 @@ impl State {
                 self.get_combat().gain_block(rage);
             }
         }
+
+        // Apply every card action in order
+        let actions = card.card_mut().play();
+        for action in actions {
+            let combat_over = self.process_action(action, target)?;
+            // Stop early if the combat finished
+            if combat_over == CombatOver::Yes {
+                return Ok(CombatOver::Yes);
+            }
+            if !self.is_in_combat() {
+                return Ok(CombatOver::No);
+            }
+        }
+        //// TODO: Apply card double-play effects
+        // TODO: Echo form
+        // TODO: Necronomicon
 
         Ok(CombatOver::No)
     }

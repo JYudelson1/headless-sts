@@ -17,7 +17,7 @@ use uuid::Uuid;
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CombatType,
-    cards::CardIndex,
+    cards::{CardActions, CardIndex, MasterCard},
     combat::{get_enemies, CardInHandPurpose, Combat},
     enemies::EnemyIndex,
     map::{Map, RoomType},
@@ -42,7 +42,7 @@ pub enum VisibleStates {
     TransformCardScreen(usize),
     DuplicateCardScreen,
     Event(Events),
-    ChoosingCardInHand((Combat, CardInHandPurpose, usize, HashSet<Uuid>, HashSet<Uuid>))
+    ChoosingCardInHand((Combat, CardInHandPurpose, usize, HashSet<Uuid>, HashSet<Uuid>, Option<Vec<CardActions>>))
 }
 
 impl VisibleStates {
@@ -315,7 +315,7 @@ impl State {
                     actions.push(Action::Duplicate(card.id));
                 }
             },
-            VisibleStates::ChoosingCardInHand((_, _, left, in_hand, _)) => {
+            VisibleStates::ChoosingCardInHand((_, _, left, in_hand, _, _)) => {
                 assert!(*left > 0);
                 for id in in_hand {
                     actions.push(Action::ChooseCardInHand(*id))

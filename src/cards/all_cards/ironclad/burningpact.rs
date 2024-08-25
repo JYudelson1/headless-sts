@@ -25,11 +25,11 @@ impl Card for BurningPact {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)), CardActions::Draw(3)]
+        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1, Some(vec![CardActions::Draw(3)]))) ]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)), CardActions::Draw(2)]
+        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1, Some(vec![CardActions::Draw(2)]))) ]
     }
 
     fn set_upgraded(&mut self, to_set: bool) {

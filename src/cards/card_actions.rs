@@ -9,6 +9,7 @@ pub enum Targets {
     Random,
 }
 
+#[derive(Debug)]
 pub enum CardActions {
     Damage((Number, Targets)),
     ApplyVulnerable((Number, Targets)),
@@ -31,7 +32,7 @@ pub enum CardActions {
     Havoc,
     PerfectedStrike(Number),
     HeavyBlade(Number),
-    ChooseNCards((CardInHandPurpose, usize)),
+    ChooseNCards((CardInHandPurpose, usize, Option<Vec<CardActions>>)),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

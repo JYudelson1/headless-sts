@@ -211,7 +211,7 @@ impl State {
             }
             Action::ChooseCardInHand(id) => {
                 let mut change = false;
-                if let VisibleStates::ChoosingCardInHand((_, _, left, in_hand, already_chosen)) = &mut self.visible_screen {
+                if let VisibleStates::ChoosingCardInHand((_, _, left, in_hand, already_chosen, _ )) = &mut self.visible_screen {
                     *left -= 1;
                     let _ = in_hand.remove(&id);
                     let _ = already_chosen.insert(id);
@@ -219,7 +219,7 @@ impl State {
                 }
                 if change {
                     let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
-                    if let VisibleStates::ChoosingCardInHand((combat, purpose, _, _, cards)) = screen {
+                    if let VisibleStates::ChoosingCardInHand((combat, purpose, _, _, cards, next_actions)) = screen {
                         self.visible_screen = VisibleStates::Combat(combat);
                         match purpose {
                             CardInHandPurpose::Exhaust => {
@@ -229,6 +229,15 @@ impl State {
                             CardInHandPurpose::PutOnTopOfDeck => self.put_from_hand_to_deck(cards),
                             CardInHandPurpose::Duplicate => todo!(),
                             CardInHandPurpose::Upgrade => todo!(),
+                        }
+                        if let Some(actions) = next_actions {
+                            for action in actions {
+                                // Stop early if the combat finished
+                                if self.is_in_combat() {
+                                    let combat_over = self.process_action(action, None);
+                                    self.maybe_end_combat(combat_over);
+                                }
+                            }
                         }
                     }
                 }
