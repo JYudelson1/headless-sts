@@ -39,7 +39,6 @@ impl State {
                 let damage_amt = self.get_combat().self_block;
                 self.damage_enemy(damage_amt, Targets::One, target)?;
             },
-            CardActions::GainTempStrength(_) => todo!(),
             CardActions::ExhaustRandomCard => {
                 if self.get_combat().hand.len() == 0 { return Ok(())}
                 let i = number_between(0, self.get_combat().hand.len() - 1);

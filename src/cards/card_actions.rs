@@ -19,7 +19,6 @@ pub enum CardActions {
     UpgradeACardInHand,
     UpgradeAllCardsInHand,
     BodySlam,
-    GainTempStrength(Number),
     ApplyBuff(Buff),
     ApplyDebuff(Debuff),
     ExhaustRandomCard,
