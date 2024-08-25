@@ -1,8 +1,9 @@
 use std::fmt::Debug;
 
-use crate::utils::NotImplemented;
+use crate::{state::State, utils::NotImplemented};
 
 use super::{
+    bosses::hexaghost::Hexaghost,
     elites::{
         lagavulin::Lagavulin,
         sentries::{SentryA, SentryB},
@@ -24,7 +25,7 @@ pub trait Enemy: Debug {
 }
 
 impl EnemyType {
-    pub fn new(&self, ascension: u8) -> Result<ConcreteEnemy, NotImplemented> {
+    pub fn new(&self, ascension: u8, player_hp: u16) -> Result<ConcreteEnemy, NotImplemented> {
         match self {
             EnemyType::JawWorm => Ok(JawWorm::new(ascension)),
             EnemyType::Cultist => Ok(Cultist::new(ascension)),
@@ -49,7 +50,7 @@ impl EnemyType {
             EnemyType::GremlinNob => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::SentryA => Ok(SentryA::new(ascension)),
             EnemyType::SentryB => Ok(SentryB::new(ascension)),
-            EnemyType::Hexaghost => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::Hexaghost => Ok(Hexaghost::new(ascension, player_hp)),
             EnemyType::TheGuardian => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::SlimeBoss => Err(NotImplemented::Enemy(self.clone())),
         }

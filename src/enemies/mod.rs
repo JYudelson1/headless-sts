@@ -58,6 +58,7 @@ pub enum EnemyIntent {
     BuffAndBlock(Buff, Number),
     ShuffleCardToPile(CardName, Pile, bool),
     Multiple(Vec<EnemyIntent>),
+    UpgradeAllBurns,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]

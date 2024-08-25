@@ -1,5 +1,5 @@
 use crate::{
-    cards::{make_card, Pile},
+    cards::{make_card, CardName, Pile},
     enemies::{ConcreteEnemy, EnemyIndex, EnemyIntent},
     relics::Relics,
     state::State,
@@ -112,6 +112,18 @@ impl State {
             EnemyIntent::Debuff(debuff) => {
                 let relics = &self.relics.clone();
                 self.get_combat().self_effects.apply_debuff(debuff, relics);
+            },
+            EnemyIntent::UpgradeAllBurns => {
+                for card in &mut self.get_combat().discard {
+                    if card.card().name() == CardName::Burn {
+                        card.upgrade()
+                    }
+                }
+                for card in &mut self.get_combat().deck {
+                    if card.card().name() == CardName::Burn {
+                        card.upgrade()
+                    }
+                }
             },
         }
 

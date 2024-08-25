@@ -72,6 +72,7 @@ impl State {
             self.ascension,
             &mut self.relics,
             &self.main_deck,
+            self.current_health
         );
         self.visible_screen = VisibleStates::Combat(combat?);
 

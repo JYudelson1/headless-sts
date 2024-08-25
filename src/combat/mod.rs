@@ -43,6 +43,7 @@ impl Combat {
         ascension: u8,
         relics: &mut Relics,
         deck: &Vec<MasterCard>,
+        player_hp: u16,
     ) -> Result<Self, NotImplemented> {
         let mut max_energy = 3;
 
@@ -82,7 +83,7 @@ impl Combat {
 
         let mut concrete_enemies = vec![];
         for enemy in enemies {
-            let concrete_enemy = enemy.new(ascension)?;
+            let concrete_enemy = enemy.new(ascension, player_hp)?;
             concrete_enemies.push(concrete_enemy);
         }
 
