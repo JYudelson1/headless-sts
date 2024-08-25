@@ -153,8 +153,6 @@ impl State {
         enemy_index: EnemyIndex,
         amt: u16,
     ) -> Result<(), NotImplemented> {
-        // TODO: Check for thorns
-
         if self.direct_damage_enemy(enemy_index, amt)? {
             // TODO: Real curl up triggers after card, not multi-attack
             if let VisibleStates::Combat(combat) = &mut self.visible_screen {
@@ -165,6 +163,16 @@ impl State {
             // TODO: Malleable here
             }
         }
+
+        // Check for thorns
+        if let VisibleStates::Combat(combat) = &mut self.visible_screen {
+            let enemy = &mut combat.enemies[enemy_index.0];
+            if let Some(thorns) = enemy.effects.thorns() {
+                self.damage_self(thorns);
+            }
+            // TODO: Malleable here
+        }
+
         Ok(())
     }
 

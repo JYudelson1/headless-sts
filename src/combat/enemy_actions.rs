@@ -88,10 +88,14 @@ impl State {
         let self_effects = &self.get_combat().self_effects.clone();
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
 
-        // TODO: Check for thorns on self
-
         let real_damage = calculate_damage(&enemy.effects, self_effects, damage_intent, relics);
 
         self.damage_self(real_damage);
+
+        // Check for thorns on self
+        if let Some(thorns) = self_effects.thorns() {
+            self.direct_damage_enemy(enemy_index, thorns.0 as u16)
+                .unwrap();
+        }
     }
 }
