@@ -66,7 +66,7 @@ impl Effects {
         }
     }
 
-    pub fn get_focus(&self) -> Number {
+    pub fn _get_focus(&self) -> Number {
         match self.intensity_basics.get(&IntensityBuffOrDebuff::Focus) {
             Some(amt) => *amt,
             None => Number(0),
