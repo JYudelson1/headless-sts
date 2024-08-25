@@ -1,5 +1,9 @@
+use rand::prelude::SliceRandom;
+use rand::thread_rng;
+
 use crate::{
     cards::{make_card, CardName},
+    relics::Relic,
     screens::{shop::random_relic, VisibleStates},
     state::State,
     utils::NotImplemented,
@@ -23,6 +27,8 @@ pub enum EventAction {
     Upgrade,
     Transform,
     Duplicate,
+    GainRandomMask,
+    LoseGold(u32),
 }
 
 impl State {
@@ -74,6 +80,14 @@ impl State {
             },
             EventAction::Duplicate => {
                 self.visible_screen = VisibleStates::DuplicateCardScreen;
+            },
+            EventAction::GainRandomMask => {
+                let masks = [Relic::ClericMask, Relic::NlothsHungryFace(true), Relic::CultistHeadpiece, Relic::GremlinVisage, Relic::SerpentHead];
+                self.collect_relic(*masks.choose(&mut thread_rng()).unwrap());
+            },
+            EventAction::LoseGold(amt) => {
+                assert!(self.gold >= amt);
+                self.gold -= amt;
             },
         }
 

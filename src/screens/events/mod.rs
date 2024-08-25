@@ -4,6 +4,7 @@ pub use event_pools::{Events, EventsPool};
 pub mod event_effects;
 
 mod big_fish;
+mod face_trader;
 mod scrap_ooze;
 mod serpent;
 
@@ -14,7 +15,7 @@ impl Events {
         let actions = match self {
             Events::BigFish => big_fish::actions(state),
             Events::DeadAdventurer => Err(NotImplemented::Event(self.clone()))?, // TODO
-            Events::FaceTrader => Err(NotImplemented::Event(self.clone()))?,     // TODO
+            Events::FaceTrader => face_trader::actions(state.max_health.0, state.ascension), 
             Events::GoldenIdol => Err(NotImplemented::Event(self.clone()))?,     // TODO
             Events::HypnotizingColoredMushrooms => Err(NotImplemented::Event(self.clone()))?, // TODO
             Events::LivingWall => Err(NotImplemented::Event(self.clone()))?, // TODO

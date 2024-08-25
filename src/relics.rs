@@ -403,9 +403,9 @@ pub enum Relic {
     BloodyIdol,                      // TODO: NOT IMPLEMENTED
     CultistHeadpiece,                // IMPLEMENTED
     Enchiridion,                     // TODO: NOT IMPLEMENTED
-    ClericMask,                      // TODO: NOT IMPLEMENTED
+    ClericMask,                      // IMPLEMENTED
     GoldenIdol,                      // TODO: NOT IMPLEMENTED
-    GremlinVisage,                   // TODO: NOT IMPLEMENTED
+    GremlinVisage,                   // IMPLEMENTED
     MarkOfTheBloom,                  // IMPLEMENTED
     MutagenicStrength,               // TODO: NOT IMPLEMENTED
     NlothsGift,                      // TODO: NOT IMPLEMENTED

@@ -22,6 +22,10 @@ impl State {
         if self.relics.contains(Relic::BlackBlood) {
             self.heal(12);
         }
+        // Cleric mask
+        if self.relics.contains(Relic::ClericMask) {
+            self.increase_max_hp(1);
+        }
     }
 
     pub fn end_combat(&mut self) -> Result<(), NotImplemented> {

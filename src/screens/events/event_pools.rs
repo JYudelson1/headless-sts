@@ -104,7 +104,7 @@ const ACT_1_EVENTS: &[Events] = &[
 const ACT_2_EVENTS: &[Events] = &[]; //TODO!
 const ACT_3_EVENTS: &[Events] = &[]; //TODO!
 const ACT_1_AND_2_EVENTS: &[Events] = &[
-    //Events::FaceTrader
+    Events::FaceTrader
 ];
 const ACT_2_AND_3_EVENTS: &[Events] = &[Events::DesignerInSpire];
 

@@ -89,6 +89,7 @@ impl Combat {
             Relic::NinjaScroll => todo!(),    // Add 3 shivs to hand
             Relic::RunicCapacitor => todo!(), // Add 3 orb slots
             Relic::Girya(amt) => self.self_effects.apply_buff(Buff::Basic((IntensityBuffOrDebuff::Strength, Number(*amt as i16)))),
+            Relic::GremlinVisage => self.self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Weak, Number(1))), relics),
             _ => (),
         }
     }
