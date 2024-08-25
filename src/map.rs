@@ -19,16 +19,16 @@ impl RoomType {
         let x = rand::random::<f32>();
 
         // TODO: Changed during ascensions 1+
-        if x < 0.45 {
-            Self::Monster
-        } else if x < 0.67 {
-            Self::Event
-        } else if x < 0.83 {
-            Self::Elite
-        } else if x < 0.95 {
-            Self::Rest
-        } else {
+        if x < 0.05 { 
             Self::Merchant
+        } else if x < 0.27 { 
+            Self::Event
+        } else if x < 0.39 { 
+            Self::Rest
+        } else if x < (if ascension >= 2 {0.64} else {0.55}) {
+            Self::Elite
+        } else { // .45
+            Self::Monster
         }
     }
 }
