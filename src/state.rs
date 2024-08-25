@@ -4,7 +4,7 @@ use crate::{
     cards::{make_card, make_starter_deck, MasterCard},
     combat::Elites,
     map::{Map, RoomNode},
-    potions::PotionBag,
+    potions::{potion_bag::PotionBag, potion_rng::PotionRng},
     question_rng::QuestionMarkRng,
     relics::Relics,
     screens::{EventsPool, VisibleStates},
@@ -32,6 +32,7 @@ pub struct State {
     pub fights_this_act: u8,
     pub card_removes_bought: u8,
     pub event_pool: EventsPool,
+    pub potion_rng: PotionRng,
 }
 
 impl State {
@@ -56,6 +57,7 @@ impl State {
             fights_this_act: 0,
             card_removes_bought: 0,
             event_pool: EventsPool::new(),
+            potion_rng: PotionRng::new(),
         }
     }
 
@@ -192,6 +194,10 @@ impl State {
             },
             Action::TakeRelicLeave(relic) => {self.collect_relic(relic); self.to_map() },
             Action::TakeKeyLeave(key) => { self.keys.add_key(key); self.to_map() },
+            Action::UsePotionNoTargets(index) => self.use_potion(index, None),
+            Action::UsePotionTargets((index, enemy_index)) => {
+                self.use_potion(index, Some(enemy_index))
+            },
         }
 
     }

@@ -20,6 +20,8 @@ pub enum Action {
     EventAction(EventAction),
     TakeRelicLeave(Relic),
     TakeKeyLeave(Key),
+    UsePotionNoTargets(usize),
+    UsePotionTargets((usize, EnemyIndex)),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

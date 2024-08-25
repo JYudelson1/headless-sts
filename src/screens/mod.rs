@@ -169,7 +169,15 @@ impl State {
                 } else if self.act == Act::Act2 {
                     self.event_pool.next_act(Act::Act3);
                 }
-                self.to_combat(CombatType::Boss)?
+                // Reset potion rng for next fight
+                self.potion_rng.reset();
+
+                println!("Made it to the boss!! at {}", self.map.current_floor());
+                println!("Deck: {:?}", self.main_deck);
+                println!("relics: {:?}", self.relics.list);
+                println!("{}", self.map);
+                self.to_combat(CombatType::Boss)?;
+                
             },
         };
         // TODO: Activate maw bank
@@ -225,6 +233,19 @@ impl State {
                         actions.push(Action::PlayUntargetedCard(CardIndex(i)));
                     }
                 }
+                // Combat potions
+                for (i, potion) in self.potions.potions.iter().enumerate() {
+                if potion.is_combat() {
+                    if potion.targets() {
+                        // Potion can be used for every target
+                        for e in 0..combat.num_enemies() {
+                            actions.push(Action::UsePotionTargets((i, EnemyIndex(e))));
+                        }
+                    } else {
+                        actions.push(Action::UsePotionNoTargets(i));
+                    }
+                }
+            }
             }
             VisibleStates::Treasure(chest) => {
                 actions.push(Action::LeaveShop);
@@ -276,6 +297,15 @@ impl State {
                     actions.push(Action::EventAction(action));
                 }
             },
+        }
+
+        if !self.is_in_combat() {
+            // Can use non-combat potions here
+            for (i, potion) in self.potions.potions.iter().enumerate() {
+                if potion.is_noncombat() {
+                    actions.push(Action::UsePotionNoTargets(i));
+                }
+            }
         }
 
         Ok(actions)

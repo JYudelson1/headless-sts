@@ -305,7 +305,7 @@ pub enum Relic {
     Sundial(u8),            // TODO: NOT IMPLEMENTED
     TheCourier,             // TODO: NOT IMPLEMENTED
     ToxicEgg,               // IMPLEMENTED
-    WhiteBeastStatue,       // TODO: NOT IMPLEMENTED
+    WhiteBeastStatue,       // MPLEMENTED
     PaperPhrog,             // IMPLEMENTED
     SelfFormingClay,        // TODO: NOT IMPLEMENTED
     NinjaScroll,            // TODO: PARTIALLY IMPLEMENTED
