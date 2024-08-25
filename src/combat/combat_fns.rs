@@ -266,7 +266,8 @@ impl Combat {
         // Evolve
         if let Some(evolve_amt) = self.self_effects.evolve() {
             if card_type == CardType::Status {
-                self.draw(evolve_amt.0 as u8, relics);
+                let combat_over = self.draw(evolve_amt.0 as u8, relics)?;
+                if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
             }
         }
 
@@ -292,17 +293,24 @@ impl Combat {
         Ok(CombatOver::No)
     }
 
-    pub fn exhaust_card(&mut self, card: MasterCard, relics: &Relics) {
+    pub fn exhaust_card(
+        &mut self,
+        card: MasterCard,
+        relics: &Relics,
+    ) -> Result<CombatOver, NotImplemented> {
         // Feel no pain
         if let Some(amt) = self.self_effects.get_feel_no_pain() {
             self.gain_block(amt);
         }
         // Dark embrace
         if let Some(amt) = self.self_effects.get_dark_embrace() {
-            self.draw(amt.0 as u8, relics);
+            let combat_over = self.draw(amt.0 as u8, relics)?;
+            if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
         }
         // TODO: Necronomicurse goes here
         self.exhaust.push(card);
+
+        Ok(CombatOver::No)
     }
 
     pub fn enemy_lose_hp(
@@ -505,7 +513,10 @@ impl Combat {
         Ok((CombatOver::No, hp_loss))
     }
 
-    pub fn discard_hand_end_of_turn(&mut self, relics: &Relics) -> HpLoss {
+    pub fn discard_hand_end_of_turn(
+        &mut self,
+        relics: &Relics,
+    ) -> Result<(CombatOver, HpLoss), NotImplemented> {
         let hand_size = self.hand.len();
         let mut hp_loss = HpLoss(0);
 
@@ -537,7 +548,8 @@ impl Combat {
                     // If the card is ethereal, exhaust it
                     if self.hand[i].card().is_ethereal() {
                         let card = self.hand.remove(i);
-                        self.exhaust_card(card, relics);
+                        let combat_over = self.exhaust_card(card, relics)?;
+                        if combat_over == CombatOver::Yes {return Ok((CombatOver::Yes, hp_loss));}
                     } else if !self.hand[i].card().retains() {
                         // Else discard if not retained
                         // And if you dont have Runic Pyramid
@@ -552,7 +564,7 @@ impl Combat {
             self.discard.push(self.hand.remove(i));
         }
 
-        hp_loss
+        Ok((CombatOver::No, hp_loss))
     }
 
     pub fn damage_self(&mut self, mut amt: Number) -> HpLoss {

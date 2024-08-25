@@ -1,3 +1,6 @@
+#![deny(unused_results)]
+#![deny(unused_must_use)]
+
 mod actions;
 mod cardrewardrng;
 mod cards;

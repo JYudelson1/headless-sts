@@ -50,7 +50,7 @@ impl State {
                 if self.get_combat().hand.len() == 0 { return Ok(CombatOver::No)}
                 let i = number_between(0, self.get_combat().hand.len() - 1);
                 let card = self.get_combat().hand.remove(i);
-                self.get_combat().exhaust_card(card, relics);
+                return self.get_combat().exhaust_card(card, relics)
             },
             CardActions::ExhaustSelectedCard => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::ApplyBuff(buff) => {
@@ -100,7 +100,7 @@ impl State {
                     return Ok(over)
                 }
                 // Exhaust the card
-                self.get_combat().exhaust_card(card, relics);
+                return self.get_combat().exhaust_card(card, relics);
             },
             CardActions::PerfectedStrike(amt) => {
                 let mut damage = Number(6);
@@ -148,15 +148,14 @@ impl State {
 
         // Actually play the card
         let over = self.play_card_effects(&mut card, target)?;
-        if over == CombatOver::Yes {
-            return Ok(CombatOver::Yes);
-        }
-
+        if over == CombatOver::Yes {return Ok(CombatOver::Yes)}
         // Then if the card exhausts, move it to exhaust pile
         // Otherwise, move it to the discard
         let relics = &self.relics.clone();
         if card.card().exhausts() {
-            self.get_combat().exhaust_card(card, relics);
+            let combat_over = self.get_combat().exhaust_card(card, relics)?;
+            if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes)}
+
         } else {
             self.get_combat().discard.push(card);
         }

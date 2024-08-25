@@ -1,3 +1,4 @@
+#![allow(unused_results)]
 use std::{
     collections::{HashMap, HashSet},
     hash::Hash,

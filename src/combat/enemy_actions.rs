@@ -50,11 +50,11 @@ impl ConcreteEnemy {
 }
 
 impl State {
-    fn enemy_action(&mut self, enemy_index: EnemyIndex) {
+    fn enemy_action(&mut self, enemy_index: EnemyIndex) -> CombatOver {
         let enemy = &mut self.get_combat().enemies[enemy_index.0];
         let action = enemy.get_intent();
 
-        self.apply_enemy_action(action, enemy_index);
+        self.apply_enemy_action(action, enemy_index)
     }
 
     fn apply_enemy_action(&mut self, action: EnemyIntent, enemy_index: EnemyIndex) -> CombatOver {
@@ -104,7 +104,9 @@ impl State {
             }
             EnemyIntent::Multiple(intents) => {
                 for intent in intents {
-                    self.apply_enemy_action(intent, enemy_index);
+                    if self.apply_enemy_action(intent, enemy_index) == CombatOver::Yes {
+                        return CombatOver::Yes
+                    }
                 }
             }
             EnemyIntent::Debuff(debuff) => {
@@ -114,11 +116,14 @@ impl State {
         }
 
         CombatOver::No
-    } 
+    }
 
-    pub fn enemy_actions(&mut self) {
+    pub fn enemy_actions(&mut self) -> CombatOver {
         for i in 0..self.get_combat().num_enemies() {
-            self.enemy_action(EnemyIndex(i));
+            if self.enemy_action(EnemyIndex(i)) == CombatOver::Yes {
+                return CombatOver::Yes;
+            }
         }
+        CombatOver::No
     }
 }

@@ -22,7 +22,7 @@ impl State {
         }
         match index {
             Some(i) => {
-                self.main_deck.remove(i);
+                let _ = self.main_deck.remove(i);
             }
             None => panic!("No card with that ID exists!"),
         }

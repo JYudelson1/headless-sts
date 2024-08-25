@@ -74,7 +74,8 @@ impl State {
         );
         self.visible_screen = VisibleStates::Combat(combat?);
 
-        self.start_combat_turn();
+        // Note: Just starting combat will never insta-end it
+        let _ = self.start_combat_turn()?;
 
         Ok(())
     }

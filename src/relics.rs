@@ -107,6 +107,7 @@ impl Relics {
         self.list.push(relic);
     }
 
+    #[allow(unused_results)]
     pub fn remove(&mut self, index: usize) {
         self.list.remove(index);
     }

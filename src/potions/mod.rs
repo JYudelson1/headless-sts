@@ -157,7 +157,7 @@ impl State {
     }
 
     pub fn discard_potion(&mut self, index: usize) {
-        self.potions.remove_potion(index);
+        let _ = self.potions.remove_potion(index);
     }
 }
 

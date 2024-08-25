@@ -93,7 +93,9 @@ impl Keys {
     }
 
     pub fn add_key(&mut self, key: Key) {
-        self.0.insert(key);
+        if !self.0.insert(key) {
+            panic!("Already has key: {key:?}!");
+        }
     }
 
     pub fn has_key(&self, key: &Key) -> bool {

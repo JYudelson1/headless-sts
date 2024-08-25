@@ -1,3 +1,4 @@
+#![allow(unused_results)]
 use std::{collections::HashSet, fmt::Display};
 
 use crate::utils::{number_between, Act};

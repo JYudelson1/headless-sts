@@ -119,7 +119,7 @@ impl Combat {
 }
 
 impl State {
-    pub fn start_combat_turn(&mut self) {
+    pub fn start_combat_turn(&mut self) -> Result<CombatOver, NotImplemented> {
         let combat = self.get_combat();
         combat.turn += 1;
         let turn = combat.turn;
@@ -154,7 +154,7 @@ impl State {
         self.start_every_turn_effects();
 
         // Draw 5 cards
-        self.get_combat().draw(5, &relics);
+        self.get_combat().draw(5, &relics)
     }
 
     pub fn get_combat(&mut self) -> &mut Combat {
@@ -177,33 +177,37 @@ impl State {
         }
     }
 
-    pub fn end_turn(&mut self) -> Result<(), NotImplemented> {
+    pub fn end_turn(&mut self) -> Result<CombatOver, NotImplemented> {
         // End of turn effects
         self.end_turn_effects();
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
         let relics = &self.relics.clone();
-        let hp_loss = self.get_combat().discard_hand_end_of_turn(relics);
+        let (combat_over, hp_loss) = self.get_combat().discard_hand_end_of_turn(relics)?;
         self.lose_hp(hp_loss.0);
+        if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
         // All timed debuffs go down
         self.get_combat().self_effects.increment_turn();
 
         // Beginning of opponent's turn effects (e.g. poison)
         let relics = &self.relics.clone();
-        self.get_combat().begin_enemy_turn(relics)?;
+        let combat_over = self.get_combat().begin_enemy_turn(relics)?;
+        if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
         // Enemies lose all block
         self.get_combat().enemies_lose_block();
         // Apply opponent's intent
-        self.enemy_actions();
+        let combat_over = self.enemy_actions();
+        if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
         // Change opponent's intent
         self.get_combat().cycle_enemy_intents();
         // End of enemy turn effects (e.g. metallicize)
         self.get_combat().end_enemies_turn();
         // Start your next turn
-        self.start_combat_turn();
+        let combat_over = self.start_combat_turn()?;
+        if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
-        Ok(())
+        Ok(CombatOver::No)
     }
 }
