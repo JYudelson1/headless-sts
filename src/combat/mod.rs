@@ -127,6 +127,9 @@ impl State {
         // Except with calipers
         self.block_goes_away();
 
+        // Reset relics
+        self.relics.reset_start_of_turn();
+
         // TODO: Do effects that change strength/dex/focus here
 
         // TODO: Start of turn power effects
