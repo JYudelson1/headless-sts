@@ -194,9 +194,16 @@ impl State {
             },
             Action::TakeRelicLeave(relic) => {self.collect_relic(relic); self.to_map() },
             Action::TakeKeyLeave(key) => { self.keys.add_key(key); self.to_map() },
-            Action::UsePotionNoTargets(index) => self.use_potion(index, None),
+            Action::UsePotionNoTargets(index) => {
+                if let Err(error) = self.use_potion(index, None) {
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
+            },
             Action::UsePotionTargets((index, enemy_index)) => {
-                self.use_potion(index, Some(enemy_index))
+                
+                if let Err(error) = self.use_potion(index, Some(enemy_index)) {
+                    self.still_playing = StillPlaying::NotImplementedError(error)
+                }
             },
         }
 

@@ -42,7 +42,7 @@ fn play_one_game() -> StillPlaying {
 
 fn main() {
     let mut results = HashMap::new();
-    for _ in lazy_pbar::pbar(0..10_000) {
+    for _ in lazy_pbar::pbar(0..100_000) {
         let res = play_one_game();
         *results.entry(res).or_insert(0) += 1;
     }

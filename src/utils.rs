@@ -6,7 +6,7 @@ use std::{
 
 use rand::Rng;
 
-use crate::{cards::CardName, enemies::EnemyType, relics::Relic, screens::{EventAction, Events, NeowsBlessing}};
+use crate::{cards::CardName, enemies::EnemyType, potions::Potion, relics::Relic, screens::{EventAction, Events, NeowsBlessing}};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash)]
 pub struct Number(pub i16);
@@ -130,6 +130,7 @@ pub enum NotImplemented {
     ChoosingTreasure,
     EventAction(EventAction),
     DefeatedBoss,
+    Potion(Potion),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash)]
