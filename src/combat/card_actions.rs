@@ -125,6 +125,11 @@ impl State {
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             },
+            CardActions::HeavyBlade(hb_amt) => {
+                let (over, hp_loss) = self.get_combat().heavyblade_enemy(hb_amt, target, relics)?;
+                self.lose_hp(hp_loss.0);
+                return Ok(over);
+            },
         }
 
         Ok(CombatOver::No)

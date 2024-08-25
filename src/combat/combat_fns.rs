@@ -513,6 +513,45 @@ impl Combat {
         Ok((CombatOver::No, hp_loss))
     }
 
+    pub fn heavyblade_enemy(
+        &mut self,
+        strength_scale: Number,
+        target: Option<EnemyIndex>,
+        relics: &Relics,
+    ) -> Result<(CombatOver, HpLoss), NotImplemented> {
+        let enemies = &self.enemies;
+        let enemy_index = match target {
+            Some(target) => target.0,
+            None => number_between(0, enemies.len() - 1),
+        };
+        let enemy = &enemies[enemy_index];
+
+        let mut damage = 14 as f32;
+        // Factor in strength
+        damage += self.self_effects.get_strength().0 as f32 * strength_scale.0 as f32;
+        // Factor in vulnerability
+        if enemy.effects.is_vulnerable() {
+            match relics.contains(Relic::PaperPhrog) {
+                true => damage *= 1.75,
+                false => damage *= 1.5,
+            }
+        }
+        // Factor in weakness
+        if self.self_effects.is_weak() {
+            match relics.contains(Relic::PaperKrane) {
+                true => damage *= 0.6,
+                false => damage *= 0.75,
+            }
+        }
+
+        if damage < 0.0 {
+            damage = 0.0;
+        }
+
+        let damage = damage.floor() as u16;
+        self.attack_damage_enemy(EnemyIndex(enemy_index), damage, relics)
+    }
+
     pub fn discard_hand_end_of_turn(
         &mut self,
         relics: &Relics,

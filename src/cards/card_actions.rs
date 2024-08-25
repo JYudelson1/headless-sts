@@ -31,6 +31,7 @@ pub enum CardActions {
     DoubleBlock,
     Havoc,
     PerfectedStrike(Number),
+    HeavyBlade(Number),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
