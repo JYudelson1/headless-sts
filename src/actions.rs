@@ -24,6 +24,7 @@ pub enum Action {
     UsePotionNoTargets(usize),
     UsePotionTargets((usize, EnemyIndex)),
     DiscardPotion(usize),
+    ChooseCardInHand(Uuid),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]

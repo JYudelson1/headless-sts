@@ -12,6 +12,7 @@ use crate::{
 
 use super::Combat;
 use rand::seq::SliceRandom;
+use uuid::Uuid;
 
 impl State {
     pub fn heal(&mut self, mut amt: u16) {
@@ -620,6 +621,19 @@ impl Combat {
     pub fn attack_damage_self(&mut self, amt: Number) -> HpLoss {
         // TODO: Are there specific thing to check for??
         self.damage_self(amt)
+    }
+
+    pub fn get_card_from_hand(&mut self, id: Uuid) -> MasterCard {
+        for i in 0..self.hand.len() {
+            if self.hand[i].id == id {
+                return self.hand.remove(i);
+            }
+        }
+        panic!("Could not find card!")
+    }
+
+    pub fn put_on_deck(&mut self, card: MasterCard) {
+        self.deck.insert(0, card);
     }
 }
 

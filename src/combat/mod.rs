@@ -5,6 +5,7 @@ mod relic_effects;
 mod setup_combat;
 mod end_of_combat;
 
+pub use card_actions::CardInHandPurpose;
 pub use combat_fns::CombatOver;
 pub use setup_combat::{get_enemies, Elites};
 

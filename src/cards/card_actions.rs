@@ -1,4 +1,4 @@
-use crate::{effects::{Buff, Debuff}, utils::Number};
+use crate::{combat::CardInHandPurpose, effects::{Buff, Debuff}, utils::Number};
 
 use super::{CardName, MasterCard};
 
@@ -22,7 +22,6 @@ pub enum CardActions {
     ApplyBuff(Buff),
     ApplyDebuff(Debuff),
     ExhaustRandomCard,
-    ExhaustSelectedCard,
     ShuffleCardToPile((MasterCard, Pile)),
     AddCardToHand(MasterCard),
     AddFreshCardToHand((CardName, bool)),
@@ -32,6 +31,7 @@ pub enum CardActions {
     Havoc,
     PerfectedStrike(Number),
     HeavyBlade(Number),
+    ChooseNCards((CardInHandPurpose, usize)),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -1,4 +1,4 @@
-use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
+use crate::{cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName}, combat::CardInHandPurpose};
 
 #[derive(Debug)]
 pub struct BurningPact(pub bool);
@@ -25,11 +25,11 @@ impl Card for BurningPact {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ExhaustSelectedCard, CardActions::Draw(3)]
+        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)), CardActions::Draw(3)]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ExhaustSelectedCard, CardActions::Draw(2)]
+        vec![CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)), CardActions::Draw(2)]
     }
 
     fn set_upgraded(&mut self, to_set: bool) {

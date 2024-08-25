@@ -1,5 +1,6 @@
 use crate::{
     cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName},
+    combat::CardInHandPurpose,
     utils::Number,
 };
 
@@ -30,7 +31,7 @@ impl Card for TrueGrit {
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Block(Number(9)),
-            CardActions::ExhaustSelectedCard,
+            CardActions::ChooseNCards((CardInHandPurpose::Exhaust, 1)),
         ]
     }
 

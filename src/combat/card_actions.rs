@@ -1,4 +1,8 @@
-use crate::{cards::{CardActions, CardIndex, CardType, MasterCard, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, state::State, utils::{number_between, NotImplemented, Number}};
+use std::{collections::HashSet, mem};
+
+use uuid::Uuid;
+
+use crate::{cards::{CardActions, CardIndex, CardType, MasterCard, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, screens::VisibleStates, state::State, utils::{number_between, NotImplemented, Number}};
 
 use super::CombatOver;
 
@@ -52,7 +56,14 @@ impl State {
                 let card = self.get_combat().hand.remove(i);
                 return self.get_combat().exhaust_card(card, relics)
             },
-            CardActions::ExhaustSelectedCard => Err(NotImplemented::ChoosingFromHand)?,
+            CardActions::ChooseNCards((purpose, amt)) => {
+                let cards = HashSet::from_iter(self.get_combat().hand.iter().map(|mc| mc.id).collect::<Vec<Uuid>>());
+                let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
+                if let VisibleStates::Combat(combat) = screen{
+                    self.visible_screen = VisibleStates::ChoosingCardInHand((combat, purpose, amt, cards, HashSet::new()));
+                }
+                
+            },
             CardActions::ApplyBuff(buff) => {
                 // TODO: Are there relics or powers that interact here?
                 self.get_combat().self_effects.apply_buff(buff);
@@ -205,4 +216,12 @@ impl State {
 
         Ok(CombatOver::No)
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CardInHandPurpose {
+    Exhaust,
+    PutOnTopOfDeck,
+    Duplicate,
+    Upgrade,
 }

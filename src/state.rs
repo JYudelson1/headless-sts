@@ -1,8 +1,12 @@
+use std::{collections::HashSet, mem};
+
+use uuid::Uuid;
+
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CardRewardRng,
     cards::{make_card, make_starter_deck, MasterCard},
-    combat::{CombatOver, Elites},
+    combat::{CardInHandPurpose, CombatOver, Elites},
     map::{Map, RoomNode},
     potions::{potion_bag::PotionBag, potion_rng::PotionRng},
     question_rng::QuestionMarkRng,
@@ -205,6 +209,30 @@ impl State {
                 self.duplicate_card_in_deck(id);
                 self.to_map(); //TODO: Dolly's mirror should send back to shop sometimes
             }
+            Action::ChooseCardInHand(id) => {
+                let mut change = false;
+                if let VisibleStates::ChoosingCardInHand((_, _, left, in_hand, already_chosen)) = &mut self.visible_screen {
+                    *left -= 1;
+                    let _ = in_hand.remove(&id);
+                    let _ = already_chosen.insert(id);
+                    change = true
+                }
+                if change {
+                    let screen = mem::replace(&mut self.visible_screen, VisibleStates::Rest);
+                    if let VisibleStates::ChoosingCardInHand((combat, purpose, _, _, cards)) = screen {
+                        self.visible_screen = VisibleStates::Combat(combat);
+                        match purpose {
+                            CardInHandPurpose::Exhaust => {
+                                let exhaust_result = self.exhaust_many(cards);
+                                self.maybe_end_combat(exhaust_result);
+                            },
+                            CardInHandPurpose::PutOnTopOfDeck => self.put_from_hand_to_deck(cards),
+                            CardInHandPurpose::Duplicate => todo!(),
+                            CardInHandPurpose::Upgrade => todo!(),
+                        }
+                    }
+                }
+            },
         }
     }
 
@@ -218,5 +246,24 @@ impl State {
             Ok(CombatOver::No) => (),
             Err(error) => self.still_playing = StillPlaying::NotImplementedError(error),
         }
+    }
+
+    fn put_from_hand_to_deck(&mut self, cards: HashSet<Uuid>) {
+        for id in cards.iter() {
+            let card = self.get_combat().get_card_from_hand(*id);
+            self.get_combat().put_on_deck(card);
+        }
+    }
+
+    fn exhaust_many(&mut self, cards: HashSet<Uuid>) -> Result<CombatOver, NotImplemented> {
+        let relics = &self.relics.clone();
+        for id in cards.iter() {
+            let card = self.get_combat().get_card_from_hand(*id);
+            let over = self.get_combat().exhaust_card(card, relics)?;
+            if over == CombatOver::Yes {
+                return Ok(CombatOver::Yes);
+            }
+        }
+        Ok(CombatOver::No)
     }
 }

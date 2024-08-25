@@ -5,17 +5,20 @@ mod rewards;
 mod shop;
 mod treasure;
 
+use std::collections::HashSet;
+
 pub use events::*;
 pub use neow::*;
 pub use rewards::{CardReward, RewardsScreen};
 pub use shop::Wares;
 use treasure::{Chest, ChestRelicType};
+use uuid::Uuid;
 
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CombatType,
     cards::CardIndex,
-    combat::{get_enemies, Combat},
+    combat::{get_enemies, CardInHandPurpose, Combat},
     enemies::EnemyIndex,
     map::{Map, RoomType},
     question_rng::QuestionMark,
@@ -38,7 +41,8 @@ pub enum VisibleStates {
     UpgradeCardScreen(usize),
     TransformCardScreen(usize),
     DuplicateCardScreen,
-    Event(Events)
+    Event(Events),
+    ChoosingCardInHand((Combat, CardInHandPurpose, usize, HashSet<Uuid>, HashSet<Uuid>))
 }
 
 impl VisibleStates {
@@ -309,6 +313,12 @@ impl State {
             VisibleStates::DuplicateCardScreen => {
                 for card in &self.main_deck {
                     actions.push(Action::Duplicate(card.id));
+                }
+            },
+            VisibleStates::ChoosingCardInHand((_, _, left, in_hand, _)) => {
+                assert!(*left > 0);
+                for id in in_hand {
+                    actions.push(Action::ChooseCardInHand(*id))
                 }
             },
         }
