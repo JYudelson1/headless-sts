@@ -200,7 +200,11 @@ impl State {
                 let possible_end = self.use_potion(index, Some(enemy_index));
                 self.maybe_end_combat(possible_end)
             },
-            Action::DiscardPotion(index) => self.discard_potion(index)
+            Action::DiscardPotion(index) => self.discard_potion(index),
+            Action::Duplicate(id) => {
+                self.duplicate_card_in_deck(id);
+                self.to_map(); //TODO: Dolly's mirror should send back to shop sometimes
+            }
         }
     }
 

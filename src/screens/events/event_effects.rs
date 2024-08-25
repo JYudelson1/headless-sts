@@ -22,6 +22,7 @@ pub enum EventAction {
     Remove,
     Upgrade,
     Transform,
+    Duplicate,
 }
 
 impl State {
@@ -58,19 +59,21 @@ impl State {
             },
             EventAction::GoToScrapOoze(amt) => {
                 self.visible_screen = VisibleStates::Event(Events::ScrapOoze(amt));
-                return Ok(())
             },
             EventAction::Remove => {
                 self.visible_screen = VisibleStates::RemoveCardScreen(1);
-                return Ok(());
+                
             },
             EventAction::Upgrade => {
                 self.visible_screen = VisibleStates::UpgradeCardScreen(1);
-                return Ok(());
+                
             },
             EventAction::Transform => {
                 self.visible_screen = VisibleStates::TransformCardScreen(1);
-                return Ok(());
+                
+            },
+            EventAction::Duplicate => {
+                self.visible_screen = VisibleStates::DuplicateCardScreen;
             },
         }
 

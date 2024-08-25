@@ -110,7 +110,7 @@ const ACT_2_AND_3_EVENTS: &[Events] = &[Events::DesignerInSpire];
 
 const SHARED_EVENTS: &[Events] = &[
     // TODO: Events::BonfireSpirits,
-    // TODO: Events::Duplicator,
+    Events::Duplicator,
     // TODO: Events::GoldenShrine,
     // TODO: Events::Lab,
     // TODO: Events::MatchAndKeep,

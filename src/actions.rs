@@ -14,6 +14,7 @@ pub enum Action {
     MakeRestChoice(RestChoice),
     Upgrade(Uuid),
     Remove(Uuid),
+    Duplicate(Uuid),
     Transform(Uuid),
     Purchase(Wares),
     LeaveShop,

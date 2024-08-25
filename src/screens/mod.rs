@@ -37,6 +37,7 @@ pub enum VisibleStates {
     RemoveCardScreen(usize),
     UpgradeCardScreen(usize),
     TransformCardScreen(usize),
+    DuplicateCardScreen,
     Event(Events)
 }
 
@@ -302,6 +303,11 @@ impl State {
             VisibleStates::Event(event) => {
                 for action in event.actions(&self)? {
                     actions.push(Action::EventAction(action));
+                }
+            },
+            VisibleStates::DuplicateCardScreen => {
+                for card in &self.main_deck {
+                    actions.push(Action::Duplicate(card.id));
                 }
             },
         }
