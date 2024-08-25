@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use crate::{state::State, utils::NotImplemented};
+use crate::utils::NotImplemented;
 
 use super::{
     bosses::hexaghost::Hexaghost,
@@ -10,8 +10,9 @@ use super::{
     },
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist,
-        fungus_beast::FungusBeast, greenlouse::GreenLouse, jawworm::JawWorm, redlouse::RedLouse,
-        spike_slime_m::SpikeSlimeM, spike_slime_s::SpikeSlimeS,
+        fungus_beast::FungusBeast, greenlouse::GreenLouse, gremlin_mad::GremlinFat,
+        jawworm::JawWorm, redlouse::RedLouse, spike_slime_m::SpikeSlimeM,
+        spike_slime_s::SpikeSlimeS,
     },
     ConcreteEnemy, EnemyIntent, EnemyType,
 };
@@ -40,7 +41,7 @@ impl EnemyType {
             EnemyType::SpikeSlimeL => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::Looter => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::FungusBeast => Ok(FungusBeast::new(ascension)),
-            EnemyType::GremlinFat => Err(NotImplemented::Enemy(self.clone())),
+            EnemyType::GremlinFat => Ok(GremlinFat::new(ascension)),
             EnemyType::GremlinSneaky => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinMad => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinShield => Err(NotImplemented::Enemy(self.clone())),
