@@ -114,7 +114,7 @@ impl State {
     }
 
     // Returns true if the enemy was damaged
-    fn direct_damage_enemy(
+    pub fn direct_damage_enemy(
         &mut self,
         enemy_index: EnemyIndex,
         mut amt: u16,

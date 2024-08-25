@@ -1,5 +1,6 @@
 use crate::{
-    effects::{Buff, IntensityBuffOrDebuff, IntensityBuffs},
+    cards::Targets,
+    effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs},
     enemies::EnemyIndex,
     state::State,
     utils::{NotImplemented, Number},
@@ -11,12 +12,12 @@ impl State {
     pub fn use_targeted_potion(
         &mut self,
         potion: Potion,
-        _target: EnemyIndex,
+        target: EnemyIndex,
     ) -> Result<(), NotImplemented> {
         match potion {
-            Potion::Weak => Err(NotImplemented::Potion(potion))?,
-            Potion::Fear => Err(NotImplemented::Potion(potion))?,
-            Potion::Fire => Err(NotImplemented::Potion(potion))?,
+            Potion::Weak => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Weak, Number(3))), Targets::One, Some(target)),
+            Potion::Fear => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Vulnerable, Number(3))), Targets::One, Some(target)),
+            Potion::Fire => {self.direct_damage_enemy(target, 20)?;},
             _ => panic!("Should not be using {potion:?} here!")
         }
 
