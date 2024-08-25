@@ -38,7 +38,7 @@ impl EnemyType {
             EnemyType::AcidSlimeL => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::SpikeSlimeL => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::Looter => Err(NotImplemented::Enemy(self.clone())),
-            EnemyType::FungusBeast => Ok((FungusBeast::new(ascension))),
+            EnemyType::FungusBeast => Ok(FungusBeast::new(ascension)),
             EnemyType::GremlinFat => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinSneaky => Err(NotImplemented::Enemy(self.clone())),
             EnemyType::GremlinMad => Err(NotImplemented::Enemy(self.clone())),
