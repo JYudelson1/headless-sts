@@ -90,7 +90,7 @@ impl State {
 
         let real_damage = calculate_damage(&enemy.effects, self_effects, damage_intent, relics);
 
-        self.damage_self(real_damage);
+        self.attack_damage_self(real_damage);
 
         // Check for thorns on self
         if let Some(thorns) = self_effects.thorns() {
