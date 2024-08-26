@@ -28,7 +28,7 @@ use crate::{
     utils::{Act, Key, NotImplemented},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum VisibleStates {
     Reward(RewardsScreen),
     CardReward(Vec<CardReward>),

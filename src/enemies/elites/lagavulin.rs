@@ -5,7 +5,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Lagavulin {
     intent: EnemyIntent,
     turn_num: u16,
@@ -42,6 +42,10 @@ impl Enemy for Lagavulin {
 
     fn lost_hp(&mut self) {
         self.intent = EnemyIntent::Stun;
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 

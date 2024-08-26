@@ -6,7 +6,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AcidSlimeM {
     intent: EnemyIntent,
     intent_history: [Option<AcidSlimeMAttacks>; 2],
@@ -23,6 +23,10 @@ impl Enemy for AcidSlimeM {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 

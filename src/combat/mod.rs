@@ -22,7 +22,7 @@ use crate::{
 
 use rand::seq::SliceRandom;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Combat {
     pub self_effects: Effects,
     enemies: Vec<ConcreteEnemy>,

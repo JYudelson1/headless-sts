@@ -15,7 +15,7 @@ use crate::{
     utils::{Act, Character, Keys, NotImplemented, Number, StillPlaying},
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct State {
     pub act: Act,
     pub visible_screen: VisibleStates,

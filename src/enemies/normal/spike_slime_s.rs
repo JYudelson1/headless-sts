@@ -5,7 +5,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SpikeSlimeS {
     intent: EnemyIntent,
 }
@@ -15,6 +15,10 @@ impl Enemy for SpikeSlimeS {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 impl SpikeSlimeS {

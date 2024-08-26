@@ -84,7 +84,7 @@ pub enum Key {
     Sapphire,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Keys(pub HashSet<Key>);
 
 impl Keys {

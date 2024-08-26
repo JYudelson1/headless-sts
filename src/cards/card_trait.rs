@@ -57,11 +57,12 @@ pub trait Card: Debug {
     }
 
     fn duplicate(&self) -> MasterCard {
+        // TODO: Temp changes, like cost change
         make_card(self.name(), self.is_upgraded()).expect("Card must be implemented to suplicate")
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct MasterCard {
     pub card: Rc<RefCell<dyn Card>>,
     pub id: uuid::Uuid,
@@ -71,7 +72,10 @@ pub struct MasterCard {
 impl MasterCard {
     pub fn reset_end_combat(&mut self) {
         self.card.as_ref().borrow_mut().reset();
-        self.card.as_ref().borrow_mut().set_upgraded_amt(self.upgraded);
+        self.card
+            .as_ref()
+            .borrow_mut()
+            .set_upgraded_amt(self.upgraded);
     }
 
     pub fn card(&self) -> Ref<dyn Card> {
@@ -85,5 +89,11 @@ impl MasterCard {
     pub fn upgrade(&mut self) {
         self.upgraded += 1;
         self.card_mut().upgrade();
+    }
+}
+
+impl Clone for MasterCard {
+    fn clone(&self) -> Self {
+        self.card().duplicate()
     }
 }

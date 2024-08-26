@@ -7,7 +7,7 @@ pub enum CombatType {
     Boss,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CardRewardRng(f32);
 
 impl CardRewardRng {

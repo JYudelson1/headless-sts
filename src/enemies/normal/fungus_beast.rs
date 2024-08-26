@@ -5,7 +5,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct FungusBeast {
     intent: EnemyIntent,
     intent_history: [Option<FungusBeastAttacks>; 2],
@@ -22,6 +22,10 @@ impl Enemy for FungusBeast {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 

@@ -6,7 +6,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Hexaghost {
     intent: HexaghostAttacks,
     turn_num: usize,
@@ -21,6 +21,10 @@ impl Enemy for Hexaghost {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 

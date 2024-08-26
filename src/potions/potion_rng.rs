@@ -1,6 +1,6 @@
 use rand::random;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PotionRng(f32);
 
 impl PotionRng {

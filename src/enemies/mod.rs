@@ -42,6 +42,20 @@ impl ConcreteEnemy {
     }
 }
 
+impl Clone for ConcreteEnemy {
+    fn clone(&self) -> Self {
+        Self {
+            effects: self.effects.clone(),
+            max_hp: self.max_hp.clone(),
+            current_hp: self.current_hp.clone(),
+            current_block: self.current_block.clone(),
+            inner: self.inner.duplicate(),
+            enemy_type: self.enemy_type.clone(),
+            ascension: self.ascension.clone(),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct EnemyIndex(pub usize);
 

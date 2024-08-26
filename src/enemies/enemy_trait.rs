@@ -24,6 +24,8 @@ pub trait Enemy: Debug {
     fn get_current_intent(&self) -> EnemyIntent;
 
     fn lost_hp(&mut self) {}
+
+    fn duplicate(&self) -> Box<dyn Enemy>;
 }
 
 impl EnemyType {

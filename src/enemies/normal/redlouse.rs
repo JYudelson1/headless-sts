@@ -5,7 +5,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RedLouse {
     intent: EnemyIntent,
     intent_history: [Option<RedLouseAttacks>; 2],
@@ -23,6 +23,10 @@ impl Enemy for RedLouse {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 

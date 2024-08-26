@@ -92,7 +92,7 @@ impl ChestType {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum ChestRelicType {
     None,
     Relic(Relic),

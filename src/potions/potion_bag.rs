@@ -1,6 +1,6 @@
 use super::Potion;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PotionBag {
     pub capacity: usize,
     pub potions: Vec<Potion>,

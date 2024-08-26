@@ -34,7 +34,7 @@ pub enum Events {
     DesignerInSpire,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct EventsPool(HashSet<Events>);
 
 impl EventsPool {

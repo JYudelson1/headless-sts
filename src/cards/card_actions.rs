@@ -9,7 +9,7 @@ pub enum Targets {
     Random,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum CardActions {
     Damage((Number, Targets)),
     ApplyVulnerable((Number, Targets)),

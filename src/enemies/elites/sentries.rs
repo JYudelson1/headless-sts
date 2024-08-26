@@ -6,7 +6,7 @@ use crate::{
 
 use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SentryA {
     intent: SentryAttacks,
 }
@@ -18,6 +18,10 @@ impl Enemy for SentryA {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent().clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 
@@ -50,7 +54,7 @@ impl SentryA {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SentryB {
     intent: SentryAttacks,
 }
@@ -62,6 +66,10 @@ impl Enemy for SentryB {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent().clone()
+    }
+
+    fn duplicate(&self) -> Box<dyn Enemy> {
+        Box::new(self.clone())
     }
 }
 
