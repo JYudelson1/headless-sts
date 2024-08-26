@@ -38,6 +38,10 @@ impl Card for WarCry {
         self.0
     }
 
+    fn exhausts(&self) -> bool {
+        true
+    }
+
     fn play_upgraded(&mut self) -> Vec<CardActions> {
         vec![
             CardActions::Draw(2),
