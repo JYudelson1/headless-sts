@@ -132,7 +132,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::Chrysalis => Err(NotImplemented::Card(name))?,
         CardName::HandOfGreed => Err(NotImplemented::Card(name))?,
         CardName::Magnetism => Err(NotImplemented::Card(name))?,
-        CardName::MasterOfStrategy => Err(NotImplemented::Card(name))?,
+        CardName::MasterOfStrategy => Rc::new(RefCell::new(shared::master_of_strategy::MasterOfStrategy(upgraded))),
         CardName::Mayhem => Err(NotImplemented::Card(name))?,
         CardName::Metamorphosis => Err(NotImplemented::Card(name))?,
         CardName::Panache => Err(NotImplemented::Card(name))?,
