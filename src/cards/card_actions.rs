@@ -14,6 +14,7 @@ pub enum CardActions {
     Damage((Number, Targets)),
     ApplyVulnerable((Number, Targets)),
     ApplyWeak((Number, Targets)),
+    DebuffEnemy((Debuff, Targets)),
     Block(Number),
     Draw(u8),
     LoseHealth(u16),

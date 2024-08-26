@@ -143,6 +143,9 @@ impl State {
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             },
+            CardActions::DebuffEnemy((debuff, targets)) => {
+                self.debuff_enemy(debuff, targets, target);
+            },
         }
 
         Ok(CombatOver::No)

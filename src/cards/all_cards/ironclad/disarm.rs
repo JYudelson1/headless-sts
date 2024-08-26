@@ -1,5 +1,5 @@
 use crate::{
-    cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName},
+    cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName, Targets},
     effects::{Debuff, IntensityBuffOrDebuff},
     utils::Number,
 };
@@ -37,17 +37,17 @@ impl Card for Disarm {
     }
 
     fn play_upgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ApplyDebuff(Debuff::Basic((
+        vec![CardActions::DebuffEnemy((Debuff::Basic((
             IntensityBuffOrDebuff::Strength,
             Number(3),
-        )))]
+        )), Targets::One))]
     }
 
     fn play_unupgraded(&mut self) -> Vec<CardActions> {
-        vec![CardActions::ApplyDebuff(Debuff::Basic((
+        vec![CardActions::DebuffEnemy((Debuff::Basic((
             IntensityBuffOrDebuff::Strength,
             Number(2),
-        )))]
+        )), Targets::One))]
     }
 
     fn get_cost(&self) -> u8 {
