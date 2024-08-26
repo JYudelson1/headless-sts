@@ -50,7 +50,7 @@ pub fn make_card(name: CardName, upgraded: bool) -> Result<MasterCard, NotImplem
         CardName::BurningPact => Rc::new(RefCell::new(ironclad::burningpact::BurningPact(upgraded))),
         CardName::Combust => Err(NotImplemented::Card(name))?,
         CardName::DarkEmbrace => Rc::new(RefCell::new(ironclad::darkembrace::DarkEmbrace(upgraded))),
-        CardName::Disarm => Err(NotImplemented::Card(name))?,
+        CardName::Disarm => Rc::new(RefCell::new(ironclad::disarm::Disarm(upgraded))),
         CardName::Dropkick => Err(NotImplemented::Card(name))?,
         CardName::DualWield => Err(NotImplemented::Card(name))?,
         CardName::Entrench => Rc::new(RefCell::new(ironclad::entrench::Entrench(upgraded))),
