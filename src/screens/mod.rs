@@ -17,7 +17,7 @@ use uuid::Uuid;
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
     cardrewardrng::CombatType,
-    cards::{CardActions, CardIndex, CardType, MasterCard},
+    cards::{CardActions, CardIndex, CardType},
     combat::{get_enemies, CardInHandPurpose, Combat},
     effects::OneTurnBoolDebuffs,
     enemies::EnemyIndex,
