@@ -1,5 +1,7 @@
 use std::{cell::{Ref, RefCell, RefMut}, fmt::Debug, rc::Rc};
 
+use uuid::Uuid;
+
 use super::{card::CardType, card_actions::CardActions, make_card, CardName};
 
 pub trait Card: Debug {
@@ -60,6 +62,12 @@ pub trait Card: Debug {
         // TODO: Temp changes, like cost change
         make_card(self.name(), self.is_upgraded()).expect("Card must be implemented to suplicate")
     }
+
+    fn clone(&self, id: Uuid) -> MasterCard {
+        let mut card = self.duplicate();
+        card.id = id;
+        card
+    }
 }
 
 #[derive(Debug)]
@@ -94,6 +102,6 @@ impl MasterCard {
 
 impl Clone for MasterCard {
     fn clone(&self) -> Self {
-        self.card().duplicate()
+        self.card().clone(self.id)
     }
 }
