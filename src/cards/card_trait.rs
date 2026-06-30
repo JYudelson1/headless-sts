@@ -86,11 +86,11 @@ impl MasterCard {
             .set_upgraded_amt(self.upgraded);
     }
 
-    pub fn card(&self) -> Ref<dyn Card> {
+    pub fn card<'a>(&'a self) -> Ref<'a, dyn Card + 'a> {
         self.card.as_ref().borrow()
     }
 
-    pub fn card_mut(&mut self) -> RefMut<dyn Card> {
+    pub fn card_mut<'a>(&'a mut self) -> RefMut<'a, dyn Card + 'a> {
         self.card.as_ref().borrow_mut()
     }
 
