@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 
-use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics::Relic, state::State, utils::number_between};
+use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics::Relic, state::State, utils::{number_between, NotImplemented}};
 
 use super::VisibleStates;
 
@@ -52,7 +52,7 @@ impl State {
         RewardsScreen(rewards)
     }
 
-    pub fn take_reward(&mut self, index: usize) {
+    pub fn take_reward(&mut self, index: usize) -> Result<(), NotImplemented> {
         let reward = if let VisibleStates::Reward(rewards_screen) = &mut self.visible_screen {
             rewards_screen.0.remove(index)
         } else {
@@ -61,7 +61,7 @@ impl State {
 
         match reward {
             Reward::Gold(amt) => self.gold += amt,
-            Reward::Relic(relic) => self.collect_relic(relic),
+            Reward::Relic(relic) => self.collect_relic(relic)?,
             Reward::Potion(potion) => self.potions.add(potion),
             Reward::CardReward(combat_type) => {
                 let rewards = self.get_card_rewards(combat_type);
@@ -69,5 +69,6 @@ impl State {
                 self.visible_screen = screen;
             }
         }
+        Ok(())
     }
 }

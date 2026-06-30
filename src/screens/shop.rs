@@ -151,7 +151,7 @@ impl State {
                 self.gold -= cost;
             }
             Wares::Relic((relic, cost)) => {
-                self.collect_relic(relic);
+                self.collect_relic(relic)?;
                 self.gold -= cost
             }
             Wares::Potion((potion, cost)) => {

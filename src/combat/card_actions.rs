@@ -16,7 +16,7 @@ impl State {
         let relics = &self.relics.clone();
         match action {
             CardActions::Damage((amt, target_type)) => {
-                let (over, hp_loss) = self.get_combat().damage_enemy(amt, target_type, target, relics)?;
+                let (over, hp_loss) = self.get_combat().damage_enemy(amt, target_type, target, relics);
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             }
@@ -36,7 +36,7 @@ impl State {
                 }
                 self.get_combat().self_block += amt;
             }
-            CardActions::Draw(amt) => return self.get_combat().draw(amt, relics),
+            CardActions::Draw(amt) => return Ok(self.get_combat().draw(amt, relics)),
             CardActions::LoseHealth(amt) => self.lose_hp(amt),
             CardActions::UpgradeACardInHand => Err(NotImplemented::ChoosingFromHand)?,
             CardActions::UpgradeAllCardsInHand => {
@@ -47,7 +47,7 @@ impl State {
             },
             CardActions::BodySlam => {
                 let damage_amt = self.get_combat().self_block;
-                let (over, hp_loss) =  self.get_combat().damage_enemy(damage_amt, Targets::One, target, relics)?;
+                let (over, hp_loss) =  self.get_combat().damage_enemy(damage_amt, Targets::One, target, relics);
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             },
@@ -55,7 +55,7 @@ impl State {
                 if self.get_combat().hand.len() == 0 { return Ok(CombatOver::No)}
                 let i = number_between(0, self.get_combat().hand.len() - 1);
                 let card = self.get_combat().hand.remove(i);
-                return self.get_combat().exhaust_card(card, relics)
+                return Ok(self.get_combat().exhaust_card(card, relics));
             },
             CardActions::ChooseNCards((purpose, amt, next_actions)) => {
                 let cards = HashSet::from_iter(self.get_combat().hand.iter().map(|mc| mc.id).collect::<Vec<Uuid>>());
@@ -114,7 +114,7 @@ impl State {
                     return Ok(over)
                 }
                 // Exhaust the card
-                return self.get_combat().exhaust_card(card, relics);
+                return Ok(self.get_combat().exhaust_card(card, relics));
             },
             CardActions::PerfectedStrike(amt) => {
                 let mut damage = Number(6);
@@ -135,12 +135,12 @@ impl State {
                     }
                 }
 
-                let (over, hp_loss) = self.get_combat().damage_enemy(damage, Targets::One, target, relics)?;
+                let (over, hp_loss) = self.get_combat().damage_enemy(damage, Targets::One, target, relics);
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             },
             CardActions::HeavyBlade(hb_amt) => {
-                let (over, hp_loss) = self.get_combat().heavyblade_enemy(hb_amt, target, relics)?;
+                let (over, hp_loss) = self.get_combat().heavyblade_enemy(hb_amt, target, relics);
                 self.lose_hp(hp_loss.0);
                 return Ok(over);
             },
@@ -175,7 +175,7 @@ impl State {
         // Otherwise, move it to the discard
         let relics = &self.relics.clone();
         if card.card().exhausts() {
-            let combat_over = self.get_combat().exhaust_card(card, relics)?;
+            let combat_over = self.get_combat().exhaust_card(card, relics);
             if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes)}
 
         } else {

@@ -31,8 +31,7 @@ impl Combat {
         // Check for thorns on self
         if let Some(thorns) = self_effects.thorns() {
             let killed = self
-                .direct_damage_enemy(enemy_index, thorns.0 as u16, relics)
-                .unwrap();
+                .direct_damage_enemy(enemy_index, thorns.0 as u16, relics);
             if killed.1 == CombatOver::Yes {
                 return (CombatOver::Yes, hp_loss);
             }

@@ -46,7 +46,7 @@ impl State {
             }
             EventAction::RandomRelic => {
                 let relic = random_relic(&mut self.relics).0;
-                self.collect_relic(relic);
+                self.collect_relic(relic)?;
             }
             EventAction::GainBlankCard(name) => {
                 let card = make_card(name, false)?;
@@ -84,7 +84,7 @@ impl State {
             },
             EventAction::GainRandomMask => {
                 let masks = [Relic::ClericMask, Relic::NlothsHungryFace(true), Relic::CultistHeadpiece, Relic::GremlinVisage, Relic::SerpentHead];
-                self.collect_relic(*masks.choose(&mut thread_rng()).unwrap());
+                self.collect_relic(*masks.choose(&mut thread_rng()).unwrap())?;
             },
             EventAction::LoseGold(amt) => {
                 assert!(self.gold >= amt);

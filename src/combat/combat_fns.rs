@@ -227,14 +227,14 @@ impl Combat {
         }
     }
 
-    fn draw_1(&mut self, relics: &Relics) -> Result<CombatOver, NotImplemented> {
+    fn draw_1(&mut self, relics: &Relics) -> CombatOver {
         // Cannot draw if all cards are in hand
         if self.deck.is_empty() && self.discard.is_empty() {
-            return Ok(CombatOver::No);
+            return CombatOver::No;
         }
         // Cannot draw if hand is full
         if self.hand.len() >= 10 {
-            return Ok(CombatOver::No);
+            return CombatOver::No;
         }
         // If draw pile is empty, reshuffle
         if self.deck.is_empty() {
@@ -257,9 +257,9 @@ impl Combat {
         // Firebreathing
         if let Some(firebreathing) = self.self_effects.firebreathing() {
             if card_type == CardType::Status || card_type == CardType::Curse {
-                let maybe_over = self.direct_damage_all_enemies(firebreathing.0 as u16, relics)?;
+                let maybe_over = self.direct_damage_all_enemies(firebreathing.0 as u16, relics);
                 if maybe_over == CombatOver::Yes {
-                    return Ok(CombatOver::Yes);
+                    return CombatOver::Yes;
                 }
             }
         }
@@ -267,51 +267,51 @@ impl Combat {
         // Evolve
         if let Some(evolve_amt) = self.self_effects.evolve() {
             if card_type == CardType::Status {
-                let combat_over = self.draw(evolve_amt.0 as u8, relics)?;
-                if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
+                let combat_over = self.draw(evolve_amt.0 as u8, relics);
+                if combat_over == CombatOver::Yes {return CombatOver::Yes;}
             }
         }
 
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
-    pub fn draw(&mut self, amt: u8, relics: &Relics) -> Result<CombatOver, NotImplemented> {
+    pub fn draw(&mut self, amt: u8, relics: &Relics) -> CombatOver {
         // Don't draw if no card draw
         if self
             .self_effects
             .one_turn_bool_debuffs
             .contains(&OneTurnBoolDebuffs::NoCardDraw)
         {
-            return Ok(CombatOver::No);
+            return CombatOver::No;
         }
 
         for _ in 0..amt {
-            let over = self.draw_1(relics)?;
+            let over = self.draw_1(relics);
             if over == CombatOver::Yes {
-                return Ok(CombatOver::Yes);
+                return CombatOver::Yes;
             }
         }
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
     pub fn exhaust_card(
         &mut self,
         card: MasterCard,
         relics: &Relics,
-    ) -> Result<CombatOver, NotImplemented> {
+    ) -> CombatOver {
         // Feel no pain
         if let Some(amt) = self.self_effects.get_feel_no_pain() {
             self.gain_block(amt);
         }
         // Dark embrace
         if let Some(amt) = self.self_effects.get_dark_embrace() {
-            let combat_over = self.draw(amt.0 as u8, relics)?;
-            if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
+            let combat_over = self.draw(amt.0 as u8, relics);
+            if combat_over == CombatOver::Yes {return CombatOver::Yes;}
         }
         // TODO: Necronomicurse goes here
         self.exhaust.push(card);
 
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
     pub fn enemy_lose_hp(
@@ -319,7 +319,7 @@ impl Combat {
         enemy_index: EnemyIndex,
         mut amt: u16,
         relics: &Relics,
-    ) -> Result<CombatOver, NotImplemented> {
+    ) -> CombatOver {
         let has_the_boot = relics.contains(Relic::TheBoot);
         let enemy = &mut self.enemies[enemy_index.0];
         if enemy.effects.is_intangible() {
@@ -343,46 +343,38 @@ impl Combat {
                 );
             }
         }
-        Ok(self.check_if_over())
+        self.check_if_over()
     }
 
     fn begin_enemy_turn_effects(
         &mut self,
         enemy_index: EnemyIndex,
         relics: &Relics,
-    ) -> Result<CombatOver, NotImplemented> {
+    ) -> CombatOver {
         let enemy = &mut self.enemies[enemy_index.0];
         // Poison
         let poison = enemy.effects.get_poison();
         if poison.0 > 0 {
-            match self.enemy_lose_hp(enemy_index, poison.0 as u16, relics) {
-                Ok(combat_over) => {
-                    if combat_over == CombatOver::Yes {
-                        return Ok(CombatOver::Yes);
-                    }
-                }
-                Err(err) => Err(err)?,
+            let over =  self.enemy_lose_hp(enemy_index, poison.0 as u16, relics);
+            if over == CombatOver::Yes {
+                return CombatOver::Yes;
             }
         }
         // Increment the enemies effects
         let enemy = &mut self.enemies[enemy_index.0];
         enemy.effects.increment_turn();
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
-    pub fn begin_enemy_turn(&mut self, relics: &Relics) -> Result<CombatOver, NotImplemented> {
+    pub fn begin_enemy_turn(&mut self, relics: &Relics) -> CombatOver {
         let num_enemies = self.num_enemies();
         for i in 0..num_enemies {
-            match self.begin_enemy_turn_effects(EnemyIndex(i), relics) {
-                Ok(over) => {
-                    if over == CombatOver::Yes {
-                        return Ok(CombatOver::Yes);
-                    }
-                }
-                Err(err) => Err(err)?,
+            let over = self.begin_enemy_turn_effects(EnemyIndex(i), relics);
+            if over == CombatOver::Yes {
+                return CombatOver::Yes;
             }
         }
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
     pub fn direct_damage_enemy(
@@ -390,17 +382,17 @@ impl Combat {
         enemy_index: EnemyIndex,
         mut amt: u16,
         relics: &Relics,
-    ) -> Result<(DamagedEnemy, CombatOver), NotImplemented> {
+    ) -> (DamagedEnemy, CombatOver) {
         let enemy = &mut self.enemies[enemy_index.0];
 
         if amt < enemy.current_block.0 as u16 {
             enemy.current_block -= Number(amt as i16);
-            return Ok((DamagedEnemy::No, CombatOver::No));
+            return (DamagedEnemy::No, CombatOver::No);
         } else {
             amt -= enemy.current_block.0 as u16;
             enemy.current_block = Number(0);
-            let combat_over = self.enemy_lose_hp(enemy_index, amt, relics)?;
-            return Ok((DamagedEnemy::Yes, combat_over));
+            let combat_over = self.enemy_lose_hp(enemy_index, amt, relics);
+            return (DamagedEnemy::Yes, combat_over);
         }
     }
 
@@ -408,31 +400,25 @@ impl Combat {
         &mut self,
         amt: u16,
         relics: &Relics,
-    ) -> Result<CombatOver, NotImplemented> {
+    ) -> CombatOver {
         for enemy_index in 0..self.enemies.len() {
-            match self.direct_damage_enemy(EnemyIndex(enemy_index), amt, relics) {
-                Ok(over) => {
-                    if over.1 == CombatOver::Yes {
-                        return Ok(CombatOver::Yes);
-                    }
-                }
-                Err(err) => Err(err)?,
+            let (_, over) = self.direct_damage_enemy(EnemyIndex(enemy_index), amt, relics);
+            if over == CombatOver::Yes {
+                return CombatOver::Yes;
             }
         }
 
-        Ok(CombatOver::No)
+        CombatOver::No
     }
 
     pub fn direct_damage_random_enemy(
         &mut self,
         amt: u16,
         relics: &Relics,
-    ) -> Result<CombatOver, NotImplemented> {
+    ) -> CombatOver {
         let index = number_between(0, self.enemies.len() - 1);
-        match self.direct_damage_enemy(EnemyIndex(index), amt, relics) {
-            Ok((_, over)) => Ok(over),
-            Err(e) => Err(e),
-        }
+        let (_, over) = self.direct_damage_enemy(EnemyIndex(index), amt, relics);
+        over
     }
 
     pub fn attack_damage_enemy(
@@ -440,8 +426,8 @@ impl Combat {
         enemy_index: EnemyIndex,
         amt: u16,
         relics: &Relics,
-    ) -> Result<(CombatOver, HpLoss), NotImplemented> {
-        let (damaged_enemy, combat_over) = self.direct_damage_enemy(enemy_index, amt, relics)?;
+    ) -> (CombatOver, HpLoss) {
+        let (damaged_enemy, combat_over) = self.direct_damage_enemy(enemy_index, amt, relics);
         let mut hp_loss = HpLoss(0);
 
         if combat_over == CombatOver::No && damaged_enemy == DamagedEnemy::Yes {
@@ -459,7 +445,7 @@ impl Combat {
             hp_loss += self.damage_self(thorns);
         }
 
-        Ok((combat_over, hp_loss))
+        (combat_over, hp_loss)
     }
 
     pub fn damage_enemy(
@@ -468,7 +454,7 @@ impl Combat {
         mut target_type: Targets,
         target: Option<EnemyIndex>,
         relics: &Relics,
-    ) -> Result<(CombatOver, HpLoss), NotImplemented> {
+    ) -> (CombatOver, HpLoss) {
         let self_effects = &self.self_effects.clone();
         let enemies = &self.enemies;
         let mut damages: Vec<(EnemyIndex, u16)> = vec![];
@@ -504,14 +490,14 @@ impl Combat {
         }
 
         for (enemy_index, amt) in damages {
-            let (over, hp) = self.attack_damage_enemy(enemy_index, amt, relics)?;
+            let (over, hp) = self.attack_damage_enemy(enemy_index, amt, relics);
             hp_loss += hp;
             if over == CombatOver::Yes {
-                return Ok((CombatOver::Yes, hp_loss));
+                return (CombatOver::Yes, hp_loss);
             }
         }
 
-        Ok((CombatOver::No, hp_loss))
+        (CombatOver::No, hp_loss)
     }
 
     pub fn heavyblade_enemy(
@@ -519,7 +505,7 @@ impl Combat {
         strength_scale: Number,
         target: Option<EnemyIndex>,
         relics: &Relics,
-    ) -> Result<(CombatOver, HpLoss), NotImplemented> {
+    ) -> (CombatOver, HpLoss) {
         let enemies = &self.enemies;
         let enemy_index = match target {
             Some(target) => target.0,
@@ -588,7 +574,7 @@ impl Combat {
                     // If the card is ethereal, exhaust it
                     if self.hand[i].card().is_ethereal() {
                         let card = self.hand.remove(i);
-                        let combat_over = self.exhaust_card(card, relics)?;
+                        let combat_over = self.exhaust_card(card, relics);
                         if combat_over == CombatOver::Yes {return Ok((CombatOver::Yes, hp_loss));}
                     } else if !self.hand[i].card().retains() {
                         // Else discard if not retained

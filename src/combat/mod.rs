@@ -122,7 +122,7 @@ impl Combat {
 }
 
 impl State {
-    pub fn start_combat_turn(&mut self) -> Result<CombatOver, NotImplemented> {
+    pub fn start_combat_turn(&mut self) -> CombatOver {
         let combat = self.get_combat();
         combat.turn += 1;
         let turn = combat.turn;
@@ -191,7 +191,7 @@ impl State {
 
         // Beginning of opponent's turn effects (e.g. poison)
         let relics = &self.relics.clone();
-        let combat_over = self.get_combat().begin_enemy_turn(relics)?;
+        let combat_over = self.get_combat().begin_enemy_turn(relics);
         if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
         // Enemies lose all block
@@ -204,7 +204,7 @@ impl State {
         // End of enemy turn effects (e.g. metallicize)
         self.get_combat().end_enemies_turn();
         // Start your next turn
-        let combat_over = self.start_combat_turn()?;
+        let combat_over = self.start_combat_turn();
         if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
         Ok(CombatOver::No)

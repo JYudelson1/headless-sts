@@ -20,10 +20,8 @@ impl State {
             Potion::Weak => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Weak, Number(3))), Targets::One, Some(target)),
             Potion::Fear => self.debuff_enemy(Debuff::Duration((DurationDebuffs::Vulnerable, Number(3))), Targets::One, Some(target)),
             Potion::Fire => {
-                let (_, over) = self.get_combat().direct_damage_enemy(target, 20, &relics)?;
-                if over == CombatOver::Yes {
-                    return Ok(CombatOver::Yes)
-                }
+                let (_, over) = self.get_combat().direct_damage_enemy(target, 20, &relics);
+                return Ok(over);
             },
             _ => panic!("Should not be using {potion:?} here!")
         }
@@ -62,10 +60,8 @@ impl State {
             Potion::EntropicBrew => Err(NotImplemented::Potion(potion))?,
             Potion::EssenceOfSteel => Err(NotImplemented::Potion(potion))?,
             Potion::Explosive => {
-                let over = self.get_combat().direct_damage_all_enemies(10, &relics)?;
-                if over == CombatOver::Yes {
-                    return Ok(over)
-                }
+                let over = self.get_combat().direct_damage_all_enemies(10, &relics);
+                return Ok(over);
             },
             Potion::FairyInABottle => Err(NotImplemented::Potion(potion))?,
             Potion::Flex => Err(NotImplemented::Potion(potion))?,

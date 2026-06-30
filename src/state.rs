@@ -65,23 +65,23 @@ impl State {
         }
     }
 
-    pub fn apply_action(&mut self, action: Action) {
+    pub fn apply_action(&mut self, action: Action) -> Result<(), NotImplemented> {
         //assert!(self.get_actions().contains(&action));
 
         match action {
             Action::PlayUntargetedCard(index) => {
                 let possible_end = self.play_card_from_hand(index, None);
-                self.maybe_end_combat(possible_end);
+                self.maybe_end_combat(possible_end)?;
             },
             Action::PlayTargetedCard((index, enemy)) => {
                 let possible_end = self.play_card_from_hand(index, Some(enemy));
-                self.maybe_end_combat(possible_end);
+                self.maybe_end_combat(possible_end)?;
             },
             Action::CollectReward(choice) => {
                 match choice {
                     RewardChoice::Skip => self.to_map(),
                     RewardChoice::RewardIndex(index) => {
-                        self.take_reward(index);
+                        self.take_reward(index)?;
                     },
                 }
             },
@@ -95,17 +95,10 @@ impl State {
                     CardRewardChoice::CardRewardIndex(i) => {
                         if let VisibleStates::CardReward(cards) = &self.visible_screen {
                             let card_reward = &cards[i];
-                            let card = make_card(card_reward.card, card_reward.is_upgraded);
-                            match card {
-                                Ok(card) => {
-                                    //println!("Obtained {:?}", card.card().name());
-                                    self.add_to_deck(card);
-                                    self.to_map();
-                                },
-                                Err(error) => {
-                                    self.still_playing = StillPlaying::NotImplementedError(error)
-                                },
-                            }
+                            let card = make_card(card_reward.card, card_reward.is_upgraded)?;
+                            //println!("Obtained {:?}", card.card().name());
+                            self.add_to_deck(card);
+                            self.to_map();
                             
                         } else {
                             panic!("Making card choice not on CardReward screen!");
@@ -115,9 +108,8 @@ impl State {
                 
             },
             Action::EndTurn => {
-                if let Err(err) = self.end_turn() {
-                    self.still_playing = StillPlaying::NotImplementedError(err);
-                }
+                let maybe_end = self.end_turn();
+                self.maybe_end_combat(maybe_end)?;
             },
             Action::TraverseMap(node_x) => {
                 let node = RoomNode {
@@ -130,23 +122,17 @@ impl State {
                 self.map.go_to_room(node);
 
                 // Change the screen
-                if let Err(error) = self._go_to_new_room(room_type) {
-                    self.still_playing = StillPlaying::NotImplementedError(error);
-                }
+                self._go_to_new_room(room_type)?;
             },
             Action::MakeNeowChoice(index) => {
                 if let VisibleStates::Neow(blessings) = self.visible_screen {
                     let blessing = blessings[index];
                 
-                    if let Err(error) = self._apply_neow_blessing(blessing) {
-                        self.still_playing = StillPlaying::NotImplementedError(error)
-                    } else {
-                        // TODO: Is this matches redundant?
-                        if matches!(self.visible_screen, VisibleStates::Neow(_)) {
-                            self.to_map();
-                        }
+                    self._apply_neow_blessing(blessing)?;
+                    // TODO: Is this matches redundant?
+                    if matches!(self.visible_screen, VisibleStates::Neow(_)) {
+                        self.to_map();
                     }
-
                 }
             }
             Action::MakeRestChoice(choice) => self.apply_rest_choice(choice),
@@ -171,10 +157,7 @@ impl State {
                 }
             },
             Action::Transform(id) => {
-                if let Err(error) = self.transform_card_in_deck(id){
-                    self.still_playing = StillPlaying::NotImplementedError(error);
-                    return;
-                }
+                self.transform_card_in_deck(id)?;
                 if let VisibleStates::TransformCardScreen(amt_to_transform) = &mut self.visible_screen {
                     if *amt_to_transform == 1 {
                         self.to_map();
@@ -184,25 +167,21 @@ impl State {
                 }
             }
             Action::Purchase(ware) => {
-                if let Err(error) = self.buy_wares(ware) {
-                    self.still_playing = StillPlaying::NotImplementedError(error);
-                }
+                self.buy_wares(ware)?;
             },
             Action::LeaveShop => self.to_map(),
             Action::EventAction(event_action) => {
-                if let Err(error) = self.apply_event_action(event_action) {
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                self.apply_event_action(event_action)?;
             },
-            Action::TakeRelicLeave(relic) => {self.collect_relic(relic); self.to_map() },
+            Action::TakeRelicLeave(relic) => {self.collect_relic(relic)?; self.to_map() },
             Action::TakeKeyLeave(key) => { self.keys.add_key(key); self.to_map() },
             Action::UsePotionNoTargets(index) => {
                 let possible_end = self.use_potion(index, None);
-                self.maybe_end_combat(possible_end)
+                self.maybe_end_combat(possible_end)?
             },
             Action::UsePotionTargets((index, enemy_index)) => {
                 let possible_end = self.use_potion(index, Some(enemy_index));
-                self.maybe_end_combat(possible_end)
+                self.maybe_end_combat(possible_end)?;
             },
             Action::DiscardPotion(index) => self.discard_potion(index),
             Action::Duplicate(id) => {
@@ -227,7 +206,7 @@ impl State {
                         match purpose {
                             CardInHandPurpose::Exhaust => {
                                 let exhaust_result = self.exhaust_many(cards);
-                                self.maybe_end_combat(exhaust_result);
+                                self.maybe_end_combat(exhaust_result)?;
                             },
                             CardInHandPurpose::PutOnTopOfDeck => self.put_from_hand_to_deck(cards),
                             CardInHandPurpose::Duplicate => todo!(),
@@ -238,7 +217,7 @@ impl State {
                                 // Stop early if the combat finished
                                 if self.is_in_combat() {
                                     let combat_over = self.process_action(action, None);
-                                    self.maybe_end_combat(combat_over);
+                                    self.maybe_end_combat(combat_over)?;
                                 }
                             }
                         }
@@ -246,17 +225,16 @@ impl State {
                 }
             },
         }
+        Ok(())
     }
 
-    fn maybe_end_combat(&mut self, possible_end: Result<CombatOver, NotImplemented>) {
+    fn maybe_end_combat(&mut self, possible_end: Result<CombatOver, NotImplemented>) -> Result<(), NotImplemented> {
         match possible_end {
             Ok(CombatOver::Yes) => {
-                if let Err(error) = self.end_combat() {
-                    self.still_playing = StillPlaying::NotImplementedError(error)
-                }
+                self.end_combat()
             }
-            Ok(CombatOver::No) => (),
-            Err(error) => self.still_playing = StillPlaying::NotImplementedError(error),
+            Ok(CombatOver::No) => Ok(()),
+            Err(error) => Err(error),
         }
     }
 
@@ -271,7 +249,7 @@ impl State {
         let relics = &self.relics.clone();
         for id in cards.iter() {
             let card = self.get_combat().get_card_from_hand(*id);
-            let over = self.get_combat().exhaust_card(card, relics)?;
+            let over = self.get_combat().exhaust_card(card, relics);
             if over == CombatOver::Yes {
                 return Ok(CombatOver::Yes);
             }

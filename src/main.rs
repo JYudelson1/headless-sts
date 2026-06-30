@@ -6,32 +6,27 @@ use std::collections::HashMap;
 
 use headless_sts::{
     state::State,
-    utils::{Character, StillPlaying},
+    utils::{Character, NotImplemented, StillPlaying},
 };
 use rand::prelude::SliceRandom;
 use rand::thread_rng;
 
-fn play_one_game() -> StillPlaying {
+fn play_one_game_randomly() -> Result<(), NotImplemented> {
     let mut state = State::new(Character::Ironclad, 0);
     //println!("{}", state.map);
     while state.still_playing == StillPlaying::Playing {
-        let actions = state.get_actions();
-        match actions {
-            Ok(mut actions) => {
-                actions.shuffle(&mut rand::thread_rng());
-                //println!("Actions: {actions:?}");
-                let random_action = &actions[0];
-                //println!("Action: {random_action:?}");
-                state.apply_action(random_action.clone());
-            },
-            Err(err) => return StillPlaying::NotImplementedError(err),
-        }
+        let mut actions = state.get_actions()?;
+        actions.shuffle(&mut rand::thread_rng());
+        //println!("Actions: {actions:?}");
+        let random_action = &actions[0];
+        //println!("Action: {random_action:?}");
+        state.apply_action(random_action.clone())?;
         
     }
-    state.still_playing
+    Ok(())
 }
 
-fn play_one_game_lookahead() -> (StillPlaying, usize) {
+fn play_one_game_lookahead() -> (Result<(), NotImplemented>, usize) {
     let mut state = State::new(Character::Ironclad, 0);
     //println!("{}", state.map);
     let mut length = 0;
@@ -44,7 +39,10 @@ fn play_one_game_lookahead() -> (StillPlaying, usize) {
                 let mut found_one = false;
                 for action in actions.iter() {
                     let mut new_state = state.clone();
-                    new_state.apply_action(action.clone());
+                    let res = new_state.apply_action(action.clone());
+                    if let Err(err) = res {
+                        return (Err(err), length);
+                    }
                     if new_state.still_playing != StillPlaying::Playing {
                         continue;
                     } else {
@@ -55,13 +53,16 @@ fn play_one_game_lookahead() -> (StillPlaying, usize) {
                     }
                 }
                 if !found_one {
-                    state.apply_action(actions[0].clone());
+                    let res = state.apply_action(actions[0].clone());
+                    if let Err(err) = res {
+                        return (Err(err), length);
+                    }
                 }
             }
-            Err(err) => return (StillPlaying::NotImplementedError(err), length),
+            Err(err) => return (Err(err), length),
         }
     }
-    (state.still_playing, length)
+    (Ok(()), length)
 }
 
 fn main() {

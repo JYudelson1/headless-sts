@@ -83,7 +83,7 @@ impl State {
         self.visible_screen = VisibleStates::Combat(combat?);
 
         // Note: Just starting combat will never insta-end it
-        let _ = self.start_combat_turn()?;
+        let _ = self.start_combat_turn();
 
         Ok(())
     }
@@ -149,7 +149,7 @@ impl State {
         if combat_type != CombatType::Boss {
             self.visible_screen = VisibleStates::Reward(self.make_rewards_screen());
         } else {
-            Err(NotImplemented::DefeatedBoss)?
+            return Err(NotImplemented::DefeatedBoss);
         }
 
         Ok(())

@@ -11,7 +11,13 @@ TODOs:
     - [x] Easy pool
     - [ ] Hard pool
     - [ ] Elites
+      - [x] Lagavulin
+      - [x] Sentries
+      - [ ] Gremlin nob
     - [ ] Bosses
+      - [ ] Slime Boss
+      - [x] Hexaghost
+      - [ ] Guardian
   - [ ] Act 2
   - [ ] Act 3 
 - [ ] Potions
@@ -36,5 +42,4 @@ TODOs:
 - [ ] Events
 - [x] Treasure rooms
 - [x] Rewards
-- [ ] Neow's Blessing
-  - Partially implemented
+- [x] Neow's Blessing
