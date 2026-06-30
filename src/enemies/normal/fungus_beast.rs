@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct FungusBeast {
     intent: EnemyIntent,
     intent_history: [Option<FungusBeastAttacks>; 2],
@@ -24,12 +24,9 @@ impl Enemy for FungusBeast {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum FungusBeastAttacks {
     Bite(Number),
     Grow(Number),
@@ -105,7 +102,7 @@ impl FungusBeast {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(beast),
+            inner: InnerEnemy::FungusBeast(beast),
             enemy_type: EnemyType::FungusBeast,
             ascension: ascension,
         }

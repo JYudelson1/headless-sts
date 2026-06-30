@@ -1,5 +1,5 @@
 use std::{collections::HashSet, mem};
-
+use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 
 use crate::{
@@ -15,7 +15,7 @@ use crate::{
     utils::{Act, Character, Keys, NotImplemented, Number, StillPlaying},
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
     pub act: Act,
     pub visible_screen: VisibleStates,

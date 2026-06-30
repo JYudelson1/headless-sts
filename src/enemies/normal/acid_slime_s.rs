@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct AcidSlimeS {
     intent: AcidSlimeSAttacks,
 }
@@ -24,13 +24,9 @@ impl Enemy for AcidSlimeS {
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent().clone()
     }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum AcidSlimeSAttacks {
     Lick,
     Tackle(Number),
@@ -86,7 +82,7 @@ impl AcidSlimeS {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(slime),
+            inner: InnerEnemy::AcidSlimeS(slime),
             enemy_type: EnemyType::AcidSlimeS,
             ascension: ascension,
         }

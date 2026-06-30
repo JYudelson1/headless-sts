@@ -1,16 +1,15 @@
-use std::{cell::RefCell, rc::Rc};
-
 use crate::{
     cards::{
         card::CardType,
         card_actions::{CardActions, Targets},
         card_trait::{Card, MasterCard},
+        all_cards::ConcreteCard,
         CardName,
     },
     utils::Number,
 };
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 
 pub struct SearingBlow(pub u16);
 
@@ -61,10 +60,9 @@ impl Card for SearingBlow {
 
     fn duplicate(&self) -> MasterCard {
         let inner = Self(self.0);
-        let inner = Rc::new(RefCell::new(inner));
 
         MasterCard {
-            card: inner,
+            card: ConcreteCard::SearingBlow(inner),
             id: uuid::Uuid::new_v4(),
             upgraded: self.0,
         }

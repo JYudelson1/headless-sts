@@ -1,5 +1,6 @@
 use std::vec;
 
+use serde::{Serialize, Deserialize};
 use crate::{cardrewardrng::CombatType, enemies::EnemyType, map::{Act1Boss, Boss}, utils::{number_between, Act}};
 
 use rand::distributions::Distribution;
@@ -186,7 +187,7 @@ fn get_boss(boss: Boss) -> Vec<EnemyType> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Elites {
     Lagavulin,
     Sentries,

@@ -1,7 +1,6 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName};
 
-#[derive(Debug)]
-pub struct Slimed(pub bool);
+#[derive(Debug, serde::Serialize, serde::Deserialize)]pub struct Slimed(pub bool);
 
 impl Card for Slimed {
     fn name(&self) -> CardName {

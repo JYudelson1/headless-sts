@@ -1,6 +1,6 @@
 use crate::{cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName}, combat::CardInHandPurpose};
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct BurningPact(pub bool);
 
 impl Card for BurningPact {

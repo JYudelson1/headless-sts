@@ -1,10 +1,11 @@
 #![allow(unused_results)]
 
 use std::collections::HashSet;
+use serde::{Serialize, Deserialize};
 
 use crate::utils::Act;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Events {
     BigFish,
     DeadAdventurer,
@@ -34,7 +35,7 @@ pub enum Events {
     DesignerInSpire,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EventsPool(HashSet<Events>);
 
 impl EventsPool {

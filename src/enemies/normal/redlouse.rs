@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct RedLouse {
     intent: EnemyIntent,
     intent_history: [Option<RedLouseAttacks>; 2],
@@ -25,12 +25,9 @@ impl Enemy for RedLouse {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum RedLouseAttacks {
     Grow(Number),
     Bite(Number),
@@ -127,7 +124,7 @@ impl RedLouse {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(louse),
+            inner: InnerEnemy::RedLouse(louse),
             enemy_type: EnemyType::RedLouse,
             ascension: ascension,
         }

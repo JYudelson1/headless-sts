@@ -4,7 +4,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct TrueGrit(pub bool);
 
 impl Card for TrueGrit {

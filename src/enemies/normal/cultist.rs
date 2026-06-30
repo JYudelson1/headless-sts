@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Cultist {
     intent: EnemyIntent,
 }
@@ -17,10 +17,6 @@ impl Enemy for Cultist {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
-    }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
     }
 }
 
@@ -53,7 +49,7 @@ impl Cultist {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(cultist),
+            inner: InnerEnemy::Cultist(cultist),
             enemy_type: EnemyType::Cultist,
             ascension: ascension,
         }

@@ -1,4 +1,5 @@
 use rand::prelude::SliceRandom;
+use serde::{Serialize, Deserialize};
 
 use crate::{
     cardrewardrng::CombatType,
@@ -11,7 +12,7 @@ use crate::{
 
 use super::{rewards::Reward, CardReward, RewardsScreen, VisibleStates};
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum FirstBlessing {
     Remove,
     Transform,
@@ -36,7 +37,7 @@ impl FirstBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum SecondBlessing {
     MaxHP,
     NeowsLament,
@@ -59,7 +60,7 @@ impl SecondBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum ThirdUpside {
     Remove2,
     Transform2,
@@ -84,7 +85,7 @@ impl ThirdUpside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum ThirdDownside {
     LoseMaxHealth,
     RandomCurse,
@@ -105,7 +106,7 @@ impl ThirdDownside {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub struct ThirdBlessing {
     pub upside: ThirdUpside,
     pub downside: ThirdDownside,
@@ -130,7 +131,7 @@ impl ThirdBlessing {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum NeowsBlessing {
     First(FirstBlessing),
     Second(SecondBlessing),

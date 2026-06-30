@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Lagavulin {
     intent: EnemyIntent,
     turn_num: u16,
@@ -44,9 +44,6 @@ impl Enemy for Lagavulin {
         self.intent = EnemyIntent::Stun;
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
 impl Lagavulin {
@@ -72,7 +69,7 @@ impl Lagavulin {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(lagavulin),
+            inner: InnerEnemy::Lagavulin(lagavulin),
             enemy_type: EnemyType::Lagavulin,
             ascension: ascension,
         }

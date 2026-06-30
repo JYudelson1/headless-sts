@@ -4,9 +4,10 @@ use std::{
     hash::Hash,
 };
 
+use serde::{Serialize, Deserialize};
 use crate::{relics::{Relic, Relics}, utils::Number};
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Effects {
     poison: Option<Number>,
     pub one_turn_bool_buffs: HashSet<OneTurnBoolBuffs>,
@@ -269,7 +270,7 @@ impl Effects {
     }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Buff {
     Basic((IntensityBuffOrDebuff, Number)),
     OneTurnBool(OneTurnBoolBuffs),
@@ -278,7 +279,7 @@ pub enum Buff {
     Duration((DurationBuffs, Number)),
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Debuff {
     Basic((IntensityBuffOrDebuff, Number)),
     OneTurnBool(OneTurnBoolDebuffs),
@@ -287,36 +288,36 @@ pub enum Debuff {
     Duration((DurationDebuffs, Number)),
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum OneTurnBoolDebuffs {
     NoCardDraw,
     Entangled,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum PermanentBoolDebuffs {}
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum OneTurnBoolBuffs {}
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum PermanentBoolBuffs {
     Barricade,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum DurationBuffs {
     Intangible,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum DurationDebuffs {
     Weak,
     Vulnerable,
     Frail,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum IntensityBuffs {
     Thorns,
     Metallicize,
@@ -331,10 +332,10 @@ pub enum IntensityBuffs {
     SporeCloud,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum IntensityDebuffs {}
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum IntensityBuffOrDebuff {
     Strength,
     Focus,

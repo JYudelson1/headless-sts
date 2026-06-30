@@ -1,6 +1,7 @@
 use crate::utils::{number_between, Character};
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Relics {
     pub list: Vec<Relic>,
     common_pool: Vec<Relic>,
@@ -236,7 +237,7 @@ impl Relics {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash, Debug, Serialize, Deserialize)]
 pub enum Relic {
     Circlet,                // IMPLEMENTED
     BurningBlood,           // IMPLEMENTED

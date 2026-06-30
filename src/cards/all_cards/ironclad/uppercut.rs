@@ -8,7 +8,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct Uppercut(pub bool);
 
 impl Card for Uppercut {

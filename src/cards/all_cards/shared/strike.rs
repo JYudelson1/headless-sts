@@ -7,8 +7,9 @@ use crate::{
     },
     utils::Number,
 };
+use serde::{Serialize, Deserialize};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 
 pub struct Strike(pub bool);
 

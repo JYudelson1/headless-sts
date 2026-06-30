@@ -3,7 +3,7 @@ use crate::{
     effects::{Debuff, OneTurnBoolDebuffs},
 };
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct BattleTrance(pub bool);
 
 impl Card for BattleTrance {

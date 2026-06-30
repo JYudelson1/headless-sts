@@ -1,16 +1,15 @@
-use std::{cell::RefCell, rc::Rc};
-
 use crate::{
     cards::{
         card::CardType,
         card_actions::{CardActions, Targets},
         card_trait::{Card, MasterCard},
         CardName,
+        all_cards::ConcreteCard,
     },
     utils::Number,
 };
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 
 pub struct Rampage {
     upgraded: bool,
@@ -71,10 +70,9 @@ impl Card for Rampage {
             upgraded: self.upgraded,
             extra_damage: self.extra_damage,
         };
-        let inner = Rc::new(RefCell::new(inner));
 
         MasterCard {
-            card: inner,
+            card: ConcreteCard::Rampage(inner),
             id: uuid::Uuid::new_v4(),
             upgraded: if self.upgraded { 1 } else { 0 },
         }

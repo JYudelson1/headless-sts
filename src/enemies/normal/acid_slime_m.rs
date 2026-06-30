@@ -4,9 +4,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct AcidSlimeM {
     intent: EnemyIntent,
     intent_history: [Option<AcidSlimeMAttacks>; 2],
@@ -24,13 +24,9 @@ impl Enemy for AcidSlimeM {
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.clone()
     }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum AcidSlimeMAttacks {
     CorrosiveSpit(Number),
     Lick,
@@ -135,7 +131,7 @@ impl AcidSlimeM {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(slime),
+            inner: InnerEnemy::AcidSlimeM(slime),
             enemy_type: EnemyType::AcidSlimeM,
             ascension: ascension,
         }

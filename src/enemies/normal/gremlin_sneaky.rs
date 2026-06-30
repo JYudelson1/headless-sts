@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct GremlinSneaky {
     intent: EnemyIntent,
 }
@@ -17,9 +17,6 @@ impl Enemy for GremlinSneaky {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 impl GremlinSneaky {
     pub fn new(ascension: u8) -> ConcreteEnemy {
@@ -44,7 +41,7 @@ impl GremlinSneaky {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(gremlin),
+            inner: InnerEnemy::GremlinSneaky(gremlin),
             enemy_type: EnemyType::GremlinSneaky,
             ascension: ascension,
         }

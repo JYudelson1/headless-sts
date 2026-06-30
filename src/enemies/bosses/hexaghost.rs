@@ -4,9 +4,9 @@ use crate::{
     utils::Number,
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Hexaghost {
     intent: HexaghostAttacks,
     turn_num: usize,
@@ -22,13 +22,9 @@ impl Enemy for Hexaghost {
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent()
     }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum HexaghostAttacks {
     Activate,
     Divider(u16),
@@ -157,7 +153,7 @@ impl Hexaghost {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(ghost),
+            inner: InnerEnemy::Hexaghost(ghost),
             enemy_type: EnemyType::Hexaghost,
             ascension: ascension,
         }

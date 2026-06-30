@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct JawWorm {
     intent: EnemyIntent,
     intent_history: [Option<JawWormAttacks>; 2],
@@ -43,12 +43,9 @@ impl Enemy for JawWorm {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum JawWormAttacks {
     Bellow(Number, Number),
     Chomp(Number),
@@ -110,7 +107,7 @@ impl JawWorm {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(jawworm),
+            inner: InnerEnemy::JawWorm(jawworm),
             enemy_type: EnemyType::JawWorm,
             ascension: ascension,
         }

@@ -4,7 +4,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct Metallicize(pub bool);
 
 impl Card for Metallicize {

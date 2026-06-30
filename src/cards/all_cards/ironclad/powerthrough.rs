@@ -3,7 +3,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct PowerThrough(pub bool);
 
 impl Card for PowerThrough {

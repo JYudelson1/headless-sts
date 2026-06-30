@@ -3,8 +3,9 @@ use crate::{
     effects::{Buff, DurationBuffs},
     utils::Number,
 };
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Apparition(pub bool);
 
 impl Card for Apparition {

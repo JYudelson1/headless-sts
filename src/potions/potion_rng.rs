@@ -1,6 +1,7 @@
 use rand::random;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PotionRng(f32);
 
 impl PotionRng {

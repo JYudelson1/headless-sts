@@ -1,13 +1,15 @@
+use serde::{Serialize, Deserialize};
+
 use crate::{cards::CardName, relics::Relic, screens::CardReward, state::State, utils::{Act, Character}};
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum CombatType {
     Normal,
     Elite,
     Boss,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CardRewardRng(f32);
 
 impl CardRewardRng {

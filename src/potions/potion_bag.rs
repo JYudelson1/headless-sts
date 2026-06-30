@@ -1,6 +1,7 @@
+use serde::{Serialize, Deserialize};
 use super::Potion;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PotionBag {
     pub capacity: usize,
     pub potions: Vec<Potion>,

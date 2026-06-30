@@ -1,6 +1,6 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName, MasterCard};
 
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct Injury;
 
 impl Card for Injury {

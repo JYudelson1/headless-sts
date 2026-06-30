@@ -8,7 +8,7 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 
 pub struct IronWave(pub bool);
 

@@ -3,10 +3,11 @@ pub mod potion_effects;
 pub mod potion_rng;
 
 use rand::{random, seq::SliceRandom, thread_rng};
+use serde::{Serialize, Deserialize};
 
 use crate::{combat::CombatOver, enemies::EnemyIndex, relics::Relic, state::State, utils::{NotImplemented, Rarity}};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Potion {
     Block,
     Strength,

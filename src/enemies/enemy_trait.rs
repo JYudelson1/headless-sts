@@ -10,7 +10,7 @@ use super::{
     },
     normal::{
         acid_slime_m::AcidSlimeM, acid_slime_s::AcidSlimeS, cultist::Cultist,
-        fungus_beast::FungusBeast, greenlouse::GreenLouse, gremlin_mad::GremlinFat,
+        fungus_beast::FungusBeast, greenlouse::GreenLouse, gremlin_fat::GremlinFat,
         gremlin_sneaky::GremlinSneaky, jawworm::JawWorm, redlouse::RedLouse,
         slaver_blue::SlaverBlue, slaver_red::SlaverRed, spike_slime_m::SpikeSlimeM,
         spike_slime_s::SpikeSlimeS,
@@ -24,8 +24,6 @@ pub trait Enemy: Debug {
     fn get_current_intent(&self) -> EnemyIntent;
 
     fn lost_hp(&mut self) {}
-
-    fn duplicate(&self) -> Box<dyn Enemy>;
 }
 
 impl EnemyType {

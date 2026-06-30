@@ -9,8 +9,9 @@ use crate::{
     },
     utils::Number,
 };
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Anger(pub bool);
 
 impl Card for Anger {

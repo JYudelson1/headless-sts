@@ -4,9 +4,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct SpikeSlimeM {
     intent: EnemyIntent,
     intent_history: [Option<SpikeSlimeMAttacks>; 2],
@@ -25,12 +25,9 @@ impl Enemy for SpikeSlimeM {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum SpikeSlimeMAttacks {
     Lick,
     FlameTackle(Number),
@@ -112,7 +109,7 @@ impl SpikeSlimeM {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(slime),
+            inner: InnerEnemy::SpikeSlimeM(slime),
             enemy_type: EnemyType::SpikeSlimeM,
             ascension: ascension,
         }

@@ -13,6 +13,7 @@ pub use rewards::{CardReward, RewardsScreen};
 pub use shop::Wares;
 use treasure::{Chest, ChestRelicType};
 use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
 use crate::{
     actions::{Action, CardRewardChoice, RewardChoice},
@@ -28,7 +29,7 @@ use crate::{
     utils::{Act, Key, NotImplemented},
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum VisibleStates {
     Reward(RewardsScreen),
     CardReward(Vec<CardReward>),

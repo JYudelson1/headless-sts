@@ -3,9 +3,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct SpikeSlimeS {
     intent: EnemyIntent,
 }
@@ -17,9 +17,6 @@ impl Enemy for SpikeSlimeS {
         self.intent.clone()
     }
 
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
-    }
 }
 impl SpikeSlimeS {
     pub fn new(ascension: u8) -> ConcreteEnemy {
@@ -44,7 +41,7 @@ impl SpikeSlimeS {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(slime),
+            inner: InnerEnemy::SpikeSlimeS(slime),
             enemy_type: EnemyType::SpikeSlimeS,
             ascension: ascension,
         }

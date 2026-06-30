@@ -1,15 +1,17 @@
+use serde::{Serialize, Deserialize};
+
 use crate::{combat::CardInHandPurpose, effects::{Buff, Debuff}, utils::Number};
 
 use super::{CardName, MasterCard};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Targets {
     All,
     One,
     Random,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum CardActions {
     Damage((Number, Targets)),
     ApplyVulnerable((Number, Targets)),
@@ -36,7 +38,7 @@ pub enum CardActions {
     ChooseNCards((CardInHandPurpose, usize, Option<Vec<CardActions>>)),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Pile {
     Draw,
     Discard,

@@ -1,5 +1,6 @@
 use rand::prelude::SliceRandom;
 use rand::thread_rng;
+use serde::{Serialize, Deserialize};
 
 use crate::{
     cards::{make_card, CardName},
@@ -11,7 +12,7 @@ use crate::{
 
 use super::Events;
 
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash, Serialize, Deserialize)]
 pub enum EventAction {
     Heal(u16),
     GainMaxHp(u16),

@@ -9,9 +9,11 @@ use crate::{
     utils::{number_between, Character, NotImplemented, Rarity},
 };
 
+use serde::{Serialize, Deserialize};
+
 use super::VisibleStates;
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
 pub enum Wares {
     Card((CardName, u32)),
     Relic((Relic, u32)),

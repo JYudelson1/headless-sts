@@ -1,11 +1,13 @@
+use serde::{Serialize, Deserialize};
+
 use crate::{cardrewardrng::CombatType, cards::CardName, potions::Potion, relics::Relic, state::State, utils::number_between};
 
 use super::VisibleStates;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RewardsScreen(pub Vec<Reward>);
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Reward {
     Gold(u32),
     Relic(Relic),
@@ -13,7 +15,7 @@ pub enum Reward {
     CardReward(CombatType),
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CardReward {
     pub card: CardName,
     pub is_upgraded: bool,

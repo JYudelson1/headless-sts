@@ -21,8 +21,9 @@ use crate::{
 };
 
 use rand::seq::SliceRandom;
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Combat {
     pub self_effects: Effects,
     enemies: Vec<ConcreteEnemy>,

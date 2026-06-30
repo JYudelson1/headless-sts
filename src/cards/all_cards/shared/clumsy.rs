@@ -1,6 +1,7 @@
 use crate::cards::{card::CardType, card_actions::CardActions, card_trait::Card, CardName, MasterCard};
 
-#[derive(Debug)]
+use serde::{Serialize, Deserialize};
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Clumsy;
 
 impl Card for Clumsy {

@@ -1,5 +1,6 @@
 use std::{collections::HashSet, mem};
 
+use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 
 use crate::{cards::{CardActions, CardIndex, CardType, MasterCard, Pile, Targets}, effects::{Debuff, DurationDebuffs}, enemies::EnemyIndex, screens::VisibleStates, state::State, utils::{number_between, NotImplemented, Number}};
@@ -226,7 +227,7 @@ impl State {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CardInHandPurpose {
     Exhaust,
     PutOnTopOfDeck,

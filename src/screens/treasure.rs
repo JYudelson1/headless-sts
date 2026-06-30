@@ -1,6 +1,7 @@
 use crate::{relics::{Relic, Relics}, utils::number_between};
+use serde::{Serialize, Deserialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Chest {
     pub gold: u32,
     pub relic: ChestRelicType,
@@ -18,7 +19,7 @@ impl Chest {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum ChestType {
     Small,
     Medium,
@@ -92,14 +93,14 @@ impl ChestType {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ChestRelicType {
     None,
     Relic(Relic),
     RelicOrKey(Relic),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 enum ChestRelicRarity {
     Common,
     Uncommon,

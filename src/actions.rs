@@ -1,8 +1,9 @@
 use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
 use crate::{cards::CardIndex, enemies::EnemyIndex, relics::Relic, screens::{EventAction, Wares}, utils::Key};
 
-#[derive(PartialEq, Eq, Clone, Debug)]
+#[derive(PartialEq, Eq, Clone, Debug, Serialize, Deserialize)]
 pub enum Action {
     PlayUntargetedCard(CardIndex),
     PlayTargetedCard((CardIndex, EnemyIndex)),
@@ -27,7 +28,7 @@ pub enum Action {
     ChooseCardInHand(Uuid),
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
 pub enum RestChoice {
     Skip,
     Smith,
@@ -38,13 +39,13 @@ pub enum RestChoice {
     Dig,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub enum RewardChoice {
     Skip,
     RewardIndex(usize),
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub enum CardRewardChoice {
     Skip,
     CardRewardIndex(usize),

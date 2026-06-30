@@ -5,10 +5,11 @@ use std::{
 };
 
 use rand::Rng;
+use serde::{Serialize, Deserialize};
 
 use crate::{cards::CardName, enemies::EnemyType, potions::Potion, relics::Relic, screens::{EventAction, Events}};
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct Number(pub i16);
 
 impl Number {
@@ -62,14 +63,14 @@ impl Sub for Number {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Act {
     Act1,
     Act2,
     Act3,
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub enum Character {
     Ironclad,
     Silent,
@@ -77,14 +78,14 @@ pub enum Character {
     Watcher,
 }
 
-#[derive(Clone, Copy, Hash, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum Key {
     Ruby,
     Emerald,
     Sapphire,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Keys(pub HashSet<Key>);
 
 impl Keys {
@@ -120,7 +121,7 @@ where
     TryInto::<T>::try_into(rand::thread_rng().gen_range(range)).unwrap()
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash, Serialize, Deserialize)]
 pub enum NotImplemented {
     Enemy(EnemyType),
     Event(Events),
@@ -132,7 +133,7 @@ pub enum NotImplemented {
     Potion(Potion),
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash, Serialize, Deserialize)]
 pub enum StillPlaying {
     Playing,
     Dead(i8),

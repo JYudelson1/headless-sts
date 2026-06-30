@@ -1,9 +1,10 @@
 #![allow(unused_results)]
 use std::{collections::HashSet, fmt::Display};
+use serde::{Serialize, Deserialize};
 
 use crate::utils::{number_between, Act};
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum RoomType {
     Monster,
     Event,
@@ -33,28 +34,28 @@ impl RoomType {
     }
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Act1Boss {
     SlimeBoss,
     Guardian,
     Hexaghost,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Act2Boss {
     Champ,
     Collector,
     Automaton,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Act3Boss {
     AwakenedOne,
     DonuAndDeca,
     TimeEater,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Boss {
     Act1(Act1Boss),
     Act2(Act2Boss),
@@ -85,7 +86,7 @@ impl Boss {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub struct RoomNode {
     pub floor: usize,
     pub x: usize,
@@ -148,7 +149,7 @@ impl RoomNode {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Map {
     paths: [[bool; 19]; 14],
     rooms: [[Option<RoomType>; 7]; 15],

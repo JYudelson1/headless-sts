@@ -1,4 +1,5 @@
 use rand::seq::SliceRandom;
+use serde::{Serialize, Deserialize};
 
 use crate::utils::Character;
 
@@ -243,7 +244,7 @@ impl CardName {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum CardType {
     Attack,
     Power,
@@ -252,7 +253,7 @@ pub enum CardType {
     Curse,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash, Serialize, Deserialize)]
 pub enum CardName {
     Strike,
     Defend,

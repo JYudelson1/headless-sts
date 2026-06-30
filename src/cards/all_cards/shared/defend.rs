@@ -3,7 +3,8 @@ use crate::{
     utils::Number,
 };
 
-#[derive(Debug)]
+use serde::{Serialize, Deserialize};
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Defend(pub bool);
 
 impl Card for Defend {

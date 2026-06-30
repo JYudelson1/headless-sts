@@ -4,9 +4,9 @@ use crate::{
     utils::{number_between, Number},
 };
 
-use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType};
+use super::super::{enemy_trait::Enemy, ConcreteEnemy, EnemyIntent, EnemyType, InnerEnemy};
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct SentryA {
     intent: SentryAttacks,
 }
@@ -18,10 +18,6 @@ impl Enemy for SentryA {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent().clone()
-    }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
     }
 }
 
@@ -47,14 +43,14 @@ impl SentryA {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(sentry),
+            inner: InnerEnemy::SentryA(sentry),
             enemy_type: EnemyType::SentryA,
             ascension: ascension,
         }
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct SentryB {
     intent: SentryAttacks,
 }
@@ -66,10 +62,6 @@ impl Enemy for SentryB {
 
     fn get_current_intent(&self) -> EnemyIntent {
         self.intent.to_intent().clone()
-    }
-
-    fn duplicate(&self) -> Box<dyn Enemy> {
-        Box::new(self.clone())
     }
 }
 
@@ -83,7 +75,7 @@ impl SentryB {
 
         let first_attack = SentryAttacks::beam(ascension);
 
-        let sentry = SentryA {
+        let sentry = SentryB {
             intent: first_attack,
         };
 
@@ -95,14 +87,14 @@ impl SentryB {
             max_hp: hp,
             current_hp: hp,
             current_block: Number(0),
-            inner: Box::new(sentry),
-            enemy_type: EnemyType::SentryA,
+            inner: InnerEnemy::SentryB(sentry),
+            enemy_type: EnemyType::SentryB,
             ascension: ascension,
         }
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 enum SentryAttacks {
     Beam(Number),
     Bolt(usize),

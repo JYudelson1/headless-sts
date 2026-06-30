@@ -1,8 +1,10 @@
-use std::{cell::{Ref, RefCell, RefMut}, fmt::Debug, rc::Rc};
+use std::fmt::Debug;
 
 use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
 use super::{card::CardType, card_actions::CardActions, make_card, CardName};
+use crate::cards::all_cards::ConcreteCard;
 
 pub trait Card: Debug {
     fn name(&self) -> CardName;
@@ -70,28 +72,27 @@ pub trait Card: Debug {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MasterCard {
-    pub card: Rc<RefCell<dyn Card>>,
+    pub card: ConcreteCard,
     pub id: uuid::Uuid,
     pub upgraded: u16,
 }
 
 impl MasterCard {
     pub fn reset_end_combat(&mut self) {
-        self.card.as_ref().borrow_mut().reset();
+        self.card.inner_mut().reset();
         self.card
-            .as_ref()
-            .borrow_mut()
+            .inner_mut()
             .set_upgraded_amt(self.upgraded);
     }
 
-    pub fn card<'a>(&'a self) -> Ref<'a, dyn Card + 'a> {
-        self.card.as_ref().borrow()
+    pub fn card(&self) -> &dyn Card {
+        self.card.inner()
     }
 
-    pub fn card_mut<'a>(&'a mut self) -> RefMut<'a, dyn Card + 'a> {
-        self.card.as_ref().borrow_mut()
+    pub fn card_mut(&mut self) -> &mut dyn Card {
+        self.card.inner_mut()
     }
 
     pub fn upgrade(&mut self) {
