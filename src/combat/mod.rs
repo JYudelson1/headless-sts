@@ -122,7 +122,7 @@ impl Combat {
 }
 
 impl State {
-    pub fn start_combat_turn(&mut self) -> CombatOver {
+    pub fn start_combat_turn(&mut self) -> Result<CombatOver, NotImplemented> {
         let combat = self.get_combat();
         combat.turn += 1;
         let turn = combat.turn;
@@ -151,13 +151,16 @@ impl State {
 
         // Start of combat relics
         if turn == 1 {
-            self.start_turn_1_effects();
+            self.start_turn_1_effects()?;
         }
         // Other start turn relic effects
         self.start_every_turn_effects();
 
         // Draw 5 cards
-        self.get_combat().draw(5, &relics)
+        if self.get_combat().draw(5, &relics) == CombatOver::Yes {
+            return Ok(CombatOver::Yes);
+        }
+        Ok(CombatOver::No)
     }
 
     pub fn get_combat(&mut self) -> &mut Combat {
@@ -204,7 +207,7 @@ impl State {
         // End of enemy turn effects (e.g. metallicize)
         self.get_combat().end_enemies_turn();
         // Start your next turn
-        let combat_over = self.start_combat_turn();
+        let combat_over = self.start_combat_turn()?;
         if combat_over == CombatOver::Yes {return Ok(CombatOver::Yes);}
 
         Ok(CombatOver::No)

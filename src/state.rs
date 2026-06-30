@@ -209,8 +209,8 @@ impl State {
                                 self.maybe_end_combat(exhaust_result)?;
                             },
                             CardInHandPurpose::PutOnTopOfDeck => self.put_from_hand_to_deck(cards),
-                            CardInHandPurpose::Duplicate => todo!(),
-                            CardInHandPurpose::Upgrade => todo!(),
+                            CardInHandPurpose::Duplicate => return Err(NotImplemented::ChoosingFromHand),
+                            CardInHandPurpose::Upgrade => return Err(NotImplemented::ChoosingFromHand),
                         }
                         if let Some(actions) = next_actions {
                             for action in actions {

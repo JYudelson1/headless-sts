@@ -4,13 +4,13 @@ use crate::{
     relics::{Relic, Relics},
     screens::VisibleStates,
     state::State,
-    utils::Number,
+    utils::{Number, NotImplemented},
 };
 
 use super::Combat;
 
 impl State {
-    pub fn start_turn_1_effects(&mut self) {
+    pub fn start_turn_1_effects(&mut self) -> Result<(), NotImplemented> {
         if let VisibleStates::Combat(combat) = &mut self.visible_screen {
             // Note that we iterate throuh the relics so the order is dependant on relic order
             // E.G. If symbiotic virus was obtained before nuclear battery, you should
@@ -18,7 +18,7 @@ impl State {
             // you should channel them in the opposite order
             let relics = self.relics.clone();
             for relic in &mut self.relics.list {
-                combat._start_of_combat_relic(relic, &relics);
+                combat._start_of_combat_relic(relic, &relics)?;
             }
             // Blood vial requires healing, which accesses state (to check for magic flower)
             if self.relics.contains(Relic::BloodVial) {
@@ -27,6 +27,7 @@ impl State {
         } else {
             panic!("You should be in combat now!")
         }
+        Ok(())
     }
 
     pub fn start_every_turn_effects(&mut self) {
@@ -42,13 +43,13 @@ impl State {
 }
 
 impl Combat {
-    fn _start_of_combat_relic(&mut self, relic: &mut Relic, relics: &Relics) {
+    fn _start_of_combat_relic(&mut self, relic: &mut Relic, relics: &Relics) -> Result<(), NotImplemented> {
         match relic {
-            Relic::CrackedCore => todo!(),    // Channel 1 lightning
-            Relic::SymbioticVirus => todo!(), // Channel 1 dark
-            Relic::NuclearBattery => todo!(), // Channel 1 plasma
-            Relic::PureWater => todo!(),      // Add miracle to hand
-            Relic::HolyWater => todo!(),      // Add 3 miracles to hand
+            Relic::CrackedCore => return Err(NotImplemented::Relic(*relic)),    // Channel 1 lightning
+            Relic::SymbioticVirus => return Err(NotImplemented::Relic(*relic)), // Channel 1 dark
+            Relic::NuclearBattery => return Err(NotImplemented::Relic(*relic)), // Channel 1 plasma
+            Relic::PureWater => return Err(NotImplemented::Relic(*relic)),      // Add miracle to hand
+            Relic::HolyWater => return Err(NotImplemented::Relic(*relic)),      // Add 3 miracles to hand
             Relic::RingOfSnake => {
                 // NOTE: literally impossible for this to end the combat
                 let _ = self.draw(2, relics);
@@ -92,6 +93,7 @@ impl Combat {
             Relic::GremlinVisage => self.self_effects.apply_debuff(Debuff::Duration((DurationDebuffs::Weak, Number(1))), relics),
             _ => (),
         }
+        Ok(())
     }
 
     fn _start_of_turn_relic(&mut self, relic: &mut Relic) {

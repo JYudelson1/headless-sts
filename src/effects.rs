@@ -170,7 +170,6 @@ impl Effects {
     }
 
     pub fn apply_debuff(&mut self, debuff: Debuff, relics: &Relics) {
-        // TODO: artifact stuff
         match debuff {
             Debuff::Basic((debuff, amt)) => {
                 // TODO: Maybe this also needs to be a match? Unsure
