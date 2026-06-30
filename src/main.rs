@@ -5,10 +5,11 @@
 use std::collections::HashMap;
 
 use headless_sts::{
+    state::State,
     utils::{Character, StillPlaying},
-    State,
 };
-use rand::{seq::SliceRandom, thread_rng};
+use rand::prelude::SliceRandom;
+use rand::thread_rng;
 
 fn play_one_game() -> StillPlaying {
     let mut state = State::new(Character::Ironclad, 0);

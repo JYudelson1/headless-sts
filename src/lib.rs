@@ -12,5 +12,3 @@ pub mod relics;
 pub mod screens;
 pub mod state;
 pub mod utils;
-
-pub use state::State;
