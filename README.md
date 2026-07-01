@@ -2,6 +2,8 @@
 
 This is a headless version of Slay the Spire (TM MegaCrit, it's all theirs, not mine at all). The goal is to make a version that runs quickly enough to train up some bots to get real good at StS (Maybe they can help me crack A20).
 
+(Important note: The rng used here is totally different from the actual StS rng, which is way more seeded / correlated. This is partially on purpose (avoid teaching the ais to exploit rng quirks) and partially laziness (I don't want to painstakingly ensure every single rng invocation is done exactly the same way they did.))
+
 TODOs:
 - [x] Map
   - [x] Generation

@@ -147,7 +147,7 @@ impl Combat {
     pub fn reshuffle(&mut self) {
         self.deck.append(&mut self.discard);
         self.discard = vec![];
-        self.deck.shuffle(&mut rand::thread_rng());
+        self.deck.shuffle(&mut rand::thread_rng()); //todo: this should actually depend on seed + floor number for rng
     }
 
     pub fn gain_block(&mut self, amt: Number) {

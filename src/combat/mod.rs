@@ -97,7 +97,7 @@ impl Combat {
         }
 
         let mut deck = deck.clone();
-        deck.shuffle(&mut rand::thread_rng());
+        deck.shuffle(&mut rand::thread_rng()); //todo: this should actually depend on seed + floor number for rng
 
         let combat = Self {
             self_effects: Effects::new(),
