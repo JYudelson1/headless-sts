@@ -1,7 +1,7 @@
 use crate::{
     cards::Targets,
     combat::CombatOver,
-    effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs},
+    effects::{Buff, Debuff, DurationDebuffs, IntensityBuffOrDebuff, IntensityBuffs, IntensityDebuffs},
     enemies::EnemyIndex,
     state::State,
     utils::{NotImplemented, Number},
@@ -46,10 +46,16 @@ impl State {
                 .self_effects
                 .apply_buff(Buff::Intensity((IntensityBuffs::Thorns, Number(3)))),
             Potion::FruitJuice => self.increase_max_hp(5),
-            Potion::Ancient => Err(NotImplemented::Potion(potion))?,
+            Potion::Ancient => combat
+                .unwrap()
+                .self_effects
+                .apply_buff(Buff::Intensity((IntensityBuffs::Artifact, Number(1)))),
             Potion::Attack => Err(NotImplemented::Potion(potion))?,
             Potion::BlessingOfTheForge => Err(NotImplemented::Potion(potion))?,
-            Potion::Blood => Err(NotImplemented::Potion(potion))?,
+            Potion::Blood => {
+                let heal_amt = (self.max_health.0 as f32 * 0.20).floor() as u16;
+                self.heal(heal_amt);
+            },
             Potion::Colorless => Err(NotImplemented::Potion(potion))?,
             Potion::Cultist => Err(NotImplemented::Potion(potion))?,
             Potion::Dex => Err(NotImplemented::Potion(potion))?,
@@ -64,12 +70,26 @@ impl State {
                 return Ok(over);
             },
             Potion::FairyInABottle => Err(NotImplemented::Potion(potion))?,
-            Potion::Flex => Err(NotImplemented::Potion(potion))?,
+            Potion::Flex => {
+                combat.as_mut().unwrap().self_effects.apply_buff(
+                    Buff::Basic(
+                        (IntensityBuffOrDebuff::Strength, Number(5))
+                    )
+                );
+                combat.as_mut().unwrap().self_effects.apply_debuff(
+                    Debuff::Intensity((IntensityDebuffs::StrengthDown, Number(5))),
+                    &relics
+                );
+            },
             Potion::GamblersBrew => Err(NotImplemented::Potion(potion))?,
             Potion::HeartOfIron => Err(NotImplemented::Potion(potion))?,
             Potion::LiquidMemories => Err(NotImplemented::Potion(potion))?,
             Potion::Power => Err(NotImplemented::Potion(potion))?,
-            Potion::Regen => Err(NotImplemented::Potion(potion))?,
+            Potion::Regen => {
+                combat.as_mut().unwrap().self_effects.apply_buff(
+                    Buff::Basic((IntensityBuffOrDebuff::Regeneration, Number(5)))
+                );
+            },
             Potion::Skill => Err(NotImplemented::Potion(potion))?,
             Potion::SmokeBomb => Err(NotImplemented::Potion(potion))?,
             Potion::SneckoOil => Err(NotImplemented::Potion(potion))?,
