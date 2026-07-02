@@ -87,7 +87,7 @@ impl State {
             Potion::Power => Err(NotImplemented::Potion(potion))?,
             Potion::Regen => {
                 combat.as_mut().unwrap().self_effects.apply_buff(
-                    Buff::Basic((IntensityBuffOrDebuff::Regeneration, Number(5)))
+                    Buff::Intensity((IntensityBuffs::Regenerate, Number(5)))
                 );
             },
             Potion::Skill => Err(NotImplemented::Potion(potion))?,
