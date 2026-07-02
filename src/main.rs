@@ -26,7 +26,7 @@ fn play_one_game_randomly() -> Result<(), NotImplemented> {
     Ok(())
 }
 
-fn play_one_game_lookahead() -> (Result<(), NotImplemented>, usize) {
+fn play_one_game_lookahead() -> (Result<StillPlaying, NotImplemented>, usize) {
     let mut state = State::new(Character::Ironclad, 0);
     //println!("{}", state.map);
     let mut length = 0;
@@ -62,7 +62,10 @@ fn play_one_game_lookahead() -> (Result<(), NotImplemented>, usize) {
             Err(err) => return (Err(err), length),
         }
     }
-    (Ok(()), length)
+    if let StillPlaying::Dead(floor_died) = state.still_playing {
+        return (Ok(StillPlaying::Dead(floor_died)), length);
+    }
+    unreachable!()
 }
 
 fn main() {

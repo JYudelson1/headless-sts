@@ -130,6 +130,16 @@ impl Effects {
         self.intensity_buffs.remove(&IntensityBuffs::CurlUp)
     }
 
+    pub fn get_and_reduce_regenerate(&mut self) -> Option<Number> {
+        if let Some(regenerate) = self.intensity_buffs.get_mut(&IntensityBuffs::Regenerate) {
+            if regenerate.0 > 0 {
+                *regenerate -= Number(1);
+                return Some(*regenerate);
+            }
+        }
+        None
+    }
+
     pub fn apply_buff(&mut self, buff: Buff) {
         match buff {
             Buff::Basic((buff, amt)) => {
@@ -250,10 +260,33 @@ impl Effects {
             self.get_ritual(),
         )));
 
-        // TODO: Apply basics up/down effects
+        if let Some(shackled) = self.intensity_debuffs.remove(&IntensityDebuffs::Shackled) {
+            self.apply_buff(Buff::Basic((
+                IntensityBuffOrDebuff::Strength,
+                shackled,
+            )));
+        }
+        if let Some(strength_down) = self.intensity_debuffs.remove(&IntensityDebuffs::StrengthDown) {
+            self.apply_buff(Buff::Basic((
+                IntensityBuffOrDebuff::Strength,
+                strength_down,
+            )));
+        }
+        self.clear_intensity_debuffs();
 
-        // Lose all Rage
+        // Lose all Rage,
         self.intensity_buffs.remove(&IntensityBuffs::Rage);
+
+        // Remove zero buffs (affects regenerate)
+        remove_zeros(&mut self.intensity_buffs);
+    }
+
+    fn clear_intensity_debuffs(&mut self) {
+        let mut new_debuffs = HashMap::new();
+        if self.intensity_debuffs.contains_key(&IntensityDebuffs::Slow) {
+            new_debuffs.insert(IntensityDebuffs::Slow, Number(0));
+        }
+        self.intensity_debuffs = new_debuffs;
     }
 
     pub fn cleanse_debuffs(&mut self) {
@@ -287,58 +320,70 @@ pub enum Debuff {
     Duration((DurationDebuffs, Number)),
 }
 
+// TODO: Add all the unique debuffs from https://slay-the-spire.fandom.com/wiki/Debuff#Debuffs
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum OneTurnBoolDebuffs {
-    NoCardDraw,
-    Entangled,
+    NoCardDraw, // Status: Implemented
+    Entangled, // Status: Implemented
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum PermanentBoolDebuffs {}
+pub enum PermanentBoolDebuffs {
+    Confused // Status: Not Implemented (TODO)
+}
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum OneTurnBoolBuffs {}
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum PermanentBoolBuffs {
-    Barricade,
+    Barricade, // Status: Implemented
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum DurationBuffs {
-    Intangible,
+    Intangible, // Status: Implemented
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum DurationDebuffs {
-    Weak,
-    Vulnerable,
-    Frail,
+    Weak, // Status: Implemented
+    Vulnerable, // Status: Implemented
+    Frail, // Status: Implemented
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum IntensityBuffs {
-    Thorns,
-    Metallicize,
-    Ritual,
-    Firebreathing,
-    Evolve,
-    Artifact,
-    FeelNoPain,
-    DarkEmbrace,
-    CurlUp,
-    Rage,
-    SporeCloud,
+    Thorns, // Status: Implemented
+    Metallicize, // Status: Implemented
+    Ritual, // Status: Implemented
+    Firebreathing, // Status: Implemented
+    Evolve, // Status: Implemented
+    Artifact, // Status: Implemented
+    FeelNoPain, // Status: Not Implemented (TODO)
+    DarkEmbrace, // Status: Not Implemented (TODO)
+    CurlUp, // Status: Not Implemented (TODO)
+    Rage, // Status: Implemented
+    SporeCloud, // Status: Not Implemented (TODO)
+    Combust, // Status: Not Implemented (TODO)
+    Regenerate, // Status: Implemented
+    Buffer, // Status: Not Implemented (TODO)
+    DrawNextTurn // Status: Not Implemented (TODO)
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum IntensityDebuffs {}
+pub enum IntensityDebuffs {
+    Shackled, // Status: Implemented
+    StrengthDown, // Status: Implemented
+    Slow // Status: Not Implemented (TODO)
+}
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum IntensityBuffOrDebuff {
-    Strength,
-    Focus,
-    Dexterity,
+    Strength, // Status: Implemented
+    Focus, // Status: Not Implemented (TODO)
+    Dexterity, // Status: Implemented
 }
 
 fn remove_zeros<T: Hash + Eq + PartialEq + Clone>(map: &mut HashMap<T, Number>) {

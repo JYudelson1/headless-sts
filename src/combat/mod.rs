@@ -182,6 +182,20 @@ impl State {
                 combat._end_of_turn_relic(relic);
             }
         }
+
+        // End of turn effects
+
+        // Metallicize block
+        if let Some(metallicize) = self.get_combat().self_effects.get_metallicize() {
+            self.get_combat().self_block += metallicize;
+        }
+
+        // Regenerate
+        if let Some(regenerate) = self.get_combat().self_effects.get_and_reduce_regenerate() {
+            self.heal(regenerate.0 as u16);
+
+        }
+
         // Discard every card that doesn't retain
         // If you don't have Runic Pyramid
         let relics = &self.relics.clone();
